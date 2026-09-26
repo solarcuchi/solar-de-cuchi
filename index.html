@@ -410,5 +410,42 @@ font-weight:800!important;
 font-size:14px!important;
 }
   </style>
+  <script>
+function computeRankings(){
+  const t=currentTournament();
+  const allTables=t.rounds.flatMap(r=>r.tables);
+  const teamStats={};
+  t.teams.forEach(tm=>{teamStats[tm.id]={team:tm,totalPoints:0,matchesWon:0,matchesPlayed:0}});
+  allTables.forEach(tb=>{
+    if(teamStats[tb.teamAId]){teamStats[tb.teamAId].totalPoints+=tb.teamAScore;teamStats[tb.teamAId].matchesPlayed++}
+    if(teamStats[tb.teamBId]){teamStats[tb.teamBId].totalPoints+=tb.teamBScore;teamStats[tb.teamBId].matchesPlayed++}
+    if(tb.winnerTeamId&&teamStats[tb.winnerTeamId])teamStats[tb.winnerTeamId].matchesWon++;
+  });
+  const teamRanking=Object.values(teamStats).sort((a,b)=>{if(b.matchesWon!==a.matchesWon)return b.matchesWon-a.matchesWon;return b.totalPoints-a.totalPoints});
+  const playerStats={};
+  t.teams.forEach(tm=>{
+    if(!playerStats[tm.playerA])playerStats[tm.playerA]={name:tm.playerA,team:tm.teamName,points:0,handsWon:0,handsPlayed:0};
+    if(!playerStats[tm.playerB])playerStats[tm.playerB]={name:tm.playerB,team:tm.teamName,points:0,handsWon:0,handsPlayed:0};
+  });
+  allTables.forEach(tb=>{
+    const ta=t.teams.find(x=>x.id===tb.teamAId);
+    const tbb=t.teams.find(x=>x.id===tb.teamBId);
+    if(!ta||!tbb)return;
+    const th=tb.hands.length;
+    playerStats[ta.playerA].handsPlayed+=th;
+    playerStats[ta.playerB].handsPlayed+=th;
+    playerStats[tbb.playerA].handsPlayed+=th;
+    playerStats[tbb.playerB].handsPlayed+=th;
+        tb.hands.forEach(h=>{
+      const wt=t.teams.find(x=>x.id===h.winnerTeamId);
+      if(!wt)return;
+      const name=h.closerPlayer==='A'?wt.playerA:wt.playerB;
+      if(playerStats[name]){playerStats[name].points+=h.points;playerStats[name].handsWon++}
+    });
+  });
+  const playerRanking=Object.values(playerStats).sort((a,b)=>{if(b.points!==a.points)return b.points-a.points;return b.handsWon-a.handsWon});
+  return{teamRanking,playerRanking};
+}
+</script>
 </body>
 </html>
