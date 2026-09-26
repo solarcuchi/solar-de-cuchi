@@ -525,5 +525,94 @@ box-shadow:0 4px 14px rgba(251,191,36,.4),inset 0 1px 0 rgba(255,255,255,.3)!imp
 text-transform:uppercase!important;
 }
   </style>
+  <script>
+function roundRect(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.quadraticCurveTo(x+w,y,x+w,y+r);c.lineTo(x+w,y+h-r);c.quadraticCurveTo(x+w,y+h,x+w-r,y+h);c.lineTo(x+r,y+h);c.quadraticCurveTo(x,y+h,x,y+h-r);c.lineTo(x,y+r);c.quadraticCurveTo(x,y,x+r,y);c.closePath()}
+function generateMatchImage(){
+  const t=currentTournament(),tb=getTable(state.currentMatchTableId);
+  if(!tb)return null;
+  const ta=t.teams.find(x=>x.id===tb.teamAId),tbb=t.teams.find(x=>x.id===tb.teamBId);
+  const wTeam=tb.winnerTeamId===ta.id?ta:tbb,lTeam=tb.winnerTeamId===ta.id?tbb:ta;
+  const wScore=tb.winnerTeamId===ta.id?tb.teamAScore:tb.teamBScore;
+  const lScore=tb.winnerTeamId===ta.id?tb.teamBScore:tb.teamAScore;
+  const wA=tb.hands.filter(h=>h.winnerTeamId===wTeam.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);
+  const wB=tb.hands.filter(h=>h.winnerTeamId===wTeam.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);
+  const lA=tb.hands.filter(h=>h.winnerTeamId===lTeam.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);
+  const lB=tb.hands.filter(h=>h.winnerTeamId===lTeam.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);
+  const dur=formatDuration(getElapsed(tb));
+  const W=1080,H=1300;
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  const g=cv.getContext('2d');
+  const bg=g.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#0E1F38');bg.addColorStop(.55,'#0A1628');bg.addColorStop(1,'#050C18');
+  g.fillStyle=bg;g.fillRect(0,0,W,H);
+  const acc=g.createLinearGradient(0,0,W,0);
+  acc.addColorStop(0,'#10B981');acc.addColorStop(.33,'#FBBF24');acc.addColorStop(.66,'#EF4444');acc.addColorStop(1,'#3B82F6');
+  g.fillStyle=acc;g.fillRect(0,0,W,10);g.fillRect(0,H-10,W,10);
+  g.textAlign='center';
+  g.fillStyle='#FBBF24';g.font='bold 26px Arial';g.fillText('SOLAR DE CUCHI',W/2,75);
+  g.fillStyle='#FFFFFF';g.font='bold 54px Arial';g.fillText(t.name.toUpperCase(),W/2,140);
+  g.fillStyle='rgba(251,191,36,.18)';roundRect(g,W/2-140,175,280,60,30);g.fill();
+  g.strokeStyle='#FBBF24';g.lineWidth=3;roundRect(g,W/2-140,175,280,60,30);g.stroke();
+  g.fillStyle='#FBBF24';g.font='bold 32px Arial';g.fillText('MESA '+tb.tableNumber,W/2,218);
+  g.fillStyle='#FFFFFF';g.font='bold 46px Arial';g.fillText('RESULTADO FINAL',W/2,300);
+  const cX=60,cW=W-120;let cY=350,cH=260;
+  const cg=g.createLinearGradient(cX,cY,cX+cW,cY);
+  cg.addColorStop(0,'rgba(251,191,36,.22)');cg.addColorStop(1,'rgba(251,191,36,.05)');
+  g.fillStyle=cg;roundRect(g,cX,cY,cW,cH,24);g.fill();
+  g.strokeStyle='rgba(251,191,36,.55)';g.lineWidth=2;roundRect(g,cX,cY,cW,cH,24);g.stroke();
+  g.fillStyle='#FBBF24';roundRect(g,cX,cY,8,cH,4);g.fill();
+  g.textAlign='left';
+  g.fillStyle='#FBBF24';g.font='bold 26px Arial';g.fillText('GANADOR',cX+40,cY+55);
+  g.fillStyle='#FBBF24';g.font='bold 52px Arial';g.fillText(wTeam.teamName.toUpperCase(),cX+40,cY+125);
+  g.fillStyle='#FCD34D';g.font='600 24px Arial';g.fillText(wTeam.playerA+' · '+wTeam.playerB,cX+40,cY+165);
+  g.fillStyle='#FCD34D';g.font='600 22px Arial';
+  g.fillText(wTeam.playerA,cX+40,cY+210);g.fillText(wTeam.playerB,cX+40,cY+240);
+  g.textAlign='right';g.fillStyle='#FFFFFF';g.font='bold 24px Arial';
+  g.fillText(wA+' pts',cX+cW-40,cY+210);g.fillText(wB+' pts',cX+cW-40,cY+240);
+  g.fillStyle='#FFFFFF';g.font='900 100px Arial';g.fillText(String(wScore),cX+cW-40,cY+160);
+  cY+=cH+30;cH=210;
+  g.fillStyle='rgba(255,255,255,.04)';roundRect(g,cX,cY,cW,cH,24);g.fill();
+  g.strokeStyle='rgba(255,255,255,.15)';g.lineWidth=2;roundRect(g,cX,cY,cW,cH,24);g.stroke();
+  g.fillStyle='#64748B';roundRect(g,cX,cY,8,cH,4);g.fill();
+  g.textAlign='left';
+  g.fillStyle='#94A3B8';g.font='bold 24px Arial';g.fillText('PERDEDOR',cX+40,cY+50);
+  g.fillStyle='#E2E8F0';g.font='bold 44px Arial';g.fillText(lTeam.teamName.toUpperCase(),cX+40,cY+110);
+  g.fillStyle='#94A3B8';g.font='600 22px Arial';g.fillText(lTeam.playerA+' · '+lTeam.playerB,cX+40,cY+150);
+  g.fillStyle='#94A3B8';g.font='600 20px Arial';
+  g.fillText(lTeam.playerA+': '+lA+' pts  ·  '+lTeam.playerB+': '+lB+' pts',cX+40,cY+185);
+  g.textAlign='right';g.fillStyle='#94A3B8';g.font='900 80px Arial';g.fillText(String(lScore),cX+cW-40,cY+140);
+  cY+=cH+30;
+  g.textAlign='center';
+  g.fillStyle='rgba(255,255,255,.06)';roundRect(g,cX,cY,cW,100,20);g.fill();
+  g.fillStyle='#FBBF24';g.font='bold 24px Arial';
+  g.fillText('DURACIÓN: '+dur,W/2,cY+45);
+  g.fillStyle='#94A3B8';g.font='600 22px Arial';
+  g.fillText('MANOS JUGADAS: '+tb.hands.length,W/2,cY+80);
+  g.fillStyle='#475569';g.font='600 20px Arial';
+  g.fillText('Solar de Cuchi · '+t.date,W/2,H-40);
+  return cv;
+}
+    async function shareMatchImage(){
+  const cv=generateMatchImage();
+  if(!cv){alert('No se pudo generar la imagen');return}
+  cv.toBlob(async(blob)=>{
+    const t=currentTournament(),tb=getTable(state.currentMatchTableId);
+    const file=new File([blob],'solar-de-cuchi-mesa-'+tb.tableNumber+'.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+      try{
+        await navigator.share({files:[file],title:'Resultado Mesa '+tb.tableNumber,text:'🁫 '+t.name});
+      }catch(e){}
+    }else{
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');a.href=url;a.download='solar-de-cuchi-mesa-'+tb.tableNumber+'.png';a.click();
+      URL.revokeObjectURL(url);
+      alert('Imagen descargada. Búscala en la carpeta Descargas.');
+    }
+  },'image/png',0.95);
+}
+function shareMatchText(){
+  shareMatchImage();
+}
+</script>
 </body>
 </html>
