@@ -732,5 +732,103 @@ function generateMatchImage(){
   return cv;
 }
 </script>
+  <script>
+function generateMatchImage(){
+  const t=currentTournament(),tb=getTable(state.currentMatchTableId);
+  if(!tb)return null;
+  const ta=t.teams.find(x=>x.id===tb.teamAId),tbb=t.teams.find(x=>x.id===tb.teamBId);
+  const wTeam=tb.winnerTeamId===ta.id?ta:tbb,lTeam=tb.winnerTeamId===ta.id?tbb:ta;
+  const wScore=tb.winnerTeamId===ta.id?tb.teamAScore:tb.teamBScore;
+  const lScore=tb.winnerTeamId===ta.id?tb.teamBScore:tb.teamAScore;
+  const wA=tb.hands.filter(h=>h.winnerTeamId===wTeam.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);
+  const wB=tb.hands.filter(h=>h.winnerTeamId===wTeam.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);
+  const lA=tb.hands.filter(h=>h.winnerTeamId===lTeam.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);
+  const lB=tb.hands.filter(h=>h.winnerTeamId===lTeam.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);
+  const dur=formatDuration(getElapsed(tb));
+  const W=1080,H=1300;
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  const g=cv.getContext('2d');
+  const bg=g.createLinearGradient(0,0,0,H);
+  bg.addColorStop(0,'#1565D8');bg.addColorStop(.25,'#0A4FBC');bg.addColorStop(.55,'#0A47A8');bg.addColorStop(.8,'#093A8A');bg.addColorStop(1,'#0A2C6E');
+  g.fillStyle=bg;g.fillRect(0,0,W,H);
+  g.save();g.globalAlpha=.55;
+  const glow=g.createRadialGradient(W*.15,0,0,W*.15,0,W*1.3);
+  glow.addColorStop(0,'#00D4FF');glow.addColorStop(.35,'rgba(0,212,255,.25)');glow.addColorStop(1,'rgba(0,212,255,0)');
+  g.fillStyle=glow;g.fillRect(0,0,W,H);g.restore();
+  g.save();g.globalAlpha=.35;
+  const glow2=g.createRadialGradient(W,H,0,W,H,W*1.2);
+  glow2.addColorStop(0,'#FBBF24');glow2.addColorStop(.5,'rgba(251,191,36,.15)');glow2.addColorStop(1,'rgba(251,191,36,0)');
+  g.fillStyle=glow2;g.fillRect(0,0,W,H);g.restore();
+  g.save();g.globalAlpha=.07;g.strokeStyle='#FFFFFF';g.lineWidth=2;
+  for(let i=-H;i<W+H;i+=80){g.beginPath();g.moveTo(i,0);g.lineTo(i+H,H);g.stroke()}
+  g.restore();
+  const acc=g.createLinearGradient(0,0,W,0);
+  acc.addColorStop(0,'#00D4FF');acc.addColorStop(.35,'#10B981');acc.addColorStop(.65,'#FBBF24');acc.addColorStop(1,'#EF4444');
+  g.fillStyle=acc;g.fillRect(0,0,W,12);g.fillRect(0,H-12,W,12);g.fillRect(0,12,10,H-24);
+  g.textAlign='center';
+  g.fillStyle='#7DD3FC';g.font='bold 26px Arial';g.fillText('SOLAR DE CUCHI',W/2,80);
+  g.fillStyle='#FFFFFF';g.font='bold 58px Arial';g.fillText(t.name.toUpperCase(),W/2,150);
+  g.fillStyle='rgba(0,212,255,.22)';roundRect(g,W/2-150,185,300,65,32);g.fill();
+  g.strokeStyle='#00D4FF';g.lineWidth=3;roundRect(g,W/2-150,185,300,65,32);g.stroke();
+  g.fillStyle='#FFFFFF';g.font='bold 34px Arial';g.fillText('MESA '+tb.tableNumber,W/2,228);
+  g.fillStyle='#FFFFFF';g.font='bold 48px Arial';g.fillText('RESULTADO FINAL',W/2,310);
+  const cX=60,cW=W-120;let cY=350,cH=280;
+  const cg=g.createLinearGradient(cX,cY,cX+cW,cY+cH);
+  cg.addColorStop(0,'rgba(0,212,255,.45)');cg.addColorStop(.5,'rgba(0,180,255,.30)');cg.addColorStop(1,'rgba(0,120,220,.40)');
+  g.fillStyle=cg;roundRect(g,cX,cY,cW,cH,26);g.fill();
+  g.strokeStyle='#00D4FF';g.lineWidth=3;roundRect(g,cX,cY,cW,cH,26);g.stroke();
+  g.fillStyle='#00D4FF';roundRect(g,cX,cY,10,cH,6);g.fill();
+  g.textAlign='left';
+  g.fillStyle='#7DD3FC';g.font='bold 26px Arial';g.fillText('GANADOR',cX+45,cY+55);
+  g.fillStyle='#FFFFFF';g.font='bold 56px Arial';g.fillText(wTeam.teamName.toUpperCase(),cX+45,cY+135);
+  g.fillStyle='#BAE6FD';g.font='600 26px Arial';g.fillText(wTeam.playerA+' · '+wTeam.playerB,cX+45,cY+180);
+  g.fillStyle='#E0F2FE';g.font='600 22px Arial';
+  g.fillText(wTeam.playerA,cX+45,cY+230);g.fillText(wTeam.playerB,cX+45,cY+262);
+  g.textAlign='right';g.fillStyle='#FFFFFF';g.font='bold 24px Arial';
+  g.fillText(wA+' pts',cX+cW-45,cY+230);g.fillText(wB+' pts',cX+cW-45,cY+262);
+  g.font='900 110px Arial';g.shadowColor='#00D4FF';g.shadowBlur=35;
+  g.fillText(String(wScore),cX+cW-45,cY+165);g.shadowBlur=0;
+    cY+=cH+30;cH=230;
+  g.fillStyle='rgba(8,20,60,.55)';roundRect(g,cX,cY,cW,cH,26);g.fill();
+  g.strokeStyle='rgba(148,163,184,.35)';g.lineWidth=2;roundRect(g,cX,cY,cW,cH,26);g.stroke();
+  g.fillStyle='#475569';roundRect(g,cX,cY,10,cH,6);g.fill();
+  g.textAlign='left';
+  g.fillStyle='#94A3B8';g.font='bold 26px Arial';g.fillText('PERDEDOR',cX+45,cY+55);
+  g.fillStyle='#CBD5E1';g.font='bold 46px Arial';g.fillText(lTeam.teamName.toUpperCase(),cX+45,cY+120);
+  g.fillStyle='#94A3B8';g.font='600 22px Arial';g.fillText(lTeam.playerA+' · '+lTeam.playerB,cX+45,cY+160);
+  g.fillStyle='#94A3B8';g.font='600 20px Arial';
+  g.fillText(lTeam.playerA+': '+lA+' pts',cX+45,cY+200);
+  g.fillText(lTeam.playerB+': '+lB+' pts',cX+45,cY+225);
+  g.textAlign='right';g.fillStyle='#94A3B8';g.font='900 80px Arial';
+  g.fillText(String(lScore),cX+cW-45,cY+150);
+  cY+=cH+30;
+  g.textAlign='center';
+  g.fillStyle='rgba(0,212,255,.12)';roundRect(g,cX,cY,cW,110,22);g.fill();
+  g.strokeStyle='rgba(0,212,255,.40)';g.lineWidth=2;roundRect(g,cX,cY,cW,110,22);g.stroke();
+  g.fillStyle='#00D4FF';g.font='bold 26px Arial';
+  g.fillText('DURACIÓN: '+dur,W/2,cY+48);
+  g.fillStyle='#CBD5E1';g.font='600 24px Arial';
+  g.fillText('MANOS JUGADAS: '+tb.hands.length,W/2,cY+85);
+  g.fillStyle='rgba(148,163,184,.65)';g.font='600 20px Arial';
+  g.fillText(t.date,W/2,H-45);
+  g.save();
+  g.translate(W-60,H-95);
+  g.transform(1,0,-0.22,1,0,0);
+  g.textAlign='right';
+  g.font='900 46px Arial Black, Arial, sans-serif';
+  const goldG=g.createLinearGradient(0,-48,0,14);
+  goldG.addColorStop(0,'#FFFCE0');goldG.addColorStop(.25,'#FEF08A');goldG.addColorStop(.5,'#FBBF24');goldG.addColorStop(.75,'#D97706');goldG.addColorStop(1,'#92400E');
+  g.shadowColor='rgba(0,0,0,.75)';g.shadowBlur=10;g.shadowOffsetY=4;
+  g.fillStyle=goldG;
+  g.fillText('SOLAR DE CUCHI',0,0);
+  g.shadowBlur=0;g.shadowOffsetY=0;
+  g.strokeStyle='rgba(255,255,255,.55)';g.lineWidth=1.2;
+  g.strokeText('SOLAR DE CUCHI',0,-1.5);
+  g.fillStyle='rgba(255,255,255,.25)';
+  g.fillText('SOLAR DE CUCHI',0,-2);
+  g.restore();
+  return cv;
+}
+</script>
 </body>
 </html>
