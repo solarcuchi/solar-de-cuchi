@@ -244,5 +244,152 @@ label{display:block!important;font-size:12px!important;font-weight:600!important
 .option-btn:active{transform:scale(.98)}
 .option-btn.selected{background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(16,185,129,.08))!important;border-color:var(--accent)!important;color:#A7F3D0!important;box-shadow:0 0 0 3px rgba(16,185,129,.15)!important}
 </style>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@700&display=swap');
+body{
+background:radial-gradient(ellipse 1200px 700px at 50% -20%,#0E2238 0%,transparent 60%),radial-gradient(ellipse 900px 500px at 100% 110%,#0A1828 0%,transparent 60%),linear-gradient(180deg,#0A1628 0%,#050C18 100%)!important;
+background-attachment:fixed!important;
+font-family:'Inter',sans-serif!important;
+}
+h1{
+font-family:'Anton',sans-serif!important;
+font-size:44px!important;
+font-weight:400!important;
+letter-spacing:.02em!important;
+text-transform:uppercase!important;
+background:linear-gradient(180deg,#FFFFFF 0%,#B8C4D4 100%)!important;
+-webkit-background-clip:text!important;
+background-clip:text!important;
+-webkit-text-fill-color:transparent!important;
+text-shadow:0 0 40px rgba(16,185,129,.15)!important;
+filter:none!important;
+}
+h1::after{
+background:linear-gradient(90deg,#10B981 0%,#FBBF24 40%,#EF4444 70%,#3B82F6 100%)!important;
+width:120px!important;
+height:4px!important;
+border-radius:2px!important;
+margin:14px auto 0!important;
+}
+h2{
+font-family:'Bebas Neue',sans-serif!important;
+font-size:22px!important;
+font-weight:400!important;
+letter-spacing:.15em!important;
+color:#94A3B8!important;
+text-transform:uppercase!important;
+border-left:3px solid #10B981!important;
+padding-left:12px!important;
+text-align:left!important;
+margin:24px 0 14px!important;
+}
+.card,.team-panel,.ranking-row{
+position:relative!important;
+padding-left:22px!important;
+background:linear-gradient(90deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.02) 100%)!important;
+border:1px solid rgba(255,255,255,.08)!important;
+border-left:none!important;
+border-radius:14px!important;
+overflow:hidden!important;
+}
+.card::before,.team-panel::before,.ranking-row::before{
+content:""!important;
+position:absolute!important;
+left:0!important;top:0!important;bottom:0!important;
+width:5px!important;
+background:linear-gradient(180deg,#10B981 0%,#FBBF24 50%,#EF4444 100%)!important;
+opacity:1!important;
+height:auto!important;
+right:auto!important;
+}
+.team-panel::before{
+background:linear-gradient(180deg,#10B981 0%,#FBBF24 100%)!important;
+}
+.ranking-row::before{
+background:linear-gradient(180deg,#FBBF24 0%,#EF4444 100%)!important;
+}
+.card-title,.team-name{
+font-family:'Anton',sans-serif!important;
+font-weight:400!important;
+letter-spacing:.01em!important;
+text-transform:uppercase!important;
+font-size:18px!important;
+}
+    .btn-primary,.btn-success{
+background:linear-gradient(135deg,#10B981 0%,#059669 100%)!important;
+box-shadow:0 10px 30px -10px rgba(16,185,129,.7),inset 0 1px 0 rgba(255,255,255,.3)!important;
+letter-spacing:.03em!important;
+text-transform:uppercase!important;
+font-weight:800!important;
+font-size:14px!important;
+}
+.btn-danger{
+background:linear-gradient(135deg,#EF4444 0%,#DC2626 100%)!important;
+box-shadow:0 10px 30px -10px rgba(239,68,68,.6),inset 0 1px 0 rgba(255,255,255,.25)!important;
+}
+.btn-warning{
+background:linear-gradient(135deg,#FBBF24 0%,#F59E0B 100%)!important;
+color:#0A1628!important;
+box-shadow:0 10px 30px -10px rgba(251,191,36,.6),inset 0 1px 0 rgba(255,255,255,.3)!important;
+}
+.btn-secondary{
+background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03))!important;
+border:1px solid rgba(255,255,255,.12)!important;
+letter-spacing:.03em!important;
+}
+input,select{
+background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.02))!important;
+border:1.5px solid rgba(255,255,255,.1)!important;
+border-radius:12px!important;
+font-weight:600!important;
+}
+input:focus,select:focus{
+border-color:#10B981!important;
+background:rgba(16,185,129,.08)!important;
+box-shadow:0 0 0 4px rgba(16,185,129,.15)!important;
+}
+label{
+font-family:'Bebas Neue',sans-serif!important;
+font-size:16px!important;
+letter-spacing:.12em!important;
+color:#FBBF24!important;
+font-weight:400!important;
+text-transform:uppercase!important;
+}
+.timer{
+font-family:'Space Mono',monospace!important;
+font-size:38px!important;
+color:#FBBF24!important;
+text-shadow:0 0 30px rgba(251,191,36,.5),0 0 60px rgba(251,191,36,.2)!important;
+letter-spacing:-.02em!important;
+}
+.team-score{
+font-family:'Anton',sans-serif!important;
+font-size:52px!important;
+background:linear-gradient(180deg,#FFFFFF 0%,#FBBF24 100%)!important;
+-webkit-background-clip:text!important;
+background-clip:text!important;
+-webkit-text-fill-color:transparent!important;
+}
+.badge{
+font-family:'Bebas Neue',sans-serif!important;
+letter-spacing:.1em!important;
+font-size:13px!important;
+padding:6px 12px!important;
+background:linear-gradient(135deg,#FBBF24,#F59E0B)!important;
+color:#0A1628!important;
+font-weight:400!important;
+border:none!important;
+}
+.player-line{
+font-family:'Inter',sans-serif!important;
+border-bottom:1px solid rgba(255,255,255,.06)!important;
+}
+.player-line span:last-child{
+color:#FBBF24!important;
+font-weight:800!important;
+font-family:'Space Mono',monospace!important;
+}
+</style>
 </body>
 </html>
