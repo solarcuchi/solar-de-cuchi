@@ -614,5 +614,41 @@ function shareMatchText(){
   shareMatchImage();
 }
 </script>
+  <script>
+function finishMatch(){
+  const tb=getTable(state.currentMatchTableId);
+  if(!confirm('¿Finalizar el partido?'))return;
+  tb.status='finished';tb.endTime=Date.now();
+  if(tb.teamAScore>tb.teamBScore)tb.winnerTeamId=tb.teamAId;
+  else if(tb.teamBScore>tb.teamAScore)tb.winnerTeamId=tb.teamBId;
+  else tb.winnerTeamId=null;
+  if(matchTimerInterval){clearInterval(matchTimerInterval);matchTimerInterval=null}
+  save();showMatchResult();
+}
+function renderMatch(){
+  const t=currentTournament();const tb=getTable(state.currentMatchTableId);
+  if(!tb)return backToDashboard();
+  const ta=t.teams.find(x=>x.id===tb.teamAId);const tbb=t.teams.find(x=>x.id===tb.teamBId);
+  if(!ta||!tbb)return backToDashboard();
+  document.getElementById('match-table-number').textContent='Mesa '+tb.tableNumber;
+  const taA=tb.hands.filter(h=>h.winnerTeamId===ta.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);
+  const taB=tb.hands.filter(h=>h.winnerTeamId===ta.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);
+  const tbA=tb.hands.filter(h=>h.winnerTeamId===tbb.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);
+  const tbB=tb.hands.filter(h=>h.winnerTeamId===tbb.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);
+  const faltaA=Math.max(0,t.targetPoints-tb.teamAScore);
+  const faltaB=Math.max(0,t.targetPoints-tb.teamBScore);
+  const totalHands=tb.hands.length;
+  const handsWonA=tb.hands.filter(h=>h.winnerTeamId===ta.id).length;
+  const handsWonB=tb.hands.filter(h=>h.winnerTeamId===tbb.id).length;
+  let controls='';
+  if(tb.status==='pending'){controls='<button class="btn-success btn-block" onclick="startMatch()">▶ Iniciar Partido</button>'}
+  else if(tb.status==='playing'){controls='<button class="btn-primary btn-block" onclick="openHandForm()">➕ Registrar Mano</button><button class="btn-warning btn-block" onclick="pauseMatch()">⏸ Pausar</button><button class="btn-danger btn-block" onclick="finishMatch()">✓ Finalizar Partido</button>'+(tb.hands.length>0?'<button class="btn-secondary btn-block" onclick="undoLastHand()">↶ Deshacer última mano</button>':'')}
+  else if(tb.status==='paused'){controls='<button class="btn-success btn-block" onclick="resumeMatch()">▶ Reanudar</button><button class="btn-primary btn-block" onclick="openHandForm()">➕ Registrar Mano</button><button class="btn-danger btn-block" onclick="finishMatch()">✓ Finalizar Partido</button>'+(tb.hands.length>0?'<button class="btn-secondary btn-block" onclick="undoLastHand()">↶ Deshacer última mano</button>':'')}
+  else{controls='<button class="btn-success btn-block" onclick="showMatchResult()">📤 Compartir resultado</button><button class="btn-secondary btn-block" onclick="backToDashboard()">← Volver al panel</button>'}
+  document.getElementById('match-content').innerHTML='<div class="center mb"><div class="timer">'+formatDuration(getElapsed(tb))+'</div><div class="small-text">Manos: '+totalHands+' · '+escapeHtml(ta.teamName)+' '+handsWonA+' · '+escapeHtml(tbb.teamName)+' '+handsWonB+'</div></div><div class="team-panel"><div class="team-name">'+escapeHtml(ta.teamName)+'</div><div class="team-players">'+escapeHtml(ta.playerA)+' (A) · '+escapeHtml(ta.playerB)+' (B)</div><div class="flex-between"><div class="team-score">'+tb.teamAScore+'</div><div class="team-missing">Faltan '+faltaA+'</div></div><div class="mt"><div class="player-line"><span>'+escapeHtml(ta.playerA)+'</span><span>'+taA+' pts</span></div><div class="player-line"><span>'+escapeHtml(ta.playerB)+'</span><span>'+taB+' pts</span></div></div></div><div class="team-panel"><div class="team-name">'+escapeHtml(tbb.teamName)+'</div><div class="team-players">'+escapeHtml(tbb.playerA)+' (A) · '+escapeHtml(tbb.playerB)+' (B)</div><div class="flex-between"><div class="team-score">'+tb.teamBScore+'</div><div class="team-missing">Faltan '+faltaB+'</div></div><div class="mt"><div class="player-line"><span>'+escapeHtml(tbb.playerA)+'</span><span>'+tbA+' pts</span></div><div class="player-line"><span>'+escapeHtml(tbb.playerB)+'</span><span>'+tbB+' pts</span></div></div></div><div class="mt">'+controls+'</div>';
+  if(matchTimerInterval)clearInterval(matchTimerInterval);
+  if(tb.status==='playing'){matchTimerInterval=setInterval(()=>{const el=document.querySelector('#match-content .timer');if(el)el.textContent=formatDuration(getElapsed(tb))},1000)}
+}
+  </script>
 </body>
 </html>
