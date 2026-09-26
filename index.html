@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Solar de Cuchi</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;padding-bottom:40px}
+#app{max-width:520px;margin:0 auto;padding:16px}
+.screen{display:none}
+.screen.active{display:block}
+h1{font-size:22px;margin-bottom:16px;color:#f8fafc;text-align:center}
+h2{font-size:17px;margin:16px 0 10px;color:#cbd5e1}
+button{font-family:inherit;font-size:15px;padding:12px 16px;border:none;border-radius:10px;cursor:pointer;font-weight:600}
+.btn-primary{background:#3b82f6;color:#fff}
+.btn-secondary{background:#334155;color:#e2e8f0}
+.btn-success{background:#10b981;color:#fff}
+.btn-danger{background:#ef4444;color:#fff}
+.btn-warning{background:#f59e0b;color:#fff}
+.btn-block{width:100%;display:block;margin-bottom:8px}
+input,select{font-family:inherit;font-size:15px;padding:12px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;border-radius:8px;width:100%;margin-bottom:8px}
+label{display:block;font-size:13px;color:#94a3b8;margin-bottom:4px;margin-top:8px}
+.card{background:#1e293b;border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid #334155}
+.card-title{font-weight:700;color:#f1f5f9;margin-bottom:4px;font-size:15px}
+.card-sub{font-size:13px;color:#94a3b8}
+.mt{margin-top:12px}.mb{margin-bottom:12px}.center{text-align:center}
+.timer{font-family:monospace;font-size:22px;color:#f59e0b;font-weight:700}
+.badge{display:inline-block;background:#3b82f6;color:#fff;font-size:11px;padding:3px 8px;border-radius:20px;font-weight:700}
+.team-panel{background:#1e293b;border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid #334155}
+.team-name{font-size:16px;font-weight:700;color:#f1f5f9;margin-bottom:4px}
+.team-players{font-size:12px;color:#94a3b8;margin-bottom:8px}
+.team-score{font-size:34px;font-weight:800;color:#3b82f6}
+.team-missing{font-size:12px;color:#94a3b8}
+.player-line{display:flex;justify-content:space-between;font-size:13px;color:#cbd5e1;padding:4px 0}
+.ranking-row{display:flex;justify-content:space-between;align-items:center;padding:10px;background:#1e293b;border-radius:8px;margin-bottom:6px;gap:8px}
+.small-text{font-size:12px;color:#64748b}
+.flex-between{display:flex;justify-content:space-between;align-items:center}
+.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+.modal-box{background:#1e293b;border-radius:14px;padding:20px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;border:1px solid #334155}
+.option-btn{background:#334155;color:#e2e8f0;padding:14px;border-radius:10px;width:100%;margin-bottom:8px;text-align:left;font-size:14px;border:none;cursor:pointer}
+.option-btn.selected{background:#3b82f6;color:#fff}
+</style>
+</head>
+<body>
+  <div id="app">
+<div id="screen-home" class="screen active">
+<h1>🁫 Solar de Cuchi</h1>
+<button class="btn-primary btn-block" onclick="newTournamentScreen()">➕ Nuevo Torneo</button>
+<h2>Torneos anteriores</h2>
+<div id="tournaments-list"></div>
+</div>
+<div id="screen-new-tournament" class="screen">
+<h1>Nuevo Torneo</h1>
+<label>Nombre del torneo</label>
+<input id="input-tournament-name" placeholder="Ej: Torneo de Navidad">
+<label>Fecha</label>
+<input id="input-tournament-date" type="date">
+<label>Puntos para ganar</label>
+<input id="input-tournament-points" type="number" value="150">
+<button class="btn-primary btn-block mt" onclick="createTournament()">Crear</button>
+<button class="btn-secondary btn-block" onclick="showScreen('screen-home')">Cancelar</button>
+</div>
+<div id="screen-teams" class="screen">
+<h1>Registrar Parejas</h1>
+<div id="teams-list"></div>
+<button class="btn-primary btn-block mt" onclick="addTeamScreen()">➕ Agregar Pareja</button>
+<button class="btn-success btn-block" onclick="goToRound()">Listo, continuar →</button>
+<button class="btn-secondary btn-block" onclick="showScreen('screen-home')">← Inicio</button>
+</div>
+<div id="screen-add-team" class="screen">
+<h1>Agregar Pareja</h1>
+<label>Nombre del equipo</label>
+<input id="input-team-name" placeholder="Ej: Los Tramposos">
+<label>Jugador A</label>
+<input id="input-player-a">
+<label>Jugador B</label>
+<input id="input-player-b">
+<button class="btn-primary btn-block mt" onclick="saveTeam()">Guardar</button>
+<button class="btn-secondary btn-block" onclick="showScreen('screen-teams')">Cancelar</button>
+</div>
+<div id="screen-round" class="screen">
+<h1>Enfrentamientos</h1>
+<p id="round-info" class="small-text mb center"></p>
+<div id="tables-list"></div>
+<button class="btn-primary btn-block mt" onclick="addMatchScreen()">➕ Agregar Enfrentamiento</button>
+<button class="btn-success btn-block" onclick="goToDashboard()">👁 Ver Panel de Mesas</button>
+<button class="btn-warning btn-block" onclick="startNewRound()">🔄 Iniciar Nueva Ronda</button>
+<button class="btn-secondary btn-block" onclick="showScreen('screen-home')">← Inicio</button>
+</div>
+<div id="screen-add-match" class="screen">
+<h1>Nuevo Enfrentamiento</h1>
+<label>Pareja A</label>
+<select id="select-team-a"></select>
+<label>Pareja B</label>
+<select id="select-team-b"></select>
+<button class="btn-primary btn-block mt" onclick="saveMatch()">Crear Mesa</button>
+<button class="btn-secondary btn-block" onclick="showScreen('screen-round')">Cancelar</button>
+</div>
+<div id="screen-dashboard" class="screen">
+<h1>Panel de Mesas</h1>
+<div id="dashboard-list"></div>
+<button class="btn-secondary btn-block mt" onclick="showScreen('screen-round')">← Enfrentamientos</button>
+<button class="btn-warning btn-block" onclick="goToSummary()">📊 Ver Resumen</button>
+</div>
+<div id="screen-match" class="screen">
+<div class="flex-between mb">
+<button class="btn-secondary" onclick="backToDashboard()" style="padding:8px 12px;font-size:13px">← Volver</button>
+<span id="match-table-number" class="badge"></span>
+</div>
+<div id="match-content"></div>
+</div>
+<div id="screen-match-result" class="screen">
+<h1>Resultado</h1>
+<div id="match-result-content"></div>
+</div>
+<div id="screen-summary" class="screen">
+<h1>Resumen del Torneo</h1>
+<div id="summary-content"></div>
+<button class="btn-secondary btn-block mt" onclick="showScreen('screen-home')">← Inicio</button>
+</div>
+</div>
+<div id="modal-hand" class="modal hidden">
+<div class="modal-box">
+<h2 style="margin-top:0">Registrar Mano</h2>
+<label>¿Qué equipo ganó la mano?</label>
+<div id="hand-winner-options"></div>
+<label>Puntos de la mano</label>
+<input id="hand-points" type="number" placeholder="Ej: 45">
+<label>¿Cuál jugador cerró?</label>
+<div id="hand-closer-options"></div>
+<button class="btn-primary btn-block mt" onclick="confirmHand()">✅ Registrar</button>
+<button class="btn-secondary btn-block" onclick="closeHandForm()">Cancelar</button>
+</div>
+  </div>
+  <script>
+let state={tournaments:[],currentTournamentId:null,currentMatchTableId:null};
+let handDraft={winnerTeamId:null,closerPlayer:null};
+let matchTimerInterval=null;
+function save(){localStorage.setItem('solarCuchi',JSON.stringify(state))}
+function load(){try{const r=localStorage.getItem('solarCuchi');if(r)state=JSON.parse(r)}catch(e){}}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function currentTournament(){return state.tournaments.find(t=>t.id===state.currentTournamentId)}
+function currentRound(){const t=currentTournament();return t.rounds[t.rounds.length-1]}
+function getTable(id){const r=currentRound();return r.tables.find(tb=>tb.id===id)}
+function escapeHtml(s){if(!s)return'';return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function formatDuration(ms){const s=Math.floor(ms/1000);const h=Math.floor(s/3600);const m=Math.floor((s%3600)/60);const sec=s%60;if(h>0)return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0')}
+function renderHome(){const list=document.getElementById('tournaments-list');if(state.tournaments.length===0){list.innerHTML='<p class="small-text center">Aún no hay torneos guardados.</p>';return}list.innerHTML=state.tournaments.map(t=>'<div class="card" onclick="openTournament(\''+t.id+'\')"><div class="card-title">'+escapeHtml(t.name)+'</div><div class="card-sub">'+t.date+' · '+t.teams.length+' parejas · '+t.targetPoints+' pts</div></div>').join('')}
+function openTournament(id){state.currentTournamentId=id;save();const t=currentTournament();if(!t)return;if(t.finished){showScreen('screen-summary');renderSummary()}else if(!t.setupComplete){showScreen('screen-teams');renderTeams()}else{showScreen('screen-round');renderRound()}}
+function newTournamentScreen(){document.getElementById('input-tournament-name').value='';document.getElementById('input-tournament-date').value=new Date().toISOString().split('T')[0];document.getElementById('input-tournament-points').value='150';showScreen('screen-new-tournament')}
+function createTournament(){const name=document.getElementById('input-tournament-name').value.trim();const date=document.getElementById('input-tournament-date').value;const points=parseInt(document.getElementById('input-tournament-points').value);if(!name)return alert('Escribe un nombre para el torneo');if(!points||points<10)return alert('Pon una cantidad de puntos válida');const t={id:'t'+Date.now(),name,date:date||new Date().toISOString().split('T')[0],targetPoints:points,teams:[],rounds:[{number:1,tables:[]}],setupComplete:false,finished:false};state.tournaments.push(t);state.currentTournamentId=t.id;save();showScreen('screen-teams');renderTeams()}
+function renderTeams(){const t=currentTournament();if(!t)return showScreen('screen-home');const list=document.getElementById('teams-list');if(t.teams.length===0){list.innerHTML='<p class="small-text center mb">Aún no has agregado parejas.</p>';return}list.innerHTML=t.teams.map(team=>'<div class="card"><div class="flex-between"><div style="flex:1"><div class="card-title">Pareja '+team.number+' — '+escapeHtml(team.teamName)+'</div><div class="card-sub">'+escapeHtml(team.playerA)+' (A) · '+escapeHtml(team.playerB)+' (B)</div></div><button class="btn-danger" onclick="deleteTeam(\''+team.id+'\')" style="padding:6px 10px;font-size:13px">✕</button></div></div>').join('')}
+function addTeamScreen(){document.getElementById('input-team-name').value='';document.getElementById('input-player-a').value='';document.getElementById('input-player-b').value='';showScreen('screen-add-team')}
+function saveTeam(){const teamName=document.getElementById('input-team-name').value.trim();const playerA=document.getElementById('input-player-a').value.trim();const playerB=document.getElementById('input-player-b').value.trim();if(!teamName)return alert('Escribe el nombre del equipo');if(!playerA||!playerB)return alert('Escribe el nombre de los dos jugadores');const t=currentTournament();t.teams.push({id:'tm'+Date.now()+Math.random().toString(36).slice(2,6),number:t.teams.length+1,teamName,playerA,playerB});save();showScreen('screen-teams');renderTeams()}
+function deleteTeam(id){if(!confirm('¿Eliminar esta pareja?'))return;const t=currentTournament();t.teams=t.teams.filter(tm=>tm.id!==id);t.teams.forEach((tm,i)=>tm.number=i+1);save();renderTeams()}
+function goToRound(){const t=currentTournament();if(t.teams.length<2)return alert('Necesitas al menos 2 parejas');t.setupComplete=true;if(t.rounds.length===0)t.rounds.push({number:1,tables:[]});save();showScreen('screen-round');renderRound()}
+function renderRound(){const t=currentTournament();const r=currentRound();document.getElementById('round-info').textContent='Ronda '+r.number+' · '+t.teams.length+' parejas';const list=document.getElementById('tables-list');if(r.tables.length===0){list.innerHTML='<p class="small-text center mb">Aún no hay enfrentamientos.</p>';return}list.innerHTML=r.tables.map(tb=>{const ta=t.teams.find(x=>x.id===tb.teamAId);const tbb=t.teams.find(x=>x.id===tb.teamBId);if(!ta||!tbb)return'';return '<div class="card"><div class="flex-between"><div style="flex:1"><div class="card-title">Mesa '+tb.tableNumber+'</div><div class="card-sub">'+escapeHtml(ta.teamName)+' vs '+escapeHtml(tbb.teamName)+'</div></div>'+(tb.status==='finished'?'<span class="badge">Finalizado</span>':'<button class="btn-danger" onclick="deleteMatch(\''+tb.id+'\')" style="padding:6px 10px;font-size:13px">✕</button>')+'</div></div>'}).join('')}
+function addMatchScreen(){const t=currentTournament();const selA=document.getElementById('select-team-a');const selB=document.getElementById('select-team-b');const opts=t.teams.map(tm=>'<option value="'+tm.id+'">P'+tm.number+' · '+escapeHtml(tm.teamName)+'</option>').join('');selA.innerHTML=opts;selB.innerHTML=opts;selA.selectedIndex=0;selB.selectedIndex=t.teams.length>1?1:0;showScreen('screen-add-match')}
+function saveMatch(){const t=currentTournament();const aId=document.getElementById('select-team-a').value;const bId=document.getElementById('select-team-b').value;if(aId===bId)return alert('Elige dos parejas diferentes');const r=currentRound();r.tables.push({id:'tb'+Date.now()+Math.random().toString(36).slice(2,6),tableNumber:r.tables.length+1,teamAId:aId,teamBId:bId,status:'pending',startTime:null,endTime:null,pausedAt:null,totalPausedMs:0,hands:[],teamAScore:0,teamBScore:0,winnerTeamId:null});save();showScreen('screen-round');renderRound()}
+function deleteMatch(id){if(!confirm('¿Eliminar esta mesa?'))return;const r=currentRound();r.tables=r.tables.filter(tb=>tb.id!==id);r.tables.forEach((tb,i)=>tb.tableNumber=i+1);save();renderRound()}
+function startNewRound(){if(!confirm('¿Iniciar nueva ronda? Se cerrará la ronda actual.'))return;const t=currentTournament();t.rounds.push({number:t.rounds.length+1,tables:[]});save();renderRound()}
+function goToDashboard(){showScreen('screen-dashboard');renderDashboard()}
+    function renderDashboard(){const t=currentTournament();const r=currentRound();const list=document.getElementById('dashboard-list');if(r.tables.length===0){list.innerHTML='<p class="small-text center">No hay mesas. Agrega enfrentamientos primero.</p>';return}list.innerHTML=r.tables.map(tb=>{const ta=t.teams.find(x=>x.id===tb.teamAId);const tbb=t.teams.find(x=>x.id===tb.teamBId);if(!ta||!tbb)return'';let statusLabel='Sin iniciar';if(tb.status==='playing'){statusLabel='⏱ '+formatDuration(getElapsed(tb))}else if(tb.status==='paused'){statusLabel='⏸ En pausa'}else if(tb.status==='finished'){statusLabel='✓ Finalizado'}return '<div class="card" onclick="openMatch(\''+tb.id+'\')"><div class="flex-between"><div style="flex:1"><div class="card-title">Mesa '+tb.tableNumber+'</div><div class="card-sub">'+escapeHtml(ta.teamName)+' '+tb.teamAScore+' · '+escapeHtml(tbb.teamName)+' '+tb.teamBScore+'</div></div><div class="small-text" style="text-align:right;max-width:90px">'+statusLabel+'</div></div></div>'}).join('')}
+function backToDashboard(){showScreen('screen-dashboard');renderDashboard()}
+function openMatch(tableId){state.currentMatchTableId=tableId;save();showScreen('screen-match');renderMatch()}
+function getElapsed(tb){if(!tb.startTime)return 0;if(tb.status==='finished'&&tb.endTime)return tb.endTime-tb.startTime-(tb.totalPausedMs||0);const now=tb.status==='paused'&&tb.pausedAt?tb.pausedAt:Date.now();return now-tb.startTime-(tb.totalPausedMs||0)}
+function renderMatch(){const t=currentTournament();const tb=getTable(state.currentMatchTableId);if(!tb)return backToDashboard();const ta=t.teams.find(x=>x.id===tb.teamAId);const tbb=t.teams.find(x=>x.id===tb.teamBId);if(!ta||!tbb)return backToDashboard();document.getElementById('match-table-number').textContent='Mesa '+tb.tableNumber;const taA=tb.hands.filter(h=>h.winnerTeamId===ta.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);const taB=tb.hands.filter(h=>h.winnerTeamId===ta.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);const tbA=tb.hands.filter(h=>h.winnerTeamId===tbb.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);const tbB=tb.hands.filter(h=>h.winnerTeamId===tbb.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);const faltaA=Math.max(0,t.targetPoints-tb.teamAScore);const faltaB=Math.max(0,t.targetPoints-tb.teamBScore);const totalHands=tb.hands.length;const handsWonA=tb.hands.filter(h=>h.winnerTeamId===ta.id).length;const handsWonB=tb.hands.filter(h=>h.winnerTeamId===tbb.id).length;let controls='';if(tb.status==='pending'){controls='<button class="btn-success btn-block" onclick="startMatch()">▶ Iniciar Partido</button>'}else if(tb.status==='playing'){controls='<button class="btn-primary btn-block" onclick="openHandForm()">➕ Registrar Mano</button><button class="btn-warning btn-block" onclick="pauseMatch()">⏸ Pausar</button><button class="btn-danger btn-block" onclick="finishMatch()">✓ Finalizar Partido</button>'+(tb.hands.length>0?'<button class="btn-secondary btn-block" onclick="undoLastHand()">↶ Deshacer última mano</button>':'')}else if(tb.status==='paused'){controls='<button class="btn-success btn-block" onclick="resumeMatch()">▶ Reanudar</button><button class="btn-primary btn-block" onclick="openHandForm()">➕ Registrar Mano</button><button class="btn-danger btn-block" onclick="finishMatch()">✓ Finalizar Partido</button>'+(tb.hands.length>0?'<button class="btn-secondary btn-block" onclick="undoLastHand()">↶ Deshacer última mano</button>':'')}else{controls='<button class="btn-secondary btn-block" onclick="backToDashboard()">Volver al panel</button>'}document.getElementById('match-content').innerHTML='<div class="center mb"><div class="timer">'+formatDuration(getElapsed(tb))+'</div><div class="small-text">Manos: '+totalHands+' · '+escapeHtml(ta.teamName)+' '+handsWonA+' · '+escapeHtml(tbb.teamName)+' '+handsWonB+'</div></div><div class="team-panel"><div class="team-name">'+escapeHtml(ta.teamName)+'</div><div class="team-players">'+escapeHtml(ta.playerA)+' (A) · '+escapeHtml(ta.playerB)+' (B)</div><div class="flex-between"><div class="team-score">'+tb.teamAScore+'</div><div class="team-missing">Faltan '+faltaA+'</div></div><div class="mt"><div class="player-line"><span>'+escapeHtml(ta.playerA)+'</span><span>'+taA+' pts</span></div><div class="player-line"><span>'+escapeHtml(ta.playerB)+'</span><span>'+taB+' pts</span></div></div></div><div class="team-panel"><div class="team-name">'+escapeHtml(tbb.teamName)+'</div><div class="team-players">'+escapeHtml(tbb.playerA)+' (A) · '+escapeHtml(tbb.playerB)+' (B)</div><div class="flex-between"><div class="team-score">'+tb.teamBScore+'</div><div class="team-missing">Faltan '+faltaB+'</div></div><div class="mt"><div class="player-line"><span>'+escapeHtml(tbb.playerA)+'</span><span>'+tbA+' pts</span></div><div class="player-line"><span>'+escapeHtml(tbb.playerB)+'</span><span>'+tbB+' pts</span></div></div></div><div class="mt">'+controls+'</div>';if(matchTimerInterval)clearInterval(matchTimerInterval);if(tb.status==='playing'){matchTimerInterval=setInterval(()=>{const el=document.querySelector('#match-content .timer');if(el)el.textContent=formatDuration(getElapsed(tb))},1000)}}
+function startMatch(){const tb=getTable(state.currentMatchTableId);tb.startTime=Date.now();tb.status='playing';save();renderMatch()}
+function pauseMatch(){const tb=getTable(state.currentMatchTableId);tb.status='paused';tb.pausedAt=Date.now();save();renderMatch()}
+function resumeMatch(){const tb=getTable(state.currentMatchTableId);if(tb.pausedAt)tb.totalPausedMs=(tb.totalPausedMs||0)+(Date.now()-tb.pausedAt);tb.pausedAt=null;tb.status='playing';save();renderMatch()}
+function finishMatch(){const tb=getTable(state.currentMatchTableId);if(!confirm('¿Finalizar el partido?'))return;tb.status='finished';tb.endTime=Date.now();if(tb.teamAScore>tb.teamBScore)tb.winnerTeamId=tb.teamAId;else if(tb.teamBScore>tb.teamAScore)tb.winnerTeamId=tb.teamBId;else tb.winnerTeamId=null;if(matchTimerInterval){clearInterval(matchTimerInterval);matchTimerInterval=null}save();showMatchResult()}
+function undoLastHand(){const tb=getTable(state.currentMatchTableId);if(tb.hands.length===0)return;const last=tb.hands.pop();if(last.winnerTeamId===tb.teamAId)tb.teamAScore-=last.points;else tb.teamBScore-=last.points;save();renderMatch()}
+function openHandForm(){const t=currentTournament();const tb=getTable(state.currentMatchTableId);const ta=t.teams.find(x=>x.id===tb.teamAId);const tbb=t.teams.find(x=>x.id===tb.teamBId);handDraft={winnerTeamId:null,closerPlayer:null};document.getElementById('hand-winner-options').innerHTML='<button class="option-btn" data-team="'+ta.id+'" onclick="pickWinner(\''+ta.id+'\')">'+escapeHtml(ta.teamName)+'</button><button class="option-btn" data-team="'+tbb.id+'" onclick="pickWinner(\''+tbb.id+'\')">'+escapeHtml(tbb.teamName)+'</button>';document.getElementById('hand-closer-options').innerHTML='<p class="small-text">Primero elige qué equipo ganó.</p>';document.getElementById('hand-points').value='';document.getElementById('modal-hand').classList.remove('hidden')}
+function pickWinner(teamId){handDraft.winnerTeamId=teamId;handDraft.closerPlayer=null;document.querySelectorAll('#hand-winner-options .option-btn').forEach(b=>{b.classList.toggle('selected',b.dataset.team===teamId)});const t=currentTournament();const winTeam=t.teams.find(x=>x.id===teamId);document.getElementById('hand-closer-options').innerHTML='<button class="option-btn" data-p="A" onclick="pickCloser(\'A\')">'+escapeHtml(winTeam.playerA)+' (A)</button><button class="option-btn" data-p="B" onclick="pickCloser(\'B\')">'+escapeHtml(winTeam.playerB)+' (B)</button>'}
+function pickCloser(p){handDraft.closerPlayer=p;document.querySelectorAll('#hand-closer-options .option-btn').forEach(b=>{b.classList.toggle('selected',b.dataset.p===p)})}
+function closeHandForm(){document.getElementById('modal-hand').classList.add('hidden')}
+function confirmHand(){if(!handDraft.winnerTeamId)return alert('Elige qué equipo ganó');const points=parseInt(document.getElementById('hand-points').value);if(!points||points<=0)return alert('Pon una cantidad de puntos válida');if(!handDraft.closerPlayer)return alert('Elige quién cerró la mano');const tb=getTable(state.currentMatchTableId);tb.hands.push({winnerTeamId:handDraft.winnerTeamId,points,closerPlayer:handDraft.closerPlayer});if(handDraft.winnerTeamId===tb.teamAId)tb.teamAScore+=points;else tb.teamBScore+=points;save();closeHandForm();renderMatch();const t=currentTournament();if(tb.teamAScore>=t.targetPoints||tb.teamBScore>=t.targetPoints){setTimeout(()=>{if(confirm('¡Alguien llegó a la meta! ¿Finalizar el partido?'))finishMatch()},150)}}
+function showMatchResult(){showScreen('screen-match-result');renderMatchResult()}
+function renderMatchResult(){const t=currentTournament();const tb=getTable(state.currentMatchTableId);if(!tb)return backToDashboard();const ta=t.teams.find(x=>x.id===tb.teamAId);const tbb=t.teams.find(x=>x.id===tb.teamBId);const winner=tb.winnerTeamId===ta.id?ta:tbb;const duration=formatDuration(getElapsed(tb));const totalHands=tb.hands.length;const taA=tb.hands.filter(h=>h.winnerTeamId===ta.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);const taB=tb.hands.filter(h=>h.winnerTeamId===ta.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);const tbA=tb.hands.filter(h=>h.winnerTeamId===tbb.id&&h.closerPlayer==='A').reduce((s,h)=>s+h.points,0);const tbB=tb.hands.filter(h=>h.winnerTeamId===tbb.id&&h.closerPlayer==='B').reduce((s,h)=>s+h.points,0);document.getElementById('match-result-content').innerHTML='<div class="card center"><div class="small-text">Mesa '+tb.tableNumber+'</div><div style="font-size:20px;font-weight:800;color:#10b981;margin:8px 0">🏆 '+escapeHtml(winner.teamName)+'</div><div class="small-text">'+escapeHtml(winner.playerA)+' y '+escapeHtml(winner.playerB)+'</div></div><div class="card"><div class="flex-between mb"><div class="card-title">'+escapeHtml(ta.teamName)+'</div><div style="font-size:22px;font-weight:800">'+tb.teamAScore+'</div></div><div class="player-line"><span>'+escapeHtml(ta.playerA)+'</span><span>'+taA+' pts</span></div><div class="player-line"><span>'+escapeHtml(ta.playerB)+'</span><span>'+taB+' pts</span></div></div><div class="card"><div class="flex-between mb"><div class="card-title">'+escapeHtml(tbb.teamName)+'</div><div style="font-size:22px;font-weight:800">'+tb.teamBScore+'</div></div><div class="player-line"><span>'+escapeHtml(tbb.playerA)+'</span><span>'+tbA+' pts</span></div><div class="player-line"><span>'+escapeHtml(tbb.playerB)+'</span><span>'+tbB+' pts</span></div></div><div class="card"><div class="player-line"><span>⏱ Duración</span><span>'+duration+'</span></div><div class="player-line"><span>🎯 Manos jugadas</span><span>'+totalHands+'</span></div></div><button class="btn-success btn-block mt" onclick="shareMatchText()">📤 Compartir resultado</button><button class="btn-primary btn-block" onclick="showScreen(\'screen-round\');renderRound()">➡ Volver a Enfrentamientos</button><button class="btn-secondary btn-block" onclick="backToDashboard()">← Panel de Mesas</button>'}
+function shareMatchText(){const t=currentTournament();const tb=getTable(state.currentMatchTableId);const ta=t.teams.find(x=>x.id===tb.teamAId);const tbb=t.teams.find(x=>x.id===tb.teamBId);const winner=tb.winnerTeamId===ta.id?ta:tbb;const duration=formatDuration(getElapsed(tb));const text='🁫 SOLAR DE CUCHI 🁫\nMesa '+tb.tableNumber+'\n\n🏆 Ganó: '+winner.teamName+'\n'+winner.playerA+' y '+winner.playerB+'\n\n📊 Marcador final:\n'+ta.teamName+': '+tb.teamAScore+'\n'+tbb.teamName+': '+tb.teamBScore+'\n\n⏱ Duración: '+duration+'\n🎯 Manos: '+tb.hands.length;if(navigator.share){navigator.share({title:'Resultado Mesa '+tb.tableNumber,text}).catch(()=>{})}else{copyToClipboard(text);alert('Resultado copiado. Pégalo en WhatsApp.')}}
+function copyToClipboard(text){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta)}
+function goToSummary(){showScreen('screen-summary');renderSummary()}
+function computeRankings(){const t=currentTournament();const allTables=t.rounds.flatMap(r=>r.tables);const teamStats={};t.teams.forEach(tm=>{teamStats[tm.id]={team:tm,totalPoints:0,matchesWon:0,matchesPlayed:0}});allTables.forEach(tb=>{if(teamStats[tb.teamAId]){teamStats[tb.teamAId].totalPoints+=tb.teamAScore;teamStats[tb.teamAId].matchesPlayed++}if(teamStats[tb.teamBId]){teamStats[tb.teamBId].totalPoints+=tb.teamBScore;teamStats[tb.teamBId].matchesPlayed++}if(tb.winnerTeamId&&teamStats[tb.winnerTeamId])teamStats[tb.winnerTeamId].matchesWon++});const teamRanking=Object.values(teamStats).sort((a,b)=>{if(b.matchesWon!==a.matchesWon)return b.matchesWon-a.matchesWon;return b.totalPoints-a.totalPoints});const playerStats={};t.teams.forEach(tm=>{playerStats[tm.playerA+'|'+tm.id]={name:tm.playerA,team:tm.teamName,points:0,handsWon:0,handsPlayed:0};playerStats[tm.playerB+'|'+tm.id]={name:tm.playerB,team:tm.teamName,points:0,handsWon:0,handsPlayed:0}});allTables.forEach(tb=>{const ta=t.teams.find(x=>x.id===tb.teamAId);const tbb=t.teams.find(x=>x.id===tb.teamBId);if(!ta||!tbb)return;const th=tb.hands.length;playerStats[ta.playerA+'|'+ta.id].handsPlayed+=th;playerStats[ta.playerB+'|'+ta.id].handsPlayed+=th;playerStats[tbb.playerA+'|'+tbb.id].handsPlayed+=th;playerStats[tbb.playerB+'|'+tbb.id].handsPlayed+=th;tb.hands.forEach(h=>{const wt=t.teams.find(x=>x.id===h.winnerTeamId);if(!wt)return;const key=(h.closerPlayer==='A'?wt.playerA:wt.playerB)+'|'+wt.id;if(playerStats[key]){playerStats[key].points+=h.points;playerStats[key].handsWon++}})});const playerRanking=Object.values(playerStats).sort((a,b)=>{if(b.points!==a.points)return b.points-a.points;return b.handsWon-a.handsWon});return{teamRanking,playerRanking}}
+function renderSummary(){const t=currentTournament();if(!t)return showScreen('screen-home');const{teamRanking,playerRanking}=computeRankings();const medals=['🥇','🥈','🥉'];const topHtml=teamRanking.slice(0,3).map((r,i)=>'<div class="ranking-row"><div><span style="font-size:20px;margin-right:8px">'+medals[i]+'</span><strong>'+escapeHtml(r.team.teamName)+'</strong></div><div class="small-text">'+r.totalPoints+' pts · '+r.matchesWon+' victorias</div></div>').join('');const playersHtml=playerRanking.map((p,i)=>'<div class="ranking-row"><div style="flex:1"><strong>'+(i+1)+'.</strong> '+escapeHtml(p.name)+' <span class="small-text">('+escapeHtml(p.team)+')</span></div><div class="small-text" style="text-align:right">'+p.points+' pts<br>'+p.handsWon+'/'+p.handsPlayed+' manos</div></div>').join('');document.getElementById('summary-content').innerHTML='<h2>🏆 Top 3 Parejas</h2>'+topHtml+'<h2>👤 Ranking Individual</h2>'+playersHtml+'<button class="btn-success btn-block mt" onclick="shareSummaryText()">📤 Compartir resumen</button><button class="btn-secondary btn-block" onclick="exportBackup()">💾 Exportar respaldo</button>'}
+function shareSummaryText(){const t=currentTournament();const{teamRanking,playerRanking}=computeRankings();const medals=['🥇','🥈','🥉'];let text='🁫 SOLAR DE CUCHI 🁫\n'+t.name+'\n\n🏆 TOP 3 PAREJAS\n';teamRanking.slice(0,3).forEach((r,i)=>{text+=medals[i]+' '+r.team.teamName+' — '+r.totalPoints+' pts\n'});text+='\n👤 RANKING INDIVIDUAL\n';playerRanking.forEach((p,i)=>{text+=(i+1)+'. '+p.name+' — '+p.points+' pts ('+p.handsWon+' manos)\n'});if(navigator.share){navigator.share({title:'Resumen '+t.name,text}).catch(()=>{})}else{copyToClipboard(text);alert('Resumen copiado. Pégalo en WhatsApp.')}}
+function exportBackup(){const data=JSON.stringify(state,null,2);const blob=new Blob([data],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='solar-de-cuchi-backup-'+new Date().toISOString().split('T')[0]+'.json';a.click();URL.revokeObjectURL(url)}
+load();
+renderHome();
+</script>
+</body>
+</html>
