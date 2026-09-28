@@ -552,6 +552,24 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+<style>
+.header-brand-logo{
+display:block;
+max-width:340px;
+width:85%;
+height:auto;
+margin:0 auto 12px;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  const header=document.querySelector('#screen-home .header');
+  if(!header)return;
+  const brand=header.querySelector('.brand');
+  if(!brand)return;
+  brand.innerHTML='<img src="logo-multi-tienda.jpg" alt="Multi Tienda Moda" class="header-brand-logo">';
+});
+</script>
 </body>
 </html>
 
