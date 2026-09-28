@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual - Crear tu primera App</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F8FAFC;color:#1E293B;line-height:1.65;padding:20px}
+.page{max-width:840px;margin:0 auto;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.08)}
+.print-btn{position:fixed;top:20px;right:20px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;padding:14px 22px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 8px 24px rgba(16,185,129,.4);font-family:inherit;text-transform:uppercase;letter-spacing:.05em;z-index:100}
+.cover{background:linear-gradient(135deg,#0A1628,#0A2C6E);color:#fff;padding:70px 40px;text-align:center;position:relative;overflow:hidden}
+.cover::before{content:"";position:absolute;top:-50%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,212,255,.3),transparent 70%);border-radius:50%}
+.cover::after{content:"";position:absolute;bottom:-30%;left:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(251,191,36,.2),transparent 70%);border-radius:50%}
+.cover h1{font-family:'Anton',sans-serif;font-size:54px;letter-spacing:.02em;margin-bottom:12px;position:relative;z-index:1;text-transform:uppercase}
+.cover .subtitle{font-size:18px;color:#BAE6FD;margin-bottom:30px;position:relative;z-index:1}
+.cover .line{width:100px;height:5px;background:linear-gradient(90deg,#10B981,#FBBF24,#EF4444,#3B82F6);margin:0 auto 30px;border-radius:3px;position:relative;z-index:1}
+.cover .meta{font-size:13px;color:#94A3B8;position:relative;z-index:1;letter-spacing:.1em;text-transform:uppercase}
+.section{padding:40px 40px}
+h2{font-family:'Anton',sans-serif;font-size:32px;color:#0A2C6E;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px;padding-bottom:10px;border-bottom:4px solid #10B981}
+h3{font-size:20px;color:#0A2C6E;font-weight:800;margin:28px 0 12px}
+h4{font-size:16px;color:#059669;font-weight:800;margin:20px 0 8px}
+p{margin-bottom:12px;color:#334155}
+ul,ol{margin:10px 0 16px 24px;color:#334155}
+li{margin-bottom:6px}
+.toc{background:#F1F5F9;border-radius:16px;padding:24px 28px;margin-bottom:20px}
+.toc h3{margin-top:0}
+.toc ol{margin-bottom:0}
+.toc a{color:#0A2C6E;text-decoration:none;font-weight:600}
+.toc a:hover{color:#10B981}
+.tip{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(16,185,129,.02));border-left:5px solid #10B981;border-radius:8px;padding:16px 20px;margin:16px 0}
+.tip::before{content:"💡 TIP: ";font-weight:800;color:#059669;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.warn{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(239,68,68,.02));border-left:5px solid #EF4444;border-radius:8px;padding:16px 20px;margin:16px 0}
+.warn::before{content:"⚠️ IMPORTANTE: ";font-weight:800;color:#DC2626;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.note{background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(0,212,255,.02));border-left:5px solid #00D4FF;border-radius:8px;padding:16px 20px;margin:16px 0}
+.note::before{content:"📝 NOTA: ";font-weight:800;color:#0891B2;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.phase{background:linear-gradient(135deg,#0A2C6E,#0A4FBC);color:#fff;padding:16px 24px;border-radius:12px;margin:30px 0 16px;font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+th{background:#0A2C6E;color:#fff;padding:12px 14px;text-align:left;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.03em}
+td{padding:10px 14px;border-bottom:1px solid #E2E8F0;color:#334155}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#F8FAFC}
+.step{background:#fff;border:2px solid #E2E8F0;border-radius:12px;padding:14px 18px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+.step-num{background:linear-gradient(135deg,#10B981,#059669);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;font-size:14px}
+.step-text{flex:1;padding-top:4px;color:#334155}
+.step-text strong{color:#0A2C6E}
+.code{background:#0F172A;color:#E2E8F0;padding:12px 16px;border-radius:8px;font-family:monospace;font-size:13px;overflow-x:auto;margin:8px 0}
+.cover .footer-cover{position:relative;z-index:1;margin-top:40px;font-size:12px;color:#64748B;letter-spacing:.15em;text-transform:uppercase}
+@media print{
+.print-btn{display:none}
+body{background:#fff;padding:0}
+.page{box-shadow:none;border-radius:0;max-width:100%}
+.cover{border-radius:0}
+.section{page-break-inside:avoid}
+.phase{page-break-after:avoid}
+}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">🖨️ Guardar PDF</button>
+<div class="page">
+<div class="cover">
+<div class="line"></div>
+<h1>Manual de Creación<br>de Aplicaciones</h1>
+<p class="subtitle">Guía paso a paso desde cero, basada en el proyecto "Solar de Cuchi"</p>
+<div class="line"></div>
+<p class="meta">Edición 2026 · Nivel Principiante</p>
+<div class="footer-cover">Hecho a mano · Con cariño · Para creadores</div>
+</div>
+<div class="section">
+  <div class="toc">
+<h3>📑 Contenido del Manual</h3>
+<ol>
+<li><a href="#glosario">Glosario de términos</a></li>
+<li><a href="#fase1">Fase 1: Definir la idea</a></li>
+<li><a href="#fase2">Fase 2: Crear el código</a></li>
+<li><a href="#fase3">Fase 3: Publicar en internet</a></li>
+<li><a href="#fase4">Fase 4: Instalar en el teléfono</a></li>
+<li><a href="#fase5">Fase 5: Editar y mejorar</a></li>
+<li><a href="#fase6">Fase 6: Generar imágenes para WhatsApp</a></li>
+<li><a href="#fase7">Fase 7: Respaldo y seguridad</a></li>
+<li><a href="#herramientas">Herramientas recomendadas</a></li>
+<li><a href="#consejos">Consejos finales</a></li>
+</ol>
+</div>
+
+<h2 id="glosario">📖 Glosario de Términos</h2>
+<p>Los términos que usamos durante el proceso, explicados de la manera más simple posible.</p>
+
+<h3>Tecnologías base</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>HTML</strong></td><td>Lenguaje que define la estructura de la app (títulos, botones, campos)</td></tr>
+<tr><td><strong>CSS</strong></td><td>Lenguaje que define los estilos (colores, tamaños, formas, sombras)</td></tr>
+<tr><td><strong>JavaScript</strong></td><td>Lenguaje que define el comportamiento (qué pasa al tocar un botón)</td></tr>
+<tr><td><strong>DOM</strong></td><td>El árbol de elementos HTML que el navegador construye</td></tr>
+</table>
+
+<h3>Herramientas que usamos</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>Chrome</strong></td><td>El navegador de Google donde corre la app</td></tr>
+<tr><td><strong>CodePen</strong></td><td>Editor online para probar código (borra al cerrar)</td></tr>
+<tr><td><strong>GitHub</strong></td><td>Plataforma para guardar código en la nube</td></tr>
+<tr><td><strong>Repositorio</strong></td><td>Carpeta del proyecto dentro de GitHub</td></tr>
+<tr><td><strong>Commit</strong></td><td>Acción de "guardar cambios" en GitHub</td></tr>
+<tr><td><strong>GitHub Pages</strong></td><td>Servicio gratis que publica tu app en internet</td></tr>
+</table>
+
+<h3>Conceptos de apps</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>App</strong></td><td>Programa que se ejecuta en un dispositivo</td></tr>
+<tr><td><strong>Web App</strong></td><td>App que corre dentro del navegador</td></tr>
+<tr><td><strong>PWA</strong></td><td>Web App instalable en el teléfono como app real</td></tr>
+<tr><td><strong>Frontend</strong></td><td>Todo lo que el usuario ve y toca</td></tr>
+<tr><td><strong>Backend</strong></td><td>Todo lo que corre en un servidor (no se ve)</td></tr>
+<tr><td><strong>Firebase</strong></td><td>Backend de Google, gratis para apps pequeñas</td></tr>
+<tr><td><strong>QR</strong></td><td>Código de cuadritos para acceder rápido a la app</td></tr>
+<tr><td><strong>Responsive</strong></td><td>Que se vea bien en celular, tablet y PC</td></tr>
+</table>
+
+<h3>Almacenamiento y datos</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>localStorage</strong></td><td>Guarda datos en el navegador del teléfono</td></tr>
+<tr><td><strong>Cache</strong></td><td>Copia temporal de archivos para que cargue rápido</td></tr>
+<tr><td><strong>Cookies</strong></td><td>Datos que los sitios web guardan en el navegador</td></tr>
+<tr><td><strong>Respaldo</strong></td><td>Copia de seguridad para no perder datos</td></tr>
+<tr><td><strong>JSON</strong></td><td>Formato de archivo para guardar datos estructurados</td></tr>
+</table>
+
+<h3>Diseño</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>Gradiente</strong></td><td>Degradado de un color a otro</td></tr>
+<tr><td><strong>Glow</strong></td><td>Efecto de brillo alrededor de un elemento</td></tr>
+<tr><td><strong>Blur</strong></td><td>Efecto de desenfoque</td></tr>
+<tr><td><strong>Badge</strong></td><td>Etiqueta pequeña con forma de píldora</td></tr>
+<tr><td><strong>Font</strong></td><td>Tipografía (estilo de letra)</td></tr>
+</table>
+
+<h3>Programación</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>Función</strong></td><td>Bloque de código que hace algo cuando lo llamas</td></tr>
+<tr><td><strong>Variable</strong></td><td>"Caja" donde se guarda un valor</td></tr>
+<tr><td><strong>Evento</strong></td><td>Algo que pasa (clic, tocar, escribir)</td></tr>
+<tr><td><strong>onclick</strong></td><td>"Al hacer clic" — el evento más usado</td></tr>
+<tr><td><strong>Canvas</strong></td><td>Herramienta para dibujar y generar imágenes</td></tr>
+<tr><td><strong>Blob</strong></td><td>Objeto que representa un archivo (imagen, PDF)</td></tr>
+<tr><td><strong>setInterval</strong></td><td>Ejecutar algo cada cierto tiempo (cronómetro)</td></tr>
+</table>
+
+<div class="phase">🚀 FASE 1 — Definir la Idea</div>
+<p>Antes de escribir una sola línea de código, hay que tener claro qué vamos a construir.</p>
+
+<div class="step"><div class="step-num">1</div><div class="step-text"><strong>Definir qué hace la app</strong> en palabras simples (como si se lo contaras a un familiar).</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-text"><strong>Definir quién la va a usar.</strong> ¿Tú solo? ¿Varios? ¿Público en general?</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-text"><strong>Definir las funciones principales.</strong> Hacer una lista de lo que DEBE hacer la app.</div></div>
+<div class="step"><div class="step-num">4</div><div class="step-text"><strong>Definir el nombre y estilo.</strong> ¿Cómo se llamará? ¿Colores serios o llamativos?</div></div>
+
+<div class="tip">Todo esto se puede hacer conversando con una IA. Cuéntale tu idea como si fuera un amigo. Mientras más detalle, mejor.</div>
+
+<div class="phase">💻 FASE 2 — Crear el Código</div>
+<p>Aquí es donde le damos vida a la idea.</p>
+
+<div class="step"><div class="step-num">5</div><div class="step-text">Abrir <strong>CodePen</strong> en el navegador: <code>codepen.io/pen</code></div></div>
+<div class="step"><div class="step-num">6</div><div class="step-text">Pegar el <strong>HTML</strong> en el panel HTML</div></div>
+<div class="step"><div class="step-num">7</div><div class="step-text">Pegar el <strong>CSS</strong> en el panel CSS</div></div>
+<div class="step"><div class="step-num">8</div><div class="step-text">Pegar el <strong>JavaScript</strong> en el panel JS</div></div>
+<div class="step"><div class="step-num">9</div><div class="step-text">Probar la app en el panel <strong>Result</strong></div></div>
+
+<div class="warn">CodePen es solo para probar. Si cierras la pestaña, <strong>se borra todo</strong>. Por eso hay que publicarla en GitHub.</div>
+
+<div class="note">Si el código es muy largo, pegarlo en <strong>varios pedazos</strong> uno debajo del otro. El teléfono corta el pegado cuando es mucho texto.</div>
+<div class="phase">🌐 FASE 3 — Publicar en Internet</div>
+<p>Para que tu app tenga un enlace permanente y no se borre.</p>
+
+<div class="step"><div class="step-num">10</div><div class="step-text">Crear cuenta en <strong>GitHub</strong>: <code>github.com</code></div></div>
+<div class="step"><div class="step-num">11</div><div class="step-text">Crear un <strong>repositorio nuevo</strong> (nombre en minúsculas, sin espacios, con guiones)</div></div>
+<div class="step"><div class="step-num">12</div><div class="step-text">Crear un archivo llamado <code>index.html</code></div></div>
+<div class="step"><div class="step-num">13</div><div class="step-text">Pegar el código completo <strong>por pedazos</strong> para que no se corte</div></div>
+<div class="step"><div class="step-num">14</div><div class="step-text">Hacer <strong>"Commit changes"</strong> (guardar)</div></div>
+<div class="step"><div class="step-num">15</div><div class="step-text">Ir a <strong>Settings → Pages</strong></div></div>
+<div class="step"><div class="step-num">16</div><div class="step-text">Activar <strong>GitHub Pages</strong> desde la rama <code>main</code></div></div>
+<div class="step"><div class="step-num">17</div><div class="step-text">Esperar <strong>1-2 minutos</strong></div></div>
+<div class="step"><div class="step-num">18</div><div class="step-text">Obtener el enlace: <code>tunombre.github.io/nombre-de-la-app</code></div></div>
+
+<div class="tip">El repositorio debe ser <strong>público</strong> (no privado). GitHub Pages gratis solo funciona con repos públicos.</div>
+
+<div class="phase">📱 FASE 4 — Instalar en el Teléfono</div>
+<p>Para que quede como app real, con ícono en la pantalla de inicio.</p>
+
+<div class="step"><div class="step-num">19</div><div class="step-text">Abrir el enlace de la app en <strong>Chrome</strong> del teléfono</div></div>
+<div class="step"><div class="step-num">20</div><div class="step-text">Tocar los <strong>3 puntos</strong> → <strong>"Crear acceso directo"</strong></div></div>
+<div class="step"><div class="step-num">21</div><div class="step-text">Aparece el ícono en la pantalla de inicio</div></div>
+
+<div class="note">Más adelante se puede agregar el archivo <code>manifest.json</code> para que se instale como PWA real (sin barra de Chrome).</div>
+
+<div class="phase">✏️ FASE 5 — Editar y Mejorar</div>
+<p>Una vez publicada, se puede modificar en cualquier momento.</p>
+
+<div class="step"><div class="step-num">22</div><div class="step-text">Abrir GitHub → entrar al archivo <code>index.html</code></div></div>
+<div class="step"><div class="step-num">23</div><div class="step-text">Tocar los 3 puntos (⋯) → <strong>"Edit file..."</strong></div></div>
+<div class="step"><div class="step-num">24</div><div class="step-text">Bajar al final del archivo</div></div>
+<div class="step"><div class="step-num">25</div><div class="step-text">Pegar el nuevo bloque de CSS o JavaScript</div></div>
+<div class="step"><div class="step-num">26</div><div class="step-text">Hacer <strong>"Commit changes"</strong></div></div>
+<div class="step"><div class="step-num">27</div><div class="step-text">Esperar 1-2 min y recargar la app</div></div>
+
+<div class="tip">Los bloques nuevos se pegan <strong>al final del archivo</strong>, justo antes de <code></body></code>. Así sobrescriben los anteriores.</div>
+
+<div class="phase">🖼️ FASE 6 — Generar Imágenes para WhatsApp</div>
+<p>Con la API de Canvas de JavaScript se pueden generar imágenes PNG bonitas.</p>
+
+<div class="step"><div class="step-num">28</div><div class="step-text">Añadir una función JavaScript con <strong>Canvas</strong></div></div>
+<div class="step"><div class="step-num">29</div><div class="step-text">El botón genera un <strong>PNG</strong></div></div>
+<div class="step"><div class="step-num">30</div><div class="step-text">Se comparte por WhatsApp o se descarga</div></div>
+
+<div class="note">El Canvas permite dibujar texto, formas, gradientes y hasta firmas decorativas. Es como pintar con código.</div>
+
+<div class="phase">🛡️ FASE 7 — Respaldo y Seguridad</div>
+<p>Buenas prácticas para no perder datos.</p>
+
+<div class="step"><div class="step-num">31</div><div class="step-text">Botón <strong>"Exportar respaldo"</strong> descarga un archivo <code>.json</code> con los datos</div></div>
+<div class="step"><div class="step-num">32</div><div class="step-text"><strong>No borrar caché ni cookies</strong> de Chrome mientras se usa</div></div>
+<div class="step"><div class="step-num">33</div><div class="step-text">Guardar el respaldo cada cierto tiempo</div></div>
+
+<div class="warn">Si se borran las cookies o datos de Chrome, <strong>se pierden los datos guardados</strong>. El respaldo evita eso.</div>
+
+<h2 id="herramientas">🛠️ Herramientas Recomendadas</h2>
+<table>
+<tr><th>Nivel</th><th>Herramienta</th><th>Para qué sirve</th></tr>
+<tr><td>1</td><td>Adalo, Glide, FlutterFlow</td><td>Apps sin código (prototipos rápidos)</td></tr>
+<tr><td>2</td><td>HTML + CSS + JavaScript</td><td>Apps sencillas y personalizadas</td></tr>
+<tr><td>3</td><td>Vue.js o React</td><td>Apps más complejas y modernas</td></tr>
+<tr><td>4</td><td>Node.js + Firebase</td><td>Apps con usuarios, login y base de datos</td></tr>
+<tr><td>5</td><td>React Native o Flutter</td><td>Apps para las tiendas (Play Store, App Store)</td></tr>
+</table>
+
+<h2 id="consejos">💎 Consejos Finales</h2>
+
+<h4>1. No te apures</h4>
+<p>El error más común es querer hacer apps complejas antes de dominar las simples. Empieza por lo básico.</p>
+
+<h4>2. Practica con proyectos reales</h4>
+<p>Cada app que hagas, aunque sea para un amigo, te enseña algo nuevo. Haz 3 o 4 antes de cobrar por una.</p>
+
+<h4>3. Copia los bloques al final del archivo</h4>
+<p>Cuando edites en GitHub, siempre pega los cambios nuevos al final, antes de <code></body></code>. Es la forma más segura.</p>
+
+<h4>4. Nunca borres la caché mientras usas la app</h4>
+<p>Los datos viven ahí. Si borras caché o cookies sin respaldo, se pierden.</p>
+
+<h4>5. Guarda respaldos periódicamente</h4>
+<p>Una vez al día, o cada vez que hagas un cambio importante. Es tu red de seguridad.</p>
+
+<h4>6. Pide ayuda a la IA</h4>
+<p>No tienes que saberlo todo. Cuéntale tu idea con detalle y ella te ayuda a construirla paso a paso.</p>
+
+<div class="tip" style="margin-top:40px;text-align:center;font-size:16px">
+<strong>Recuerda:</strong> cada gran desarrollador empezó con algo pequeño.<br>
+Lo importante no es la perfección, sino <strong>no rendirse</strong>.
+</div>
+
+</div>
+</div>
+</body>
+  </html>
