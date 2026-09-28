@@ -400,6 +400,158 @@ document.querySelectorAll('.quick-card,.cat-card,.payment-card').forEach(el=>{
   el.addEventListener('touchend',function(){this.style.transform=''},{passive:true});
 });
 </script>
+  <div id="screen-gallery" class="screen">
+<div class="back-bar">
+<button class="back-btn" onclick="showScreen('screen-home')">←</button>
+<span class="back-title">Galería</span>
+</div>
+<div class="section">
+<p style="font-size:13px;color:#6B7280;margin-bottom:16px;font-weight:500">Conoce nuestro local y algunos de nuestros productos destacados.</p>
+<div class="gallery-grid">
+<div class="gallery-item" style="background:linear-gradient(135deg,#E63946,#C1272D)"><span>🏬</span><small>Fachada</small></div>
+<div class="gallery-item" style="background:linear-gradient(135deg,#2EC4B6,#1FA89B)"><span>👗</span><small>Dama</small></div>
+<div class="gallery-item" style="background:linear-gradient(135deg,#E63946,#C1272D)"><span>👔</span><small>Caballero</small></div>
+<div class="gallery-item" style="background:linear-gradient(135deg,#2EC4B6,#1FA89B)"><span>👟</span><small>Calzado</small></div>
+<div class="gallery-item" style="background:linear-gradient(135deg,#E63946,#C1272D)"><span>🎒</span><small>Accesorios</small></div>
+<div class="gallery-item" style="background:linear-gradient(135deg,#2EC4B6,#1FA89B)"><span>🛒</span><small>Minimarket</small></div>
+</div>
+<button class="btn btn-whatsapp btn-block mt" onclick="openWhatsApp()" style="margin-top:20px">💬 Consultar por WhatsApp</button>
+</div>
+</div>
+
+<div id="screen-news" class="screen">
+<div class="back-bar">
+<button class="back-btn" onclick="showScreen('screen-home')">←</button>
+<span class="back-title">Novedades</span>
+</div>
+<div class="section">
+<p style="font-size:13px;color:#6B7280;margin-bottom:16px;font-weight:500">Lo nuevo que llegó a nuestra tienda.</p>
+<div class="news-card">
+<div class="news-date">📅 Septiembre 2026</div>
+<div class="news-title">Nueva colección de temporada</div>
+<div class="news-text">Llegaron los nuevos modelos de calzado y ropa para esta temporada. ¡Consulta por WhatsApp!</div>
+</div>
+<div class="news-card">
+<div class="news-date">🎒 Temporada escolar</div>
+<div class="news-title">Uniformes y calzado escolar</div>
+<div class="news-text">Todo para el regreso a clases. Descuentos especiales por compras múltiples.</div>
+</div>
+<div class="news-card">
+<div class="news-date">⭐ Exclusivo</div>
+<div class="news-title">Nuevos modelos La Costa</div>
+<div class="news-text">Como distribuidores exclusivos, recibimos primero los nuevos modelos de la marca La Costa.</div>
+</div>
+<button class="btn btn-whatsapp btn-block mt" onclick="openWhatsApp()" style="margin-top:20px">💬 Consultar novedades</button>
+</div>
+</div>
+
+<div id="screen-testimonials" class="screen">
+<div class="back-bar">
+<button class="back-btn" onclick="showScreen('screen-home')">←</button>
+<span class="back-title">Testimonios</span>
+</div>
+<div class="section">
+<p style="font-size:13px;color:#6B7280;margin-bottom:16px;font-weight:500">Lo que dicen nuestros clientes.</p>
+<div class="testimonial-card">
+<div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+<div class="testimonial-text">"Excelente atención y buenos precios. Encontré todo lo que buscaba en un solo lugar."</div>
+<div class="testimonial-author">— María G.</div>
+</div>
+<div class="testimonial-card">
+<div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+<div class="testimonial-text">"Siempre compro aquí la ropa de mis hijos. Buena calidad y los precios son accesibles."</div>
+<div class="testimonial-author">— José R.</div>
+</div>
+<div class="testimonial-card">
+<div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+<div class="testimonial-text">"25 años siendo clientes. Confianza total con la familia de Multi Tienda Moda."</div>
+<div class="testimonial-author">— Carmen P.</div>
+</div>
+<div class="testimonial-card">
+<div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+<div class="testimonial-text">"El minimarket me salva. Siempre encuentro lo que necesito sin ir a otro lado."</div>
+<div class="testimonial-author">— Luis A.</div>
+</div>
+<button class="btn btn-whatsapp btn-block mt" onclick="openWhatsApp()" style="margin-top:20px">💬 Dejar mi opinión</button>
+</div>
+</div>
+
+<div id="screen-faq" class="screen">
+<div class="back-bar">
+<button class="back-btn" onclick="showScreen('screen-home')">←</button>
+<span class="back-title">Preguntas Frecuentes</span>
+</div>
+<div class="section">
+<div class="faq-card">
+<div class="faq-q">🚚 ¿Hacen delivery?</div>
+<div class="faq-a">Sí, hacemos entregas en Coro y zonas cercanas. Consulta por WhatsApp.</div>
+</div>
+<div class="faq-card">
+<div class="faq-q">💳 ¿Aceptan tarjetas?</div>
+<div class="faq-a">Aceptamos efectivo, Pago Móvil, transferencia y punto de venta.</div>
+</div>
+<div class="faq-card">
+<div class="faq-q">🔄 ¿Hacen cambios o devoluciones?</div>
+<div class="faq-a">Sí, dentro de los 7 días con tu factura y el producto en buen estado.</div>
+</div>
+<div class="faq-card">
+<div class="faq-q">📦 ¿Venden al mayor?</div>
+<div class="faq-a">Sí, contamos con precios especiales para compras al mayor. Consulta por WhatsApp.</div>
+</div>
+<div class="faq-card">
+<div class="faq-q">🎁 ¿Tienen promociones?</div>
+<div class="faq-a">Sí, tenemos promociones especiales cada temporada. Síguenos en Instagram para no perdértelas.</div>
+</div>
+<div class="faq-card">
+<div class="faq-q">🕐 ¿Cuál es el horario de atención?</div>
+<div class="faq-a">Lunes a Sábado, de 7:30 AM a 7:00 PM.</div>
+</div>
+<button class="btn btn-whatsapp btn-block mt" onclick="openWhatsApp()" style="margin-top:20px">💬 Tengo otra pregunta</button>
+</div>
+</div>
+  <style>
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.gallery-item{aspect-ratio:1;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;box-shadow:0 8px 20px -10px rgba(0,0,0,.2);cursor:pointer;transition:transform .15s;position:relative;overflow:hidden}
+.gallery-item:active{transform:scale(.97)}
+.gallery-item::after{content:"";position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(255,255,255,.1);border-radius:50%}
+.gallery-item span{font-size:48px;margin-bottom:8px;position:relative;z-index:1;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2))}
+.gallery-item small{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;position:relative;z-index:1;text-shadow:0 2px 4px rgba(0,0,0,.2)}
+.news-card{background:#fff;border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:0 6px 16px -8px rgba(0,0,0,.08);border:1.5px solid #F0EBE3;position:relative;overflow:hidden}
+.news-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#E63946,#2EC4B6)}
+.news-date{font-size:11px;font-weight:700;color:#E63946;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.news-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#2B2D42;margin-bottom:6px;line-height:1.25}
+.news-text{font-size:13px;color:#6B7280;line-height:1.6;font-weight:500}
+.testimonial-card{background:#fff;border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:0 6px 16px -8px rgba(0,0,0,.08);border:1.5px solid #F0EBE3}
+.testimonial-stars{font-size:14px;margin-bottom:8px;letter-spacing:2px}
+.testimonial-text{font-size:14px;color:#4B5563;line-height:1.65;font-weight:500;font-style:italic;margin-bottom:10px;position:relative;padding-left:16px}
+.testimonial-text::before{content:'"';position:absolute;left:0;top:-4px;font-size:32px;color:#E63946;font-family:'Playfair Display',serif;font-weight:900;line-height:1}
+.testimonial-author{font-size:13px;font-weight:700;color:#E63946;text-align:right}
+.faq-card{background:#fff;border-radius:14px;padding:16px 18px;margin-bottom:10px;box-shadow:0 4px 12px -6px rgba(0,0,0,.08);border:1.5px solid #F0EBE3;border-left:5px solid #2EC4B6}
+.faq-q{font-size:14px;font-weight:700;color:#2B2D42;margin-bottom:8px;line-height:1.35}
+.faq-a{font-size:13px;color:#6B7280;line-height:1.65;font-weight:500}
+  </style>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const quickGrid = document.querySelector('.quick-grid');
+  if (quickGrid) {
+    const nuevosAccesos = [
+      { screen: 'screen-gallery', icon: '🖼️', label: 'Galería' },
+      { screen: 'screen-news', icon: '🆕', label: 'Novedades' },
+      { screen: 'screen-testimonials', icon: '💬', label: 'Testimonios' },
+      { screen: 'screen-faq', icon: '❓', label: 'Preguntas' }
+    ];
+    nuevosAccesos.forEach(function(acc) {
+      const card = document.createElement('div');
+      card.className = 'quick-card';
+      card.onclick = function() { showScreen(acc.screen); };
+      card.innerHTML = '<span class="quick-icon">' + acc.icon + '</span><span class="quick-label">' + acc.label + '</span>';
+      quickGrid.appendChild(card);
+    });
+  }
+});
+</script>
+</body>
+</html>
 </body>
 </html>
 
