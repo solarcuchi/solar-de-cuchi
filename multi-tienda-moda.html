@@ -996,6 +996,38 @@ window.addEventListener('load', function() {
   window.addEventListener('load', function(){ setTimeout(crearChip, 1500); });
 })();
 </script>
+<script>
+(function(){
+  var intentos = 0;
+  function intentar() {
+    intentos++;
+    if (document.getElementById('status-chip')) return;
+    if (intentos > 20) return;
+    
+    var home = document.getElementById('screen-home');
+    if (!home) { setTimeout(intentar, 500); return; }
+    
+    var anchor = home.querySelector('.search-wrap') || home.querySelector('.btn-whatsapp');
+    if (!anchor) { setTimeout(intentar, 500); return; }
+    
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'text-align:center;padding:14px 20px 0;';
+    
+    var chip = document.createElement('span');
+    chip.id = 'status-chip';
+    chip.style.cssText = 'display:inline-block;background:#10B981;color:#fff;padding:10px 22px;border-radius:20px;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.05em;box-shadow:0 6px 18px -6px rgba(16,185,129,.6);';
+    chip.textContent = '● Abierto ahora';
+    
+    wrap.appendChild(chip);
+    anchor.parentNode.insertBefore(wrap, anchor.nextSibling);
+  }
+  if (document.readyState === 'complete') {
+    setTimeout(intentar, 1000);
+  } else {
+    window.addEventListener('load', function(){ setTimeout(intentar, 1000); });
+  }
+})();
+</script>
 </body>
 </html>
 
