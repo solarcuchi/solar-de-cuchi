@@ -948,6 +948,54 @@ window.addEventListener('load', function() {
   window.addEventListener('load', function(){ setTimeout(aplicar, 500); });
 })();
                  </script>
+<script>
+(function(){
+  var intentos = 0;
+  var MAX = 40;
+
+  function crearChip() {
+    intentos++;
+    if (document.getElementById('status-chip')) return;
+    if (intentos > MAX) return;
+
+    var searchWrap = document.querySelector('.search-wrap');
+    if (!searchWrap) {
+      setTimeout(crearChip, 500);
+      return;
+    }
+
+    var wrap = document.createElement('div');
+    wrap.style.textAlign = 'center';
+    wrap.style.margin = '16px 20px 8px';
+
+    var chip = document.createElement('span');
+    chip.id = 'status-chip';
+
+    var now = new Date();
+    var day = now.getDay();
+    var totalMin = now.getHours() * 60 + now.getMinutes();
+    var isOpen = day >= 1 && day <= 6 && totalMin >= 450 && totalMin < 1140;
+
+    if (isOpen) {
+      chip.style.cssText = 'display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:13px;font-weight:800;padding:10px 20px;border-radius:20px;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,#10B981,#059669);box-shadow:0 6px 18px -6px rgba(16,185,129,.6);';
+      chip.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:#fff;display:inline-block;box-shadow:0 0 8px #fff;"></span>Abierto ahora';
+    } else {
+      chip.style.cssText = 'display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:13px;font-weight:800;padding:10px 20px;border-radius:20px;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);box-shadow:0 6px 18px -6px rgba(239,68,68,.6);';
+      chip.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:#fff;display:inline-block;"></span>Cerrado ahora';
+    }
+
+    wrap.appendChild(chip);
+    searchWrap.parentNode.insertBefore(wrap, searchWrap.nextSibling);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(crearChip, 800); });
+  } else {
+    setTimeout(crearChip, 800);
+  }
+  window.addEventListener('load', function(){ setTimeout(crearChip, 1500); });
+})();
+</script>
 </body>
 </html>
 
