@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía Comercial - Paquete de Visibilidad</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F8FAFC;color:#1E293B;line-height:1.65;padding:20px}
+.page{max-width:840px;margin:0 auto;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.08)}
+.print-btn{position:fixed;top:20px;right:20px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;padding:14px 22px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 8px 24px rgba(16,185,129,.4);font-family:inherit;text-transform:uppercase;letter-spacing:.05em;z-index:100}
+.cover{background:linear-gradient(135deg,#0A1628,#0A2C6E);color:#fff;padding:70px 40px;text-align:center;position:relative;overflow:hidden}
+.cover::before{content:"";position:absolute;top:-50%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,212,255,.3),transparent 70%);border-radius:50%}
+.cover::after{content:"";position:absolute;bottom:-30%;left:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(251,191,36,.2),transparent 70%);border-radius:50%}
+.cover h1{font-family:'Anton',sans-serif;font-size:50px;letter-spacing:.02em;margin-bottom:12px;position:relative;z-index:1;text-transform:uppercase;line-height:1.05}
+.cover .subtitle{font-size:18px;color:#BAE6FD;margin-bottom:30px;position:relative;z-index:1}
+.cover .line{width:100px;height:5px;background:linear-gradient(90deg,#10B981,#FBBF24,#EF4444,#3B82F6);margin:0 auto 30px;border-radius:3px;position:relative;z-index:1}
+.cover .meta{font-size:13px;color:#94A3B8;position:relative;z-index:1;letter-spacing:.1em;text-transform:uppercase}
+.section{padding:40px 40px}
+h2{font-family:'Anton',sans-serif;font-size:32px;color:#0A2C6E;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px;padding-bottom:10px;border-bottom:4px solid #10B981}
+h3{font-size:20px;color:#0A2C6E;font-weight:800;margin:28px 0 12px}
+h4{font-size:16px;color:#059669;font-weight:800;margin:20px 0 8px}
+p{margin-bottom:12px;color:#334155}
+ul,ol{margin:10px 0 16px 24px;color:#334155}
+li{margin-bottom:6px}
+.toc{background:#F1F5F9;border-radius:16px;padding:24px 28px;margin-bottom:20px}
+.toc h3{margin-top:0}
+.toc ol{margin-bottom:0}
+.toc a{color:#0A2C6E;text-decoration:none;font-weight:600}
+.tip{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(16,185,129,.02));border-left:5px solid #10B981;border-radius:8px;padding:16px 20px;margin:16px 0}
+.tip::before{content:"💡 TIP: ";font-weight:800;color:#059669;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.warn{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(239,68,68,.02));border-left:5px solid #EF4444;border-radius:8px;padding:16px 20px;margin:16px 0}
+.warn::before{content:"⚠️ IMPORTANTE: ";font-weight:800;color:#DC2626;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.note{background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(0,212,255,.02));border-left:5px solid #00D4FF;border-radius:8px;padding:16px 20px;margin:16px 0}
+.note::before{content:"📝 NOTA: ";font-weight:800;color:#0891B2;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.script{background:linear-gradient(135deg,#0A2C6E,#0A4FBC);color:#fff;padding:20px 24px;border-radius:12px;margin:16px 0;font-size:15px;line-height:1.6;border-left:5px solid #FBBF24}
+.script::before{content:"💬 DICES TÚ: ";font-weight:800;color:#FBBF24;font-size:12px;letter-spacing:.08em;display:block;margin-bottom:8px}
+.phase{background:linear-gradient(135deg,#0A2C6E,#0A4FBC);color:#fff;padding:16px 24px;border-radius:12px;margin:30px 0 16px;font-family:'Anton',sans-serif;font-size:22px;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+th{background:#0A2C6E;color:#fff;padding:12px 14px;text-align:left;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.03em}
+td{padding:10px 14px;border-bottom:1px solid #E2E8F0;color:#334155}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#F8FAFC}
+.package{border:2px solid #E2E8F0;border-radius:16px;padding:22px;margin:16px 0;position:relative;overflow:hidden}
+.package.basic{border-color:#94A3B8}
+.package.inter{border-color:#10B981;background:linear-gradient(180deg,rgba(16,185,129,.03),transparent)}
+.package.premium{border-color:#FBBF24;background:linear-gradient(180deg,rgba(251,191,36,.05),transparent)}
+.package-badge{display:inline-block;font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.package-basic .package-badge{background:#94A3B8;color:#fff}
+.package-inter .package-badge{background:#10B981;color:#fff}
+.package-premium .package-badge{background:#FBBF24;color:#1A1205}
+.package h3{margin-top:0;font-family:'Anton',sans-serif;font-weight:400;font-size:26px;letter-spacing:.02em}
+.package-price{font-size:28px;font-weight:900;color:#0A2C6E;font-family:'Anton',sans-serif;margin:10px 0 6px;letter-spacing:.02em}
+.package-price small{font-size:14px;color:#64748B;font-weight:600;font-family:'Inter',sans-serif}
+.objection{background:#F8FAFC;border-left:5px solid #EF4444;border-radius:8px;padding:16px 20px;margin:12px 0}
+.objection-q{font-weight:800;color:#DC2626;margin-bottom:8px;font-size:15px}
+.objection-a{color:#334155;font-size:14px;line-height:1.6}
+.objection-a::before{content:"→ Respuesta: ";color:#059669;font-weight:800}
+.cover .footer-cover{position:relative;z-index:1;margin-top:40px;font-size:12px;color:#64748B;letter-spacing:.15em;text-transform:uppercase}
+@media print{.print-btn{display:none}body{background:#fff;padding:0}.page{box-shadow:none;border-radius:0;max-width:100%}.section{page-break-inside:avoid}.package{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">🖨️ Guardar PDF</button>
+<div class="page">
+<div class="cover">
+<div class="line"></div>
+<h1>Guía Comercial<br>Paquete de Visibilidad</h1>
+<p class="subtitle">Todo lo que necesitas para vender apps a comercios locales</p>
+<div class="line"></div>
+<p class="meta">Edición 2026 · Documento Interno</p>
+<div class="footer-cover">Manual para el vendedor · Uso personal</div>
+</div>
+<div class="section">
+  <div class="toc">
+<h3>📑 Contenido de la Guía</h3>
+<ol>
+<li><a href="#intro">Qué ofrezco</a></li>
+<li><a href="#cliente">A quién le vendo</a></li>
+<li><a href="#paquetes">Los paquetes y precios</a></li>
+<li><a href="#guion">Guion de venta</a></li>
+<li><a href="#objeciones">Manejo de objeciones</a></li>
+<li><a href="#necesito">Qué necesito del cliente</a></li>
+<li><a href="#entrega">Cómo entrego el producto</a></li>
+<li><a href="#mantenimiento">Mantenimiento mensual</a></li>
+<li><a href="#limites">Qué NO puedo prometer aún</a></li>
+<li><a href="#camino">Mi camino de aprendizaje</a></li>
+</ol>
+</div>
+
+<h2 id="intro">1. Qué Ofrezco</h2>
+<p>Soy creador de <strong>apps personalizadas para comercios locales</strong>. Mi propuesta es darle a pequeños y medianos negocios las herramientas digitales que antes solo tenían las grandes cadenas, a un precio accesible.</p>
+
+<h3>Lo que le doy al cliente</h3>
+<ul>
+<li><strong>App personalizada</strong> con su logo, sus colores y su nombre</li>
+<li><strong>Ícono propio</strong> en la pantalla del teléfono de sus clientes</li>
+<li><strong>Catálogo de productos</strong> o servicios con fotos</li>
+<li><strong>Contacto directo por WhatsApp</strong> desde la app</li>
+<li><strong>Ubicación con Google Maps</strong> integrado</li>
+<li><strong>Funciona sin internet</strong> después de cargarla una vez</li>
+<li><strong>Mantenimiento mensual</strong> para actualizarla</li>
+</ul>
+
+<h3>Lo que le doy como BONO</h3>
+<ul>
+<li><strong>Diseño de logo</strong> (si no tiene uno)</li>
+<li><strong>Videos con IA</strong> para sus redes sociales</li>
+<li><strong>Publicidad en mis redes</strong> (Facebook, Instagram, WhatsApp)</li>
+<li><strong>Gestión de redes sociales</strong></li>
+<li><strong>Rotativas de radio</strong> (con mi voz profesional)</li>
+</ul>
+
+<div class="tip">El paquete completo es lo que hace irresistible la oferta. No vendes solo una app: vendes <strong>visibilidad total</strong>.</div>
+
+<h2 id="cliente">2. A Quién Le Vendo</h2>
+<p>Mi cliente ideal son comercios locales que:</p>
+<ul>
+<li>Ya tienen clientes fieles pero <strong>poca presencia digital</strong></li>
+<li>Venden productos o servicios de forma <strong>recurrente</strong></li>
+<li>Están en una <strong>zona geográfica accesible</strong></li>
+<li>Tienen <strong>capacidad de inversión</strong> ($100-500)</li>
+<li>Están <strong>abiertos a innovar</strong></li>
+</ul>
+
+<h3>Tipos de cliente por rubro</h3>
+<table>
+<tr><th>Tipo de negocio</th><th>Prioridad</th><th>Complejidad</th></tr>
+<tr><td>Tiendas de ropa, calzado</td><td>Alta</td><td>Baja ✅</td></tr>
+<tr><td>Panaderías, cafeterías</td><td>Alta</td><td>Baja ✅</td></tr>
+<tr><td>Restaurantes, food trucks</td><td>Alta</td><td>Media</td></tr>
+<tr><td>Ferreterías, repuestos</td><td>Media</td><td>Baja ✅</td></tr>
+<tr><td>Farmacias, abastos</td><td>Media</td><td>Media</td></tr>
+<tr><td>Barberías, peluquerías</td><td>Alta</td><td>Baja ✅</td></tr>
+<tr><td>Doctores, odontólogos</td><td>Alta</td><td>Media</td></tr>
+<tr><td>Inmobiliarias</td><td>Alta</td><td>Media</td></tr>
+</table>
+
+<div class="note">Empieza con los rubros de <strong>complejidad baja</strong>. Son más fáciles de vender, más rápidos de hacer, y te dan experiencia real.</div>
+
+<h2 id="paquetes">3. Los Paquetes y Precios</h2>
+<p>Tres niveles para adaptarme a cualquier presupuesto. <strong>Recomiendo empezar vendiendo el Intermedio.</strong></p>
+
+<div class="package basic">
+<span class="package-badge">🥉 Básico</span>
+<h3>Presencia Digital</h3>
+<div class="package-price">$80 - $150 <small>pago único</small></div>
+<p style="font-size:14px;color:#64748B;margin-bottom:12px">+ $20-30/mes mantenimiento</p>
+
+<h4>Incluye:</h4>
+<ul>
+<li>App personalizada con logo y colores</li>
+<li>Ícono en el teléfono del cliente</li>
+<li>Catálogo básico</li>
+<li>Botón de WhatsApp</li>
+<li>Ubicación con mapa</li>
+<li>2 videos IA al mes</li>
+<li>Publicación en 1 red social</li>
+</ul>
+
+<h4>Ideal para:</h4>
+<p>Comercios pequeños que están empezando a digitalizarse.</p>
+</div>
+
+<div class="package inter">
+<span class="package-badge">🥈 Intermedio ⭐</span>
+<h3>Visibilidad Total</h3>
+<div class="package-price">$200 - $400 <small>pago único</small></div>
+<p style="font-size:14px;color:#64748B;margin-bottom:12px">+ $50-80/mes mantenimiento</p>
+
+<h4>Incluye:</h4>
+<ul>
+<li><strong>Todo lo del Básico</strong></li>
+<li>Catálogo completo actualizable</li>
+<li><strong>4 videos IA al mes</strong> con avatar del dueño</li>
+<li>Publicación en <strong>3 redes sociales</strong></li>
+<li>Gestión de WhatsApp Business</li>
+<li>Reporte mensual de alcance</li>
+<li>Actualización de promociones</li>
+</ul>
+
+<h4>Ideal para:</h4>
+<p>Comercios que ya tienen clientes y quieren crecer. <strong>Este es el que más recomiendo vender.</strong></p>
+</div>
+
+<div class="package premium">
+<span class="package-badge">🥇 Premium</span>
+<h3>Marca Completa</h3>
+<div class="package-price">$500 - $900 <small>pago único</small></div>
+<p style="font-size:14px;color:#64748B;margin-bottom:12px">+ $100-150/mes mantenimiento</p>
+
+<h4>Incluye:</h4>
+<ul>
+<li><strong>Todo lo del Intermedio</strong></li>
+<li><strong>8 videos IA al mes</strong></li>
+<li>Rotativas de radio con mi voz</li>
+<li>Sesión fotográfica (1 vez)</li>
+<li>Rediseño de logo (si necesita)</li>
+<li>Estrategia de contenido mensual</li>
+<li>2 flyers promocionales al mes</li>
+<li>Prioridad de respuesta</li>
+</ul>
+
+<h4>Ideal para:</h4>
+<p>Comercios grandes o clientes que quieren destacar fuerte en su zona.</p>
+</div>
+
+<h3>Servicios sueltos (para clientes puntuales)</h3>
+<table>
+<tr><th>Servicio</th><th>Precio</th></tr>
+<tr><td>Solo la app</td><td>$100 - $200</td></tr>
+<tr><td>4 videos IA</td><td>$40 - $60</td></tr>
+<tr><td>Sesión de fotos</td><td>$80 - $150</td></tr>
+<tr><td>Diseño de logo</td><td>$50 - $100</td></tr>
+<tr><td>Actualización específica</td><td>$10 - $30</td></tr>
+</table>
+
+<h2 id="guion">4. Guion de Venta</h2>
+<p>Este es el guion que uso cuando me siento con un prospecto. <strong>No es para leerlo textual, es para tenerlo interiorizado.</strong></p>
+
+<h3>Paso 1: Entrada y rapport</h3>
+<div class="script">
+"Buenos días/tardes. ¿Cómo está? Mi nombre es [tu nombre], soy creador de apps para comercios locales de Coro. Estoy visitando algunos negocios para mostrarles una herramienta que está ayudando a tiendas como la suya a estar en el teléfono de sus clientes. ¿Tiene 5 minutos para mostrarle algo?"
+</div>
+
+<h3>Paso 2: Presentación del problema</h3>
+<div class="script">
+"Mire, hoy en día la mayoría de los clientes buscan todo por el teléfono. Las grandes cadenas como Traki, Beco o Central Madeirense ya tienen su app. Pero los comercios locales no. Y no es porque no puedan, sino porque nadie se los ha ofrecido a un precio accesible. Ahí es donde yo entro."
+</div>
+
+<h3>Paso 3: Mostrar la app demo</h3>
+<p>Aquí sacas tu teléfono y le muestras la app de Multi Tienda Moda.</p>
+<div class="script">
+"Fíjese esto: esta es una app que hice para una tienda de ropa. Tiene su logo, sus colores, su catálogo, botón de WhatsApp directo, ubicación con Google Maps. Sus clientes la instalan con un QR y la tienen en el teléfono como cualquier app grande. ¿Se imagina tener esto con el nombre de su negocio?"
+</div>
+
+<h3>Paso 4: Beneficios (no características)</h3>
+<div class="script">
+"¿Qué gana usted con esto?<br><br>
+<b>Primero</b>, imagen profesional. Ya no es 'la tiendita', es 'la tienda que tiene su app'.<br>
+<b>Segundo</b>, sus clientes lo contactan directo, sin intermediarios.<br>
+<b>Tercero</b>, diferencia de su competencia. Ningún vecino tiene esto.<br>
+<b>Cuarto</b>, promociones que llegan al instante a sus clientes.<br>
+<b>Y quinto</b>, todo esto incluido en un paquete que también incluye videos con IA para sus redes y publicidad en Facebook e Instagram."
+</div>
+
+<h3>Paso 5: Presentar el paquete</h3>
+<div class="script">
+"Yo le ofrezco tres niveles. Le voy a recomendar el <b>Paquete Intermedio</b>, que es el que mejor relación precio-beneficio tiene. Incluye la app completa, 4 videos con IA al mes con su foto (sin que tenga que salir en cámara), publicación en 3 redes sociales, y mantenimiento mensual. Son $[precio] de inversión inicial + $[precio]/mes de mantenimiento."
+</div>
+
+<h3>Paso 6: Cierre</h3>
+<div class="script">
+"¿Qué le parece? ¿Le gustaría que empecemos esta semana? Puedo tener su app lista en 3 días."
+</div>
+
+<div class="tip">Si el cliente duda, no presiones. Dale el flyer físico y ofrécele volver en 2 días. Muchas ventas cierran en la segunda visita.</div>
+<h2 id="objeciones">5. Manejo de Objeciones</h2>
+<p>Las 10 objeciones más comunes y cómo responderlas.</p>
+
+<div class="objection">
+<div class="objection-q">1. "Ya tengo página web"</div>
+<div class="objection-a">Su página web es estática, nadie la visita. La app va al teléfono de sus clientes con su ícono. Es como comparar un letrero con una tarjeta personal. Son cosas complementarias.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">2. "Es muy caro"</div>
+<div class="objection-a">Entiendo. Pero piénselo así: si con la app recupera 2 clientes al mes, ya se pagó sola. Y no son gastos, son inversión. Además, tengo un plan básico desde $80.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">3. "No tengo tiempo para manejar eso"</div>
+<div class="objection-a">No tiene que manejar nada. Yo me encargo del mantenimiento mensual. Usted solo me dice qué productos nuevos quiere mostrar y yo lo actualizo.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">4. "Ya tengo sistema administrativo"</div>
+<div class="objection-a">Excelente, eso es para uso interno: facturación, contabilidad. La app es diferente: es la cara pública de su negocio para que los clientes lo encuentren. Trabajan juntas, no se reemplazan.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">5. "Nadie va a usar una app de mi tienda"</div>
+<div class="objection-a">No esperamos que todos la usen. Con que un 20% de sus clientes fieles la tengan, ya genera retorno. Y cada QR que se pega en el mostrador es una oportunidad de captar uno nuevo.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">6. "Déjame pensarlo"</div>
+<div class="objection-a">Claro, es una decisión importante. Le dejo este folleto con toda la información. ¿Le parece si paso el viernes para saber qué decidió? Mientras tanto, si le surgen dudas, me escribe por WhatsApp.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">7. "¿Y si no me gusta?"</div>
+<div class="objection-a">Le muestro una versión previa antes de publicar. Puede pedir cambios las veces que quiera hasta que quede perfecta. Y si no le gusta, no hay problema, no hay compromiso.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">8. "Mi negocio es muy pequeño"</div>
+<div class="objection-a">Precisamente por eso. Los pequeños necesitan diferenciarse. Una app puede ser esa diferencia que hace que un cliente elija su tienda y no la del vecino.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">9. "Mi cliente no usa tecnología"</div>
+<div class="objection-a">Hoy en día hasta las abuelas usan WhatsApp. Y si su cliente usa WhatsApp, sabe escanear un QR. Es más fácil de lo que parece.</div>
+</div>
+
+<div class="objection">
+<div class="objection-q">10. "Necesito consultarlo con mi socio"</div>
+<div class="objection-a">Perfecto, es lo responsable. Le dejo este folleto para que lo revisen juntos. ¿Cuándo puedo llamarlo para saber qué decidieron?</div>
+</div>
+
+<div class="tip">La regla de oro de las ventas: <strong>la primera visita casi nunca cierra</strong>. Se necesitan entre 2 y 4 contactos. Sé paciente, no presiones, da valor siempre.</div>
+
+<h2 id="necesito">6. Qué Necesito del Cliente</h2>
+<p>Antes de crear la app, debo solicitarle al cliente lo siguiente:</p>
+
+<h3>Información básica</h3>
+<ul>
+<li>Nombre del negocio (o nombre del equipo/pareja)</li>
+<li>Slogan o frase corta</li>
+<li>Descripción en 2-3 líneas</li>
+<li>Ubicación exacta</li>
+<li>Horarios de atención</li>
+<li>Número de WhatsApp</li>
+<li>Redes sociales (Instagram, Facebook, etc.)</li>
+<li>Formas de pago aceptadas</li>
+</ul>
+
+<h3>Información visual</h3>
+<ul>
+<li>Logo (si tiene) — en PNG con fondo transparente</li>
+<li>Colores de la marca</li>
+<li>Fotos de productos (10-20 mínimo)</li>
+<li>Fotos del local (2-3)</li>
+</ul>
+
+<h3>Contenido</h3>
+<ul>
+<li>Categorías de productos o servicios</li>
+<li>Descripción de cada categoría</li>
+<li>Promociones actuales</li>
+</ul>
+
+<div class="warn">Sin el logo, los colores y las fotos, la app no puede verse profesional. <strong>No aceptes avanzar sin esto.</strong></div>
+
+<h2 id="entrega">7. Cómo Entrego el Producto</h2>
+
+<h3>Proceso paso a paso</h3>
+<ol>
+<li><strong>Reunión inicial:</strong> charla con el cliente, tomar notas, definir paquete</li>
+<li><strong>Firma de acuerdo:</strong> documento simple con lo que se entrega y lo que paga</li>
+<li><strong>Adelanto del 50%:</strong> como seña para empezar</li>
+<li><strong>Creación de la app:</strong> 3-5 días hábiles</li>
+<li><strong>Primera revisión:</strong> mostrar al cliente, ajustar</li>
+<li><strong>Publicación:</strong> subir a GitHub Pages, generar QR</li>
+<li><strong>Segunda revisión:</strong> aprobación final del cliente</li>
+<li><strong>Pago del 50% restante</strong></li>
+<li><strong>Entrega final:</strong> QR impreso, capacitación de uso, link de la app</li>
+<li><strong>Inicio de mantenimiento:</strong> primer mes activo</li>
+</ol>
+
+<h3>Qué se entrega en mano</h3>
+<ul>
+<li>QR impreso para pegar en el negocio</li>
+<li>Flyer con la URL de la app</li>
+<li>Guía rápida de uso (cómo compartir la app con sus clientes)</li>
+<li>Número de contacto para consultas</li>
+</ul>
+
+<h2 id="mantenimiento">8. Mantenimiento Mensual</h2>
+<p>El mantenimiento es lo que asegura <strong>ingreso recurrente</strong>. Es la parte más importante del negocio a largo plazo.</p>
+
+<h3>Qué incluye el mantenimiento mensual</h3>
+<ul>
+<li>Actualización de productos cada vez que el cliente lo solicite</li>
+<li>Cambio de promociones cada vez que el cliente lo solicite</li>
+<li>Corrección de errores</li>
+<li>Mejoras de diseño menores</li>
+<li>Respaldo de la información</li>
+<li>Atención al cliente (WhatsApp)</li>
+</ul>
+
+<h3>Precios sugeridos de mantenimiento</h3>
+<table>
+<tr><th>Paquete</th><th>Mantenimiento mensual</th></tr>
+<tr><td>Básico</td><td>$20 - $30/mes</td></tr>
+<tr><td>Intermedio</td><td>$50 - $80/mes</td></tr>
+<tr><td>Premium</td><td>$100 - $150/mes</td></tr>
+</table>
+
+<div class="tip">Con 10 clientes en el plan intermedio, tendrías <strong>$500-800/mes solo del mantenimiento</strong>. Ese es el ingreso real del negocio.</div>
+
+<h2 id="limites">9. Qué NO Puedo Prometer Aún</h2>
+<p>Ser honesto sobre las limitaciones genera confianza. Estos son los servicios que aún no puedo ofrecer (requieren aprendizaje adicional).</p>
+
+<h3>❌ NO puedo prometer todavía:</h3>
+<ul>
+<li>Login de usuarios y sistema de cuentas</li>
+<li>Panel de administración (que el dueño suba productos por sí solo)</li>
+<li>Carrito de compras con pagos en línea</li>
+<li>Notificaciones push</li>
+<li>Estadísticas de uso de la app</li>
+<li>Sistema de reservas online</li>
+<li>Inventario en tiempo real</li>
+</ul>
+
+<h3>✅ SÍ puedo prometer hoy:</h3>
+<ul>
+<li>App instalable con ícono propio</li>
+<li>Catálogo visual completo</li>
+<li>Contacto directo por WhatsApp</li>
+<li>Ubicación con Google Maps</li>
+<li>Funciona sin internet</li>
+<li>Diseño personalizado con su marca</li>
+<li>Actualizaciones incluidas en el mantenimiento</li>
+</ul>
+
+<div class="note">Para los comercios pequeños, <strong>lo que sí puedo ofrecer es más que suficiente</strong>. Ellos no necesitan login, carrito, ni paneles. Necesitan estar en el teléfono de sus clientes. Y eso es lo que les doy.</div>
+
+<h2 id="camino">10. Mi Camino de Aprendizaje</h2>
+<p>Un mapa claro de lo que sigue. <strong>Sin prisa, con estrategia.</strong></p>
+
+<h3>Mes 1 (ahora)</h3>
+<ul>
+<li>Vender 2-3 apps básicas o intermedias</li>
+<li>Practicar más apps para portafolio</li>
+<li>Cerrar los primeros clientes, aunque sea a precio bajo</li>
+<li>Documentar cada caso como estudio de éxito</li>
+</ul>
+
+<h3>Mes 2-3</h3>
+<ul>
+<li>Aprender Firebase (login, base de datos en la nube)</li>
+<li>Practicar con la app de Multi Tienda Moda</li>
+<li>Ofrecer panel de administración básico</li>
+<li>Subir precios: apps desde $300</li>
+</ul>
+
+<h3>Mes 4-6</h3>
+<ul>
+<li>Sistema completo con roles (dueño, empleado, cliente)</li>
+<li>Sistema de reservas o pedidos</li>
+<li>Estadísticas de uso</li>
+<li>Ofrecer paquete Premium con más servicios</li>
+</ul>
+
+<h3>Mes 7-12</h3>
+<ul>
+<li>Pagos en línea (Stripe, PayPal, Zelle)</li>
+<li>Aplicaciones para casos específicos (restaurantes, doctores, etc.)</li>
+<li>Posiblemente app en Play Store</li>
+<li>Escalar a otras ciudades</li>
+</ul>
+
+<div class="tip" style="margin-top:40px;text-align:center;font-size:16px">
+<strong>El camino es largo, pero cada paso cuenta.</strong><br>
+Lo más importante no es saber todo hoy, sino <strong>empezar hoy</strong>.
+</div>
+
+</div>
+</div>
+</body>
+</html>
