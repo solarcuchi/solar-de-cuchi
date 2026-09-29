@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Documento de Contexto - Proyecto de Apps</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F8FAFC;color:#1E293B;line-height:1.65;padding:20px}
+.page{max-width:840px;margin:0 auto;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.08)}
+.print-btn{position:fixed;top:20px;right:20px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;padding:14px 22px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 8px 24px rgba(16,185,129,.4);font-family:inherit;text-transform:uppercase;letter-spacing:.05em;z-index:100}
+.cover{background:linear-gradient(135deg,#0A1628,#0A2C6E);color:#fff;padding:70px 40px;text-align:center;position:relative;overflow:hidden}
+.cover::before{content:"";position:absolute;top:-50%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,212,255,.3),transparent 70%);border-radius:50%}
+.cover::after{content:"";position:absolute;bottom:-30%;left:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(251,191,36,.2),transparent 70%);border-radius:50%}
+.cover h1{font-family:'Anton',sans-serif;font-size:52px;letter-spacing:.02em;margin-bottom:12px;position:relative;z-index:1;text-transform:uppercase;line-height:1.05}
+.cover .subtitle{font-size:18px;color:#BAE6FD;margin-bottom:30px;position:relative;z-index:1}
+.cover .line{width:100px;height:5px;background:linear-gradient(90deg,#10B981,#FBBF24,#EF4444,#3B82F6);margin:0 auto 30px;border-radius:3px;position:relative;z-index:1}
+.cover .meta{font-size:13px;color:#94A3B8;position:relative;z-index:1;letter-spacing:.1em;text-transform:uppercase}
+.section{padding:40px 40px}
+h2{font-family:'Anton',sans-serif;font-size:30px;color:#0A2C6E;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px;padding-bottom:10px;border-bottom:4px solid #10B981;margin-top:20px}
+h3{font-size:19px;color:#0A2C6E;font-weight:800;margin:26px 0 10px}
+h4{font-size:15px;color:#059669;font-weight:800;margin:18px 0 8px}
+p{margin-bottom:12px;color:#334155}
+ul,ol{margin:10px 0 16px 24px;color:#334155}
+li{margin-bottom:6px}
+.toc{background:#F1F5F9;border-radius:16px;padding:24px 28px;margin-bottom:20px}
+.toc h3{margin-top:0}
+.toc ol{margin-bottom:0}
+.toc a{color:#0A2C6E;text-decoration:none;font-weight:600}
+.tip{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(16,185,129,.02));border-left:5px solid #10B981;border-radius:8px;padding:16px 20px;margin:16px 0}
+.tip::before{content:"💡 TIP: ";font-weight:800;color:#059669;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.warn{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(239,68,68,.02));border-left:5px solid #EF4444;border-radius:8px;padding:16px 20px;margin:16px 0}
+.warn::before{content:"⚠️ IMPORTANTE: ";font-weight:800;color:#DC2626;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.note{background:linear-gradient(135deg,rgba(0,212,255,.08),rgba(0,212,255,.02));border-left:5px solid #00D4FF;border-radius:8px;padding:16px 20px;margin:16px 0}
+.note::before{content:"📝 NOTA: ";font-weight:800;color:#0891B2;text-transform:uppercase;font-size:12px;letter-spacing:.05em;display:block;margin-bottom:4px}
+.highlight{background:linear-gradient(135deg,#0A2C6E,#0A4FBC);color:#fff;padding:20px 24px;border-radius:12px;margin:16px 0;font-size:15px;line-height:1.6;border-left:5px solid #FBBF24}
+.phase{background:linear-gradient(135deg,#0A2C6E,#0A4FBC);color:#fff;padding:16px 24px;border-radius:12px;margin:30px 0 16px;font-family:'Anton',sans-serif;font-size:20px;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+th{background:#0A2C6E;color:#fff;padding:12px 14px;text-align:left;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.03em}
+td{padding:10px 14px;border-bottom:1px solid #E2E8F0;color:#334155}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#F8FAFC}
+.cover .footer-cover{position:relative;z-index:1;margin-top:40px;font-size:12px;color:#64748B;letter-spacing:.15em;text-transform:uppercase}
+@media print{.print-btn{display:none}body{background:#fff;padding:0}.page{box-shadow:none;border-radius:0;max-width:100%}.section{page-break-inside:avoid}.phase{page-break-after:avoid}}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">🖨️ Guardar PDF</button>
+<div class="page">
+<div class="cover">
+<div class="line"></div>
+<h1>Documento de<br>Contexto</h1>
+<p class="subtitle">Todo lo que necesitas saber sobre el proyecto de apps para comercios locales</p>
+<div class="line"></div>
+<p class="meta">Documento Maestro · Edición 2026</p>
+<div class="footer-cover">Para uso interno · Alimentación de contenido</div>
+</div>
+<div class="section">
+  <div class="toc">
+<h3>📑 Contenido del Documento</h3>
+<ol>
+<li><a href="#intro">Introducción y propósito</a></li>
+<li><a href="#resumen">Resumen ejecutivo del negocio</a></li>
+<li><a href="#que-es">Qué es una app web personalizada</a></li>
+<li><a href="#niveles">Niveles de apps</a></li>
+<li><a href="#modelo">Modelo de negocio</a></li>
+<li><a href="#ofrecer">Qué se puede y qué no se puede ofrecer</a></li>
+<li><a href="#casos">Casos de uso por rubro</a></li>
+<li><a href="#ventajas">Ventajas para el comercio</a></li>
+<li><a href="#publico">Público objetivo</a></li>
+<li><a href="#proceso">Proceso de venta y entrega</a></li>
+<li><a href="#herramientas">Herramientas y tecnologías</a></li>
+<li><a href="#glosario">Glosario técnico</a></li>
+<li><a href="#estado">Estado actual del proyecto</a></li>
+</ol>
+</div>
+
+<h2 id="intro">1. Introducción y Propósito</h2>
+<p>Este documento sirve como <strong>briefing completo</strong> para cualquier persona o inteligencia artificial que necesite entender el proyecto de creación de apps para comercios locales.</p>
+
+<h3>¿Para qué sirve?</h3>
+<ul>
+<li>Alimentar chats de IA para generar contenido de marketing</li>
+<li>Servir como base para presentaciones a clientes</li>
+<li>Documentar el conocimiento acumulado del proyecto</li>
+<li>Ser la referencia técnica y comercial del negocio</li>
+</ul>
+
+<h3>¿A quién está dirigido?</h3>
+<ul>
+<li>Al creador del proyecto (para consulta personal)</li>
+<li>A asistentes de IA que generen contenido relacionado</li>
+<li>A futuros colaboradores o socios</li>
+<li>A posibles clientes que quieran entender el servicio</li>
+</ul>
+
+<div class="tip">Este documento se puede imprimir como PDF y compartir con quien lo necesite. Es la carta de presentación técnica del proyecto.</div>
+
+<h2 id="resumen">2. Resumen Ejecutivo</h2>
+<div class="highlight">
+<strong style="font-size:18px;display:block;margin-bottom:10px">En una frase:</strong>
+Ofrezco <strong>apps personalizadas</strong> para comercios locales que les permiten tener presencia digital profesional en el teléfono de sus clientes, a un precio accesible, con mantenimiento mensual.
+</div>
+
+<h3>El problema que resuelvo</h3>
+<ul>
+<li>Los comercios locales no tienen presencia digital propia</li>
+<li>Dependen 100% de redes sociales prestadas (Instagram, Facebook)</li>
+<li>Las grandes cadenas (Traki, Beco, Central Madeirense) tienen apps, los pequeños no</li>
+<li>El cliente local no puede ver catálogo, promociones ni contacto de forma organizada</li>
+</ul>
+
+<h3>Mi solución</h3>
+<ul>
+<li><strong>App web instalable</strong> con logo, colores y marca del cliente</li>
+<li><strong>Ícono propio</strong> en el teléfono de sus clientes (como cualquier app grande)</li>
+<li><strong>Funciona sin internet</strong> después de la primera carga</li>
+<li><strong>Catálogo, promociones, contacto, ubicación</strong> en un solo lugar</li>
+<li><strong>Mantenimiento mensual</strong> para mantenerla actualizada</li>
+</ul>
+
+<h3>El modelo de negocio</h3>
+<ul>
+<li><strong>Pago inicial</strong> por la creación de la app: $80 a $900 según el paquete</li>
+<li><strong>Mantenimiento mensual:</strong> $20 a $150 según el paquete</li>
+<li><strong>Servicios complementarios:</strong> videos con IA, radio, gestión de redes</li>
+</ul>
+
+<h3>Ventaja competitiva</h3>
+<ul>
+<li><strong>Primero en la zona</strong> — prácticamente sin competencia directa</li>
+<li><strong>Paquete completo:</strong> no solo la app, también visibilidad total (radio, redes, videos IA)</li>
+<li><strong>Precio accesible</strong> comparado con agencias de desarrollo</li>
+<li><strong>Fundador con experiencia en locución y radio</strong> — ventaja en comunicación</li>
+</ul>
+
+<h2 id="que-es">3. Qué Es una App Web Personalizada</h2>
+<p>Una <strong>app web personalizada</strong> es un programa que se instala en el teléfono del cliente y funciona como cualquier app de las tiendas oficiales, pero vive en internet en lugar de en Google Play o App Store.</p>
+
+<h3>Características técnicas</h3>
+<table>
+<tr><th>Característica</th><th>¿Aplica?</th></tr>
+<tr><td>Se instala en el teléfono con ícono propio</td><td>✅ Sí</td></tr>
+<tr><td>Funciona sin internet (después de la primera carga)</td><td>✅ Sí</td></tr>
+<tr><td>Tiene logo y colores del negocio</td><td>✅ Sí</td></tr>
+<tr><td>Se abre como app real (no como página web)</td><td>✅ Sí</td></tr>
+<tr><td>Se comparte por enlace o QR</td><td>✅ Sí</td></tr>
+<tr><td>Se puede actualizar sin reinstalar</td><td>✅ Sí</td></tr>
+<tr><td>Cuesta $25 subirla a Google Play</td><td>❌ No aplica (no va a tiendas)</td></tr>
+<tr><td>Requiere servidor propio</td><td>❌ No (usa GitHub Pages gratis)</td></tr>
+<tr><td>Requiere mantenimiento técnico complejo</td><td>❌ No (todo es automático)</td></tr>
+</table>
+
+<h3>Diferencia con otros productos digitales</h3>
+<table>
+<tr><th>Producto</th><th>Qué es</th><th>Limitación</th></tr>
+<tr><td><strong>Página web</strong></td><td>Sitio que se ve en el navegador</td><td>No se instala, no tiene ícono propio</td></tr>
+<tr><td><strong>Perfil de Instagram</strong></td><td>Cuenta en red social</td><td>Depende de Instagram, no es propio</td></tr>
+<tr><td><strong>Catálogo PDF</strong></td><td>Documento descargable</td><td>Estático, se ve anticuado</td></tr>
+<tr><td><strong>App web (nosotros)</strong></td><td>App instalable en el teléfono</td><td>No está en tiendas (no hace falta)</td></tr>
+</table>
+
+<div class="note">La app web combina lo mejor de los dos mundos: la presencia de una app real, con la facilidad y el bajo costo de una página web.</div>
+
+<h2 id="niveles">4. Niveles de Apps</h2>
+<p>Existen distintos niveles según la complejidad y lo que necesita el cliente.</p>
+
+<h3>Nivel 1: App Vitrina (lo que ya hacemos) ✅</h3>
+<ul>
+<li>Catálogo de productos o servicios</li>
+<li>Botón de WhatsApp</li>
+<li>Ubicación con mapa</li>
+<li>Redes sociales</li>
+<li>Formas de pago</li>
+<li>Galería de fotos</li>
+<li>Promociones y novedades</li>
+<li>Ícono propio en el teléfono</li>
+<li>Funciona sin internet</li>
+</ul>
+
+<div class="tip">Nivel 1 es lo que <strong>ya puedo vender hoy</strong>. Cubre el 90% de las necesidades de comercios pequeños.</div>
+
+<h3>Nivel 2: App Interactiva (próximo paso)</h3>
+<ul>
+<li>Todo lo del Nivel 1</li>
+<li><strong>Login de usuarios</strong> (dueño, empleados, clientes)</li>
+<li><strong>Panel de administración</strong> (el dueño sube productos)</li>
+<li><strong>Base de datos en la nube</strong> (Firebase/Supabase)</li>
+<li><strong>Roles y permisos</strong> (quién puede editar qué)</li>
+<li><strong>Actualización en tiempo real</strong></li>
+</ul>
+
+<div class="warn">Nivel 2 requiere aprender <strong>Firebase</strong>. Tiempo estimado de aprendizaje: 1-2 semanas. Es el siguiente objetivo.</div>
+
+<h3>Nivel 3: App Completa (futuro)</h3>
+<ul>
+<li>Todo lo del Nivel 2</li>
+<li><strong>Carrito de compras</strong></li>
+<li><strong>Pagos en línea</strong> (Stripe, PayPal, Zelle)</li>
+<li><strong>Notificaciones push</strong></li>
+<li><strong>Estadísticas de uso</strong></li>
+<li><strong>Sistema de reservas o pedidos</strong></li>
+<li><strong>Multi-sucursal</strong></li>
+<li><strong>Posibilidad de subir a Google Play</strong></li>
+</ul>
+
+<div class="note">Nivel 3 es para clientes grandes (clínicas, supermercados). Es el objetivo a 6-12 meses.</div>
+<h2 id="modelo">5. Modelo de Negocio</h2>
+
+<h3>Estructura de cobro</h3>
+<table>
+<tr><th>Concepto</th><th>Cuándo se cobra</th><th>Monto</th></tr>
+<tr><td>Creación de la app</td><td>Al entregar</td><td>$80 - $900 (según paquete)</td></tr>
+<tr><td>Mantenimiento mensual</td><td>Cada mes</td><td>$20 - $150</td></tr>
+<tr><td>Actualizaciones puntuales</td><td>Cuando se soliciten</td><td>$10 - $30</td></tr>
+<tr><td>Servicios sueltos</td><td>Al entregar</td><td>Variable</td></tr>
+</table>
+
+<h3>Los 3 paquetes</h3>
+
+<div class="highlight">
+<strong style="font-size:16px">🥉 PAQUETE BÁSICO — "Presencia Digital"</strong><br>
+<strong>Precio:</strong> $80 - $150 (pago único) + $20-30/mes<br><br>
+<strong>Incluye:</strong> App personalizada con logo y colores, catálogo básico, botón WhatsApp, ubicación, 2 videos IA al mes, publicación en 1 red social.
+</div>
+
+<div class="highlight" style="background:linear-gradient(135deg,#059669,#10B981);border-left-color:#FBBF24">
+<strong style="font-size:16px">🥈 PAQUETE INTERMEDIO — "Visibilidad Total" ⭐</strong><br>
+<strong>Precio:</strong> $200 - $400 (pago único) + $50-80/mes<br><br>
+<strong>Incluye:</strong> Todo lo del básico + catálogo completo + 4 videos IA con avatar del dueño + publicación en 3 redes + gestión de WhatsApp + reporte mensual.
+</div>
+
+<div class="highlight" style="background:linear-gradient(135deg,#D97706,#FBBF24);color:#1A1205;border-left-color:#0A2C6E">
+<strong style="font-size:16px">🥇 PAQUETE PREMIUM — "Marca Completa"</strong><br>
+<strong>Precio:</strong> $500 - $900 (pago único) + $100-150/mes<br><br>
+<strong>Incluye:</strong> Todo lo del intermedio + 8 videos IA + rotativas de radio + sesión fotográfica + rediseño de logo + estrategia de contenido + 2 flyers al mes.
+</div>
+
+<h3>Ingreso recurrente (el verdadero negocio)</h3>
+<p>El <strong>mantenimiento mensual es lo más importante</strong>. Ejemplos reales:</p>
+<ul>
+<li>5 clientes en básico = $100-150/mes</li>
+<li>5 clientes en intermedio = $250-400/mes</li>
+<li>10 clientes en intermedio = $500-800/mes</li>
+<li>10 clientes en premium = $1,000-1,500/mes</li>
+</ul>
+
+<div class="tip">El objetivo a 6 meses es tener <strong>10-15 clientes activos con mantenimiento mensual</strong>. Eso genera un ingreso estable sin trabajar todos los meses.</div>
+
+<h2 id="ofrecer">6. Qué Se Puede y Qué No Se Puede Ofrecer</h2>
+
+<h3>✅ SÍ se puede ofrecer HOY (Nivel 1)</h3>
+<ul>
+<li>App instalable con ícono propio</li>
+<li>Logo y colores personalizados</li>
+<li>Catálogo visual de productos o servicios</li>
+<li>Botón directo a WhatsApp</li>
+<li>Botón directo a llamada</li>
+<li>Ubicación con Google Maps</li>
+<li>Redes sociales integradas</li>
+<li>Sección de promociones</li>
+<li>Galería de fotos del negocio</li>
+<li>Testimonios de clientes</li>
+<li>Preguntas frecuentes</li>
+<li>Funciona sin internet</li>
+<li>Actualizaciones incluidas en el mantenimiento</li>
+</ul>
+
+<h3>❌ NO se puede ofrecer todavía (necesita Nivel 2 o 3)</h3>
+<ul>
+<li>Login de usuarios</li>
+<li>Panel de administración autónomo</li>
+<li>Carrito de compras con pagos</li>
+<li>Notificaciones push</li>
+<li>Estadísticas de uso</li>
+<li>Sistema de reservas online</li>
+<li>Inventario en tiempo real</li>
+<li>Multi-sucursal con stock compartido</li>
+</ul>
+
+<div class="warn">Nunca prometas algo que aún no puedes entregar. Es mejor decir <strong>"eso lo puedo hacer en 2 meses"</strong> que quedar mal con un cliente.</div>
+
+<h2 id="casos">7. Casos de Uso por Rubro</h2>
+<p>Cada tipo de negocio necesita funciones específicas. Aquí los más comunes:</p>
+
+<h3>👕 Tiendas de ropa / calzado</h3>
+<ul>
+<li>Catálogo por categoría (dama, caballero, infantil)</li>
+<li>Filtro por tallas</li>
+<li>Promociones de temporada</li>
+<li>Botón de WhatsApp para consultar disponibilidad</li>
+</ul>
+
+<h3>🥖 Panaderías / cafeterías</h3>
+<ul>
+<li>Menú de productos con fotos</li>
+<li>Precios actualizados</li>
+<li>Pedidos por WhatsApp</li>
+<li>Horarios de horneado</li>
+<li>Promociones del día</li>
+</ul>
+
+<h3>🍔 Restaurantes / food trucks</h3>
+<ul>
+<li>Menú digital con fotos</li>
+<li>Combos y promociones</li>
+<li>Delivery por WhatsApp</li>
+<li>Ubicación y horarios</li>
+</ul>
+
+<h3>💇 Barberías / peluquerías</h3>
+<ul>
+<li>Lista de servicios con precios</li>
+<li>Galería de cortes</li>
+<li>Botón de reserva por WhatsApp</li>
+<li>Horarios y ubicación</li>
+</ul>
+
+<h3>🔧 Ferreterías / repuestos</h3>
+<ul>
+<li>Categorías de productos</li>
+<li>Marcas disponibles</li>
+<li>Botón de consulta por WhatsApp</li>
+<li>Ubicación con mapa</li>
+</ul>
+
+<h3>💊 Farmacias / abastos</h3>
+<ul>
+<li>Productos destacados</li>
+<li>Promociones del día</li>
+<li>Botón de consulta por WhatsApp</li>
+<li>Delivery disponible</li>
+</ul>
+
+<h3>🩺 Doctores / consultorios (futuro)</h3>
+<ul>
+<li>Perfil del profesional</li>
+<li>Servicios y especialidades</li>
+<li>Horarios de consulta</li>
+<li>Botón de agendar cita por WhatsApp</li>
+<li>Ubicación del consultorio</li>
+</ul>
+
+<div class="note">Los primeros 5 rubros son los más fáciles de vender y hacer. Los doctores requieren más tiempo y contenido específico. Se recomiendan dejar para cuando ya tengas experiencia.</div>
+
+<h2 id="ventajas">8. Ventajas para el Comercio</h2>
+<p>Estos son los <strong>beneficios reales</strong> que el cliente obtiene con la app. Son los argumentos de venta más poderosos.</p>
+
+<h3>🏆 Imagen profesional</h3>
+<ul>
+<li>Ya no es "la tiendita", es "la tienda que tiene su app"</li>
+<li>Sube de nivel automáticamente frente a la competencia</li>
+<li>Los clientes perciben el negocio como más serio</li>
+</ul>
+
+<h3>📱 Presencia en el teléfono del cliente</h3>
+<ul>
+<li>El ícono de la tienda aparece en el teléfono del cliente</li>
+<li>No depende de algoritmos de Instagram o Facebook</li>
+<li>Es un canal directo de comunicación</li>
+</ul>
+
+<h3>⚡ Contacto inmediato</h3>
+<ul>
+<li>Un botón y el cliente escribe por WhatsApp</li>
+<li>Sin intermediarios, sin perder tiempo</li>
+<li>Más rápido que ir a la tienda o llamar</li>
+</ul>
+
+<h3>💰 Promociones instantáneas</h3>
+<ul>
+<li>Se puede actualizar la app con promociones</li>
+<li>Los clientes ven las ofertas actuales</li>
+<li>Genera urgencia y ventas</li>
+</ul>
+
+<h3>🚀 Ventaja competitiva</h3>
+<ul>
+<li>El 95% de la competencia local NO tiene app</li>
+<li>Es un diferenciador enorme</li>
+<li>Genera comentarios y "voz a voz"</li>
+</ul>
+
+<h3>🔒 Independencia digital</h3>
+<ul>
+<li>La app es del negocio, no de una red social</li>
+<li>Si Instagram cambia reglas, la app sigue igual</li>
+<li>Es un activo propio de la marca</li>
+</ul>
+
+<h3>📊 Resumen de ventajas (para el pitch)</h3>
+<table>
+<tr><th>Antes (sin app)</th><th>Después (con app)</th></tr>
+<tr><td>Cliente busca en Google</td><td>Cliente tiene el ícono en el teléfono</td></tr>
+<tr><td>Promociones solo en cartelera</td><td>Promociones al instante en la app</td></tr>
+<tr><td>Depende de Instagram</td><td>Independiente y propia</td></tr>
+<tr><td>Imagen de tienda local</td><td>Imagen profesional digital</td></tr>
+<tr><td>Contacto solo presencial</td><td>WhatsApp directo desde la app</td></tr>
+<tr><td>Sin diferenciación</td><td>Ventaja competitiva clara</td></tr>
+</table>
+<h2 id="publico">9. Público Objetivo</h2>
+
+<h3>Cliente ideal (los primeros 6 meses)</h3>
+<ul>
+<li><strong>Comercios locales</strong> con 1-3 sucursales máximo</li>
+<li><strong>Dueños presentes</strong> que atienden personalmente</li>
+<li><strong>Negocios con clientes fieles</strong> pero poca presencia digital</li>
+<li><strong>Capacidad de inversión:</strong> $100-500 inicial</li>
+<li><strong>Zona geográfica:</strong> Santa Ana de Coro y alrededores</li>
+<li><strong>Rubros:</strong> ropa, calzado, panadería, barbería, ferretería, farmacia</li>
+</ul>
+
+<h3>Cliente objetivo (6-12 meses)</h3>
+<ul>
+<li><strong>Consultorios médicos</strong> (odontólogos, cardiólogos, especialistas)</li>
+<li><strong>Clínicas pequeñas</strong> (1-2 especialidades)</li>
+<li><strong>Restaurantes</strong> con servicio de delivery</li>
+<li><strong>Gimnasios</strong> y centros deportivos</li>
+<li><strong>Inmobiliarias</strong> pequeñas</li>
+</ul>
+
+<h3>Cliente futuro (12+ meses, requiere Nivel 3)</h3>
+<ul>
+<li><strong>Supermercados</strong> medianos</li>
+<li><strong>Clínicas grandes</strong> con múltiples especialidades</li>
+<li><strong>Cadenas regionales</strong> con varias sucursales</li>
+<li><strong>Franquicias</strong></li>
+</ul>
+
+<div class="tip">Empezar con <strong>comercios pequeños</strong> es la mejor decisión. Son más fáciles de cerrar, más agradecidos, y dan testimonios valiosos para tu portafolio.</div>
+
+<h2 id="proceso">10. Proceso de Venta y Entrega</h2>
+
+<h3>Fase 1: Prospección (búsqueda de clientes)</h3>
+<ol>
+<li>Hacer una lista de 20-30 comercios de la zona</li>
+<li>Priorizar por rubro (empezar con los más fáciles)</li>
+<li>Preparar el flyer físico y la app demo en el teléfono</li>
+<li>Planificar rutas de visita (5 comercios por día)</li>
+</ol>
+
+<h3>Fase 2: Visita inicial</h3>
+<ol>
+<li>Presentación personal + rapport</li>
+<li>Mostrar la app demo en el teléfono</li>
+<li>Explicar los beneficios (no las características)</li>
+<li>Presentar el paquete recomendado (Intermedio)</li>
+<li>Dejar el flyer físico con la información</li>
+<li>Acordar próxima visita o cierre inmediato</li>
+</ol>
+
+<h3>Fase 3: Seguimiento</h3>
+<ol>
+<li>Mensaje por WhatsApp a los 2 días</li>
+<li>Segunda visita si es necesario</li>
+<li>Resolver dudas y objeciones</li>
+<li>Cierre de la venta</li>
+</ol>
+
+<h3>Fase 4: Producción</h3>
+<ol>
+<li>Firma de acuerdo simple (con lo que se entrega)</li>
+<li>Pago del 50% de adelanto</li>
+<li>Recolección de información (logo, colores, fotos, contenido)</li>
+<li>Creación de la app (3-5 días hábiles)</li>
+<li>Primera revisión con el cliente</li>
+<li>Ajustes necesarios</li>
+</ol>
+
+<h3>Fase 5: Entrega</h3>
+<ol>
+<li>Publicación de la app en GitHub Pages</li>
+<li>Generación del QR personalizado</li>
+<li>Entrega del QR impreso y flyer con la URL</li>
+<li>Capacitación rápida al dueño (15 minutos)</li>
+<li>Pago del 50% restante</li>
+</ol>
+
+<h3>Fase 6: Post-venta</h3>
+<ol>
+<li>Primer mes de mantenimiento activo</li>
+<li>Atención por WhatsApp para consultas</li>
+<li>Solicitar testimonio a los 30 días</li>
+<li>Pedir referidos (clientes satisfechos traen más clientes)</li>
+</ol>
+
+<div class="note">Tiempo total estimado desde primera visita hasta entrega: <strong>7-10 días</strong>.</div>
+
+<h2 id="herramientas">11. Herramientas y Tecnologías</h2>
+<p>Estas son las herramientas que uso para crear las apps. Todas son <strong>gratuitas</strong>.</p>
+
+<h3>Para crear el código</h3>
+<table>
+<tr><th>Herramienta</th><th>Para qué sirve</th></tr>
+<tr><td><strong>HTML</strong></td><td>Estructura de la app (títulos, botones, campos)</td></tr>
+<tr><td><strong>CSS</strong></td><td>Diseño visual (colores, tamaños, formas)</td></tr>
+<tr><td><strong>JavaScript</strong></td><td>Comportamiento (qué pasa al tocar un botón)</td></tr>
+</table>
+
+<h3>Para probar el código</h3>
+<table>
+<tr><th>Herramienta</th><th>Para qué sirve</th></tr>
+<tr><td><strong>CodePen</strong></td><td>Editor online para probar código rápido</td></tr>
+<tr><td><strong>Acode</strong></td><td>Editor de código para Android (opcional)</td></tr>
+</table>
+
+<h3>Para publicar la app</h3>
+<table>
+<tr><th>Herramienta</th><th>Para qué sirve</th></tr>
+<tr><td><strong>GitHub</strong></td><td>Guardar el código en la nube</td></tr>
+<tr><td><strong>GitHub Pages</strong></td><td>Publicar la app gratis con URL propia</td></tr>
+<tr><td><strong>Netlify</strong></td><td>Alternativa a GitHub Pages (opcional)</td></tr>
+</table>
+
+<h3>Para el diseño (logos e imágenes)</h3>
+<table>
+<tr><th>Herramienta</th><th>Para qué sirve</th></tr>
+<tr><td><strong>Bing Image Creator</strong></td><td>Generar logos con IA (gratis)</td></tr>
+<tr><td><strong>Copilot</strong></td><td>Alternativa de Microsoft para imágenes</td></tr>
+<tr><td><strong>PDFSimpli</strong></td><td>Generar imágenes sin registro</td></tr>
+<tr><td><strong>Leonardo AI</strong></td><td>Imágenes profesionales (con cuenta gratis)</td></tr>
+</table>
+
+<h3>Para videos con IA</h3>
+<table>
+<tr><th>Herramienta</th><th>Para qué sirve</th></tr>
+<tr><td><strong>HeyGen</strong></td><td>Videos con avatares IA (tiene versión gratis)</td></tr>
+<tr><td><strong>D-ID</strong></td><td>Anima fotos con IA</td></tr>
+<tr><td><strong>CapCut</strong></td><td>Edición de videos (gratis)</td></tr>
+</table>
+
+<h3>Herramientas a aprender (futuro)</h3>
+<table>
+<tr><th>Herramienta</th><th>Cuándo aprenderla</th></tr>
+<tr><td><strong>Firebase</strong></td><td>Para Nivel 2 (login, panel de admin)</td></tr>
+<tr><td><strong>Supabase</strong></td><td>Alternativa a Firebase</td></tr>
+<tr><td><strong>Vue.js / React</strong></td><td>Para apps más complejas</td></tr>
+</table>
+
+<h2 id="glosario">12. Glosario Técnico</h2>
+<p>Los términos que se usan en el proyecto, explicados de forma simple.</p>
+
+<h3>Tecnologías base</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>HTML</strong></td><td>Estructura de la app (qué elementos tiene)</td></tr>
+<tr><td><strong>CSS</strong></td><td>Estilos (colores, tamaños, formas)</td></tr>
+<tr><td><strong>JavaScript</strong></td><td>Comportamiento (qué pasa al tocar un botón)</td></tr>
+<tr><td><strong>DOM</strong></td><td>Árbol de elementos HTML que el navegador construye</td></tr>
+</table>
+
+<h3>Conceptos de apps</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>App</strong></td><td>Programa que se ejecuta en un dispositivo</td></tr>
+<tr><td><strong>Web App</strong></td><td>App que corre dentro del navegador</td></tr>
+<tr><td><strong>PWA</strong></td><td>Web App instalable en el teléfono</td></tr>
+<tr><td><strong>Frontend</strong></td><td>Lo que el usuario ve y toca</td></tr>
+<tr><td><strong>Backend</strong></td><td>Lo que corre en un servidor (no se ve)</td></tr>
+<tr><td><strong>Firebase</strong></td><td>Backend de Google, gratis para apps pequeñas</td></tr>
+<tr><td><strong>QR</strong></td><td>Código de cuadritos para acceder a la app</td></tr>
+<tr><td><strong>Responsive</strong></td><td>Que se vea bien en celular, tablet y PC</td></tr>
+</table>
+
+<h3>Almacenamiento y datos</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>localStorage</strong></td><td>Guarda datos en el navegador del teléfono</td></tr>
+<tr><td><strong>Cache</strong></td><td>Copia temporal de archivos para que cargue rápido</td></tr>
+<tr><td><strong>Cookies</strong></td><td>Datos que los sitios web guardan en el navegador</td></tr>
+<tr><td><strong>Respaldo</strong></td><td>Copia de seguridad para no perder datos</td></tr>
+<tr><td><strong>JSON</strong></td><td>Formato de archivo para guardar datos estructurados</td></tr>
+</table>
+
+<h3>Publicación</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>GitHub</strong></td><td>Plataforma para guardar código en la nube</td></tr>
+<tr><td><strong>Repositorio</strong></td><td>Carpeta del proyecto dentro de GitHub</td></tr>
+<tr><td><strong>Commit</strong></td><td>Acción de "guardar cambios" en GitHub</td></tr>
+<tr><td><strong>GitHub Pages</strong></td><td>Servicio gratis que publica la app en internet</td></tr>
+<tr><td><strong>Manifest.json</strong></td><td>Archivo que dice "esta app se puede instalar"</td></tr>
+</table>
+
+<h3>Diseño y visual</h3>
+<table>
+<tr><th>Término</th><th>Qué significa</th></tr>
+<tr><td><strong>Gradiente</strong></td><td>Degradado de un color a otro</td></tr>
+<tr><td><strong>Glow</strong></td><td>Efecto de brillo alrededor de un elemento</td></tr>
+<tr><td><strong>Blur</strong></td><td>Efecto de desenfoque</td></tr>
+<tr><td><strong>Badge</strong></td><td>Etiqueta pequeña con forma de píldora</td></tr>
+<tr><td><strong>Font</strong></td><td>Tipografía (estilo de letra)</td></tr>
+</table>
+
+<h2 id="estado">13. Estado Actual del Proyecto</h2>
+
+<h3>Lo que YA está hecho ✅</h3>
+<ul>
+<li><strong>Manual de creación de apps</strong> (documento HTML publicado)</li>
+<li><strong>Guía comercial</strong> (documento HTML publicado)</li>
+<li><strong>App de dominó "Solar de Cuchi"</strong> (portafolio 1)</li>
+<li><strong>App "Multi Tienda Moda"</strong> (portafolio 2, tienda de ropa ficticia)</li>
+<li><strong>Logo Multi Tienda Moda</strong> generado con IA</li>
+<li><strong>Ícono de la app</strong> funcionando en el teléfono</li>
+<li><strong>Manifest.json</strong> configurado correctamente</li>
+</ul>
+
+<h3>Lo que falta por practicar 🔄</h3>
+<ul>
+<li>App de <strong>zapatería</strong></li>
+<li>App de <strong>panadería</strong></li>
+<li>App de <strong>barbería</strong></li>
+<li>App de <strong>ferretería</strong></li>
+<li>App de <strong>restaurante</strong></li>
+<li>Flyer físico para clientes</li>
+</ul>
+
+<h3>Lo que falta por aprender 📚</h3>
+<ul>
+<li><strong>Firebase</strong> (para Nivel 2: login, panel de admin)</li>
+<li><strong>Vue.js o React</strong> (para apps más complejas)</li>
+<li><strong>Pagos en línea</strong> (Stripe, PayPal)</li>
+<li><strong>Notificaciones push</strong></li>
+</ul>
+
+<h3>Próximos hitos importantes</h3>
+<table>
+<tr><th>Hito</th><th>Plazo estimado</th></tr>
+<tr><td>Primer cliente pagando (aunque sea $50)</td><td>2-4 semanas</td></tr>
+<tr><td>Tener 3 clientes activos</td><td>2-3 meses</td></tr>
+<tr><td>Aprender Firebase</td><td>2-3 meses</td></tr>
+<tr><td>Ofrecer panel de administración (Nivel 2)</td><td>3-4 meses</td></tr>
+<tr><td>Tener 10 clientes activos</td><td>6-9 meses</td></tr>
+<tr><td>Ofrecer Nivel 3 (pagos, reservas)</td><td>12 meses</td></tr>
+</table>
+
+<div class="highlight" style="text-align:center;margin-top:40px">
+<strong style="font-size:18px;display:block;margin-bottom:12px">Filosofía del proyecto</strong>
+"No se trata de saberlo todo hoy, se trata de empezar hoy.<br>
+El mercado está esperando, y hay muy pocos dispuestos a hacer el trabajo."
+</div>
+
+<div class="tip" style="margin-top:30px;text-align:center;font-size:15px">
+<strong>Este documento se actualiza periódicamente.</strong><br>
+Cada avance, cada cliente, cada aprendizaje se refleja aquí.<br>
+Es el mapa vivo del proyecto.
+</div>
+
+</div>
+</div>
+</body>
+  </html>
