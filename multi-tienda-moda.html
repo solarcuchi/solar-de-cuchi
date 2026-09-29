@@ -719,6 +719,104 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 });
                                              </script>
+<script>
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    try {
+      const home = document.getElementById('screen-home');
+      if (!home) { console.log('No home'); return; }
+
+      // === 1. LIMPIAR SLOGAN DUPLICADO ===
+      try {
+        const taglines = home.querySelectorAll('.tagline');
+        taglines.forEach(function(t, i) { if (i > 0) t.remove(); });
+      } catch(e) { console.log('Error tagline:', e); }
+
+      // === 2. CHIP ABIERTO/CERRADO ===
+      try {
+        if (!document.getElementById('status-chip')) {
+          const searchWrap = home.querySelector('.search-wrap');
+          if (searchWrap) {
+            const statusWrap = document.createElement('div');
+            statusWrap.className = 'status-wrap';
+            statusWrap.innerHTML = '<span class="status-chip" id="status-chip"></span>';
+            searchWrap.insertAdjacentElement('afterend', statusWrap);
+            const now = new Date();
+            const day = now.getDay();
+            const totalMin = now.getHours() * 60 + now.getMinutes();
+            const isOpen = day >= 1 && day <= 6 && totalMin >= 450 && totalMin < 1140;
+            const chip = document.getElementById('status-chip');
+            if (isOpen) {
+              chip.className = 'status-chip status-open';
+              chip.innerHTML = '<span class="status-dot-mini"></span> Abierto ahora';
+            } else {
+              chip.className = 'status-chip status-closed';
+              chip.textContent = '● Cerrado ahora';
+            }
+          }
+        }
+      } catch(e) { console.log('Error chip:', e); }
+
+      // === 3. LOS MÁS VENDIDOS ===
+      try {
+        if (!document.getElementById('best-grid')) {
+          const quickGrid = home.querySelector('.quick-grid');
+          if (quickGrid) {
+            const bestSection = document.createElement('div');
+            bestSection.innerHTML = '<div style="padding:20px 20px 0"><h3 class="section-title">Los Más Vendidos</h3></div><div class="best-grid" id="best-grid"></div>';
+            quickGrid.parentNode.insertBefore(bestSection, quickGrid);
+
+            const bestProducts = [
+              { icon: '👟', name: 'Calzado Deportivo', cat: 'Calzado Dama' },
+              { icon: '👗', name: 'Vestidos de Moda', cat: 'Ropa de Vestir Dama' },
+              { icon: '👕', name: 'Camisas Casuales', cat: 'Ropa de Vestir Caballero' },
+              { icon: '🎒', name: 'Bolsos Escolares', cat: 'Accesorios y Bolsos' }
+            ];
+            const bestGrid = document.getElementById('best-grid');
+            bestProducts.forEach(function(p) {
+              const card = document.createElement('div');
+              card.className = 'best-card';
+              card.onclick = function() { if (typeof openCategory === 'function') openCategory(p.cat, p.icon); };
+              card.innerHTML = '<span class="best-badge">⭐</span><span class="best-icon">' + p.icon + '</span><span class="best-name">' + p.name + '</span><span class="best-cta">VER →</span>';
+              bestGrid.appendChild(card);
+            });
+          }
+        }
+      } catch(e) { console.log('Error best:', e); }
+
+      // === 4. BOTÓN COMPARTIR ===
+      try {
+        if (!document.getElementById('share-app-btn')) {
+          const footer = home.querySelector('.footer-app');
+          if (footer) {
+            const shareBtn = document.createElement('button');
+            shareBtn.id = 'share-app-btn';
+            shareBtn.className = 'share-btn';
+            shareBtn.style.marginTop = '20px';
+            shareBtn.innerHTML = '📤 Compartir esta app';
+            shareBtn.onclick = function() {
+              const url = 'https://solarcuchi.github.io/solar-de-cuchi/multi-tienda-moda.html';
+              const text = 'Mira la app de Multi Tienda Moda. Moda para toda la familia.';
+              if (navigator.share) {
+                navigator.share({ title: 'Multi Tienda Moda', text: text, url: url }).catch(function(){});
+              } else {
+                const ta = document.createElement('textarea');
+                ta.value = url;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); alert('Enlace copiado'); } catch(e) {}
+                document.body.removeChild(ta);
+              }
+            };
+            footer.parentNode.insertBefore(shareBtn, footer);
+          }
+        }
+      } catch(e) { console.log('Error share:', e); }
+
+    } catch(err) { console.log('Error general:', err); }
+  }, 500);
+});
+          </script>
 </body>
 </html>
 
