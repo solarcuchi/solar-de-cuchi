@@ -817,6 +817,65 @@ window.addEventListener('load', function() {
   }, 500);
 });
           </script>
+<script>
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    const home = document.getElementById('screen-home');
+    if (!home) return;
+
+    // === FORZAR "VER →" EN LÍNEA NUEVA ===
+    document.querySelectorAll('.best-cta').forEach(function(el) {
+      el.style.display = 'block';
+      el.style.marginTop = '10px';
+      el.style.paddingTop = '10px';
+      el.style.borderTop = '1px dashed #F0EBE3';
+      el.style.clear = 'both';
+    });
+    document.querySelectorAll('.best-name').forEach(function(el) {
+      el.style.display = 'block';
+      el.style.clear = 'both';
+    });
+
+    // === CHIP DE ESTADO (si no existe) ===
+    if (!document.getElementById('status-chip')) {
+      const searchWrap = home.querySelector('.search-wrap');
+      if (searchWrap) {
+        const statusWrap = document.createElement('div');
+        statusWrap.style.textAlign = 'center';
+        statusWrap.style.margin = '12px 0';
+        const chip = document.createElement('span');
+        chip.id = 'status-chip';
+        chip.style.display = 'inline-flex';
+        chip.style.alignItems = 'center';
+        chip.style.gap = '6px';
+        chip.style.fontSize = '12px';
+        chip.style.fontWeight = '700';
+        chip.style.padding = '8px 16px';
+        chip.style.borderRadius = '20px';
+        chip.style.letterSpacing = '.03em';
+        chip.style.textTransform = 'uppercase';
+        const now = new Date();
+        const day = now.getDay();
+        const totalMin = now.getHours() * 60 + now.getMinutes();
+        const isOpen = day >= 1 && day <= 6 && totalMin >= 450 && totalMin < 1140;
+        if (isOpen) {
+          chip.style.background = 'linear-gradient(135deg,#10B981,#059669)';
+          chip.style.color = '#fff';
+          chip.style.boxShadow = '0 4px 12px -4px rgba(16,185,129,.5)';
+          chip.innerHTML = '<span style="width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block"></span> Abierto ahora';
+        } else {
+          chip.style.background = 'linear-gradient(135deg,#EF4444,#DC2626)';
+          chip.style.color = '#fff';
+          chip.style.boxShadow = '0 4px 12px -4px rgba(239,68,68,.5)';
+          chip.textContent = '● Cerrado ahora';
+        }
+        statusWrap.appendChild(chip);
+        searchWrap.insertAdjacentElement('afterend', statusWrap);
+      }
+    }
+  }, 800);
+});
+      </script>
 </body>
 </html>
 
