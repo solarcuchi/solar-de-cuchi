@@ -1,0 +1,24 @@
+{
+  "name": "Multi Tienda Moda",
+  "short_name": "Multi Tienda",
+  "description": "Moda para toda la familia",
+  "start_url": "/solar-de-cuchi/multi-tienda-moda.html",
+  "display": "standalone",
+  "background_color": "#FAF6F0",
+  "theme_color": "#E63946",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/solar-de-cuchi/icono-app.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/solar-de-cuchi/icono-app.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
