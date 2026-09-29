@@ -876,6 +876,78 @@ window.addEventListener('load', function() {
   }, 800);
 });
       </script>
+<style>
+.best-name{display:block!important;width:100%!important;margin-bottom:8px!important}
+.best-cta{display:block!important;width:100%!important;margin-top:8px!important;padding-top:8px!important;border-top:1px dashed #F0EBE3!important;color:#E63946!important;font-size:11px!important;font-weight:700!important;letter-spacing:.03em!important}
+</style>
+
+<script>
+(function(){
+  var intentos = 0;
+  var maxIntentos = 20;
+
+  function aplicar() {
+    intentos++;
+    var home = document.getElementById('screen-home');
+    if (!home) { if (intentos < maxIntentos) setTimeout(aplicar, 300); return; }
+
+    // 1. Estilos de VER separado
+    var nombres = home.querySelectorAll('.best-name');
+    var ctas = home.querySelectorAll('.best-cta');
+    nombres.forEach(function(el) {
+      el.style.display = 'block';
+      el.style.width = '100%';
+      el.style.marginBottom = '8px';
+    });
+    ctas.forEach(function(el) {
+      el.style.display = 'block';
+      el.style.width = '100%';
+      el.style.marginTop = '8px';
+      el.style.paddingTop = '8px';
+      el.style.borderTop = '1px dashed #F0EBE3';
+      el.style.color = '#E63946';
+    });
+
+    // 2. Chip de estado
+    if (!document.getElementById('status-chip')) {
+      var searchWrap = home.querySelector('.search-wrap');
+      if (searchWrap) {
+        var wrap = document.createElement('div');
+        wrap.setAttribute('style', 'text-align:center;margin:14px 20px 6px;');
+
+        var chip = document.createElement('span');
+        chip.id = 'status-chip';
+
+        var now = new Date();
+        var day = now.getDay();
+        var totalMin = now.getHours() * 60 + now.getMinutes();
+        var isOpen = day >= 1 && day <= 6 && totalMin >= 450 && totalMin < 1140;
+
+        if (isOpen) {
+          chip.setAttribute('style', 'display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:12px;font-weight:800;padding:9px 18px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,#10B981,#059669);box-shadow:0 6px 16px -6px rgba(16,185,129,.6);');
+          chip.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:#fff;display:inline-block;box-shadow:0 0 8px #fff;"></span>Abierto ahora';
+        } else {
+          chip.setAttribute('style', 'display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:12px;font-weight:800;padding:9px 18px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,#EF4444,#DC2626);box-shadow:0 6px 16px -6px rgba(239,68,68,.6);');
+          chip.innerHTML = '<span style="width:8px;height:8px;border-radius:50%;background:#fff;display:inline-block;"></span>Cerrado ahora';
+        }
+
+        wrap.appendChild(chip);
+        searchWrap.insertAdjacentElement('afterend', wrap);
+      } else if (intentos < maxIntentos) {
+        setTimeout(aplicar, 300);
+      }
+    }
+  }
+
+  // Correr varias veces para asegurar
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(aplicar, 300); });
+  } else {
+    setTimeout(aplicar, 300);
+  }
+  window.addEventListener('load', function(){ setTimeout(aplicar, 500); });
+})();
+                 </script>
 </body>
 </html>
 
