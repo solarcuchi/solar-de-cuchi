@@ -1032,6 +1032,47 @@ window.addEventListener('load', function() {
   }
 })();
 </script>
+<script>
+(function(){
+  function actualizarChip() {
+    // Buscar el span del chip (el que tiene el fondo verde)
+    var spans = document.querySelectorAll('#screen-home span');
+    var chip = null;
+    for (var i = 0; i < spans.length; i++) {
+      if (spans[i].textContent.indexOf('Abierto') > -1 || spans[i].textContent.indexOf('Cerrado') > -1) {
+        chip = spans[i];
+        break;
+      }
+    }
+    if (!chip) return;
+
+    var ahora = new Date();
+    var dia = ahora.getDay(); // 0=Domingo, 1=Lunes...6=Sábado
+    var min = ahora.getHours() * 60 + ahora.getMinutes();
+    // Lunes a Sábado: 7:30 AM (450 min) a 7:00 PM (1140 min)
+    var abierto = (dia >= 1 && dia <= 6) && (min >= 450 && min < 1140);
+
+    if (abierto) {
+      chip.style.background = 'linear-gradient(135deg,#10B981,#059669)';
+      chip.style.boxShadow = '0 6px 18px -6px rgba(16,185,129,.6)';
+      chip.innerHTML = '● Abierto ahora';
+    } else {
+      chip.style.background = 'linear-gradient(135deg,#EF4444,#DC2626)';
+      chip.style.boxShadow = '0 6px 18px -6px rgba(239,68,68,.6)';
+      chip.innerHTML = '● Cerrado ahora';
+    }
+  }
+
+  // Ejecutar cuando cargue y luego cada minuto
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(actualizarChip, 500); });
+  } else {
+    setTimeout(actualizarChip, 500);
+  }
+  window.addEventListener('load', function(){ setTimeout(actualizarChip, 1000); });
+  setInterval(actualizarChip, 60000); // Cada minuto
+})();
+</script>
 </body>
 </html>
 
