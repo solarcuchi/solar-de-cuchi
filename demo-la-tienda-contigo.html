@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#0F2A4A">
+<title>La tienda Contigo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Inter',sans-serif;background:#F5F5F5;color:#111827;min-height:100vh;padding-bottom:140px;-webkit-font-smoothing:antialiased}
+#app{max-width:520px;margin:0 auto;background:#F5F5F5;min-height:100vh}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#0F2A4A,#143659);padding:20px 20px 22px;position:sticky;top:0;z-index:50;box-shadow:0 4px 16px -8px rgba(0,0,0,.3)}
+.brand-title{font-family:'Inter',sans-serif;font-size:32px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.05;margin-bottom:4px}
+.brand-title .contigo{font-family:'Dancing Script',cursive;color:#EF4444;font-weight:700;font-size:38px;margin-left:6px;display:inline-block}
+.brand-sub{font-size:12px;color:#94A3B8;font-weight:500;letter-spacing:.02em;margin-bottom:14px}
+.search-box{background:#fff;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 12px -6px rgba(0,0,0,.2)}
+.search-box svg{width:20px;height:20px;flex-shrink:0;opacity:.5}
+.search-box input{border:none;outline:none;flex:1;font-family:inherit;font-size:15px;font-weight:500;background:transparent;color:#111827}
+.search-box input::placeholder{color:#9CA3AF;font-weight:400}
+
+/* FILTROS */
+.filters{background:#fff;padding:14px 0 14px 20px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid #E5E7EB;position:sticky;top:0;z-index:40}
+.filters::-webkit-scrollbar{display:none}
+.chip{display:inline-block;padding:10px 18px;border-radius:22px;background:#fff;border:1.5px solid #E5E7EB;color:#374151;font-size:14px;font-weight:600;margin-right:8px;cursor:pointer;transition:all .15s;font-family:inherit}
+.chip.active{background:#EF4444;color:#fff;border-color:#EF4444;box-shadow:0 6px 16px -6px rgba(239,68,68,.5)}
+
+/* AVISO DEMO */
+.demo-notice{background:#FEF3C7;border-left:4px solid #F59E0B;padding:12px 16px;margin:14px 16px 0;border-radius:10px;font-size:13px;color:#78350F;font-weight:500;line-height:1.5}
+
+/* GRID PRODUCTOS */
+.products{padding:16px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.product-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 14px -8px rgba(0,0,0,.12);display:flex;flex-direction:column}
+.product-img{aspect-ratio:1;background:linear-gradient(135deg,#F3F4F6,#E5E7EB);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;text-align:center;position:relative}
+.product-img svg{width:48px;height:48px;color:#9CA3AF;margin-bottom:6px}
+.product-img span{font-size:11px;color:#6B7280;font-weight:500;line-height:1.3}
+.product-info{padding:12px 12px 14px;display:flex;flex-direction:column;flex:1}
+.product-name{font-size:14px;font-weight:700;color:#111827;line-height:1.3;margin-bottom:4px;min-height:36px}
+.product-dept{font-size:11px;color:#9CA3AF;font-weight:500;margin-bottom:8px;text-transform:uppercase;letter-spacing:.02em}
+.product-price{font-size:22px;font-weight:900;color:#2563EB;letter-spacing:-.02em;margin-bottom:10px;margin-top:auto}
+.product-price.no-price{font-size:13px;color:#9CA3AF;font-weight:600}
+.btn-add{background:#0F2A4A;color:#fff;border:none;border-radius:10px;padding:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.02em;transition:transform .12s}
+.btn-add:active{transform:scale(.97)}
+.btn-add.added{background:#10B981}
+
+/* CARRITO BAR */
+.cart-bar{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:14px 20px 18px;box-shadow:0 -6px 20px -8px rgba(0,0,0,.15);z-index:60;border-top:1px solid #E5E7EB}
+.cart-bar-inner{max-width:520px;margin:0 auto}
+.cart-empty{background:#F3F4F6;border-radius:12px;padding:16px;text-align:center;font-size:15px;font-weight:700;color:#6B7280;cursor:pointer}
+.cart-filled{background:#0F2A4A;border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;color:#fff;transition:transform .12s}
+.cart-filled:active{transform:scale(.98)}
+.cart-filled-left{display:flex;align-items:center;gap:12px}
+.cart-count{background:#EF4444;color:#fff;font-size:13px;font-weight:800;padding:4px 10px;border-radius:20px}
+.cart-label{font-size:15px;font-weight:700}
+.cart-total{font-size:20px;font-weight:900;letter-spacing:-.02em}
+
+/* MODAL CARRITO */
+.modal{position:fixed;inset:0;background:rgba(15,42,74,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:100;display:none;align-items:flex-end;justify-content:center;animation:fadeIn .2s}
+.modal.active{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-box{background:#FAFAFA;border-radius:22px 22px 0 0;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;padding:22px 20px 30px;animation:slideUp .25s ease-out}
+@keyframes slideUp{from{transform:translateY(30px);opacity:.8}to{transform:translateY(0);opacity:1}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.modal-title{font-size:24px;font-weight:800;color:#111827;letter-spacing:-.02em}
+.btn-close{background:#EF4444;color:#fff;border:none;border-radius:22px;padding:10px 18px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px}
+.cart-item{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:14px;font-weight:700;color:#111827;margin-bottom:2px;line-height:1.3}
+.cart-item-price{font-size:14px;font-weight:800;color:#2563EB}
+.qty-controls{display:flex;align-items:center;gap:8px}
+.qty-btn{background:#fff;border:1.5px solid #E5E7EB;border-radius:8px;width:32px;height:32px;font-size:16px;font-weight:700;color:#374151;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center}
+.qty-value{font-size:15px;font-weight:800;min-width:20px;text-align:center}
+.btn-remove{background:#fff;border:1.5px solid #E5E7EB;border-radius:8px;padding:8px 12px;font-family:inherit;font-size:12px;font-weight:700;color:#DC2626;cursor:pointer}
+.cart-total-row{display:flex;justify-content:space-between;padding:16px 0;border-top:1px solid #E5E7EB;margin-top:6px;font-size:18px;font-weight:900;color:#111827}
+.cart-total-row span:last-child{color:#2563EB;font-size:22px}
+.form-field{margin-top:14px}
+.form-field label{display:block;font-size:13px;font-weight:700;color:#374151;margin-bottom:6px}
+.form-input{width:100%;padding:14px 16px;border:1.5px solid #E5E7EB;border-radius:12px;font-family:inherit;font-size:15px;font-weight:500;background:#fff;color:#111827;outline:none}
+.form-input:focus{border-color:#2563EB;box-shadow:0 0 0 4px rgba(37,99,235,.1)}
+.form-select{width:100%;padding:14px 16px;border:1.5px solid #E5E7EB;border-radius:12px;font-family:inherit;font-size:15px;font-weight:600;background:#fff;color:#111827;outline:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23DC2626' viewBox='0 0 16 16'><path d='M8 11L3 6h10z'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:44px}
+.delivery-note{background:#FEF3C7;border-left:4px solid #F59E0B;padding:12px 14px;border-radius:8px;font-size:13px;color:#78350F;font-weight:600;margin-top:12px;line-height:1.5}
+.btn-whatsapp{width:100%;background:#25D366;color:#fff;border:none;border-radius:12px;padding:18px;font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.02em}
+.btn-whatsapp:active{transform:scale(.98)}
+.btn-secondary-full{width:100%;background:#fff;color:#374151;border:1.5px solid #E5E7EB;border-radius:12px;padding:16px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px}
+.btn-danger-full{width:100%;background:#fff;color:#DC2626;border:1.5px solid #FEE2E2;border-radius:12px;padding:16px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px}
+
+/* SECCIÓN LOCALES */
+.locales{padding:24px 16px 20px}
+.locales-title{font-size:20px;font-weight:800;color:#111827;margin-bottom:14px;letter-spacing:-.02em}
+.local-card{background:#fff;border-radius:14px;padding:18px;margin-bottom:12px;box-shadow:0 4px 14px -8px rgba(0,0,0,.1);position:relative;overflow:hidden}
+.local-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,#0F2A4A,#EF4444)}
+.local-name{font-size:16px;font-weight:800;color:#0F2A4A;margin-bottom:6px;padding-left:12px}
+.local-address{font-size:14px;color:#4B5563;line-height:1.5;padding-left:12px;font-weight:500}
+.local-phone{font-size:13px;color:#9CA3AF;padding-left:12px;margin-top:4px}
+.share-app-btn{width:100%;background:#fff;color:#0F2A4A;border:2px solid #E5E7EB;border-radius:14px;padding:16px;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px}
+.share-app-btn:active{transform:scale(.98)}
+.footer-app{text-align:center;padding:20px;font-size:12px;color:#9CA3AF;font-weight:600;letter-spacing:.05em}
+.footer-app strong{color:#EF4444;font-weight:800}
+
+.empty-state{grid-column:1/-1;text-align:center;padding:40px 20px;color:#6B7280;font-size:15px;font-weight:600}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header">
+<div class="brand-title">La tienda <span class="contigo">Contigo</span></div>
+<div class="brand-sub">Catálogo y pedidos por WhatsApp</div>
+<div class="search-box">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+<input type="text" id="search-input" placeholder="Buscar producto">
+</div>
+</div>
+
+<div class="filters" id="filters">
+<button class="chip active" data-dept="todos">Todos</button>
+<button class="chip" data-dept="dama">Dama</button>
+<button class="chip" data-dept="caballero">Caballero</button>
+<button class="chip" data-dept="nino">Niño</button>
+<button class="chip" data-dept="nina">Niña</button>
+<button class="chip" data-dept="calzado">Calzado</button>
+<button class="chip" data-dept="hogar">Hogar</button>
+<button class="chip" data-dept="accesorios">Accesorios</button>
+<button class="chip" data-dept="minimarket">Minimarket</button>
+</div>
+
+<div class="demo-notice">
+<strong>Vista de demostración:</strong> los precios y las fotos son de ejemplo y se reemplazan con los reales de la tienda.
+</div>
+
+<div class="products" id="products-grid"></div>
+
+<div class="locales">
+<div class="locales-title">Nuestros locales</div>
+<div class="local-card">
+<div class="local-name">Local principal</div>
+<div class="local-address">Av. Manaure con calle Buchivacoa, Coro</div>
+<div class="local-phone">Teléfono por confirmar</div>
+</div>
+<div class="local-card">
+<div class="local-name">Sucursal</div>
+<div class="local-address">Final de la Av. Manaure, edificio Ciudad del Caquetío, Coro</div>
+<div class="local-phone">Teléfono por confirmar</div>
+</div>
+<button class="share-app-btn" onclick="compartirApp()">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+Compartir esta app
+</button>
+</div>
+
+<div class="footer-app">
+<strong>La tienda Contigo</strong> · Coro · Falcón
+</div>
+
+<div class="cart-bar" id="cart-bar">
+<div class="cart-bar-inner">
+<div class="cart-empty" id="cart-empty" onclick="abrirCarrito()">Tu pedido está vacío</div>
+<div class="cart-filled" id="cart-filled" style="display:none;" onclick="abrirCarrito()">
+<div class="cart-filled-left">
+<span class="cart-count" id="cart-count">0</span>
+<span class="cart-label">Ver mi pedido</span>
+</div>
+<span class="cart-total" id="cart-total">$0.00</span>
+</div>
+</div>
+</div>
+<div class="modal" id="modal-cart">
+<div class="modal-box">
+<div class="modal-header">
+<div class="modal-title">Tu pedido</div>
+<button class="btn-close" onclick="cerrarCarrito()">✕ Cerrar</button>
+</div>
+
+<div id="cart-items-list"></div>
+
+<div class="cart-total-row">
+<span>Total</span>
+<span id="modal-total">$0.00</span>
+</div>
+
+<div class="form-field">
+<label>Tu nombre</label>
+<input type="text" class="form-input" id="client-name" placeholder="Tu nombre">
+</div>
+
+<div class="form-field">
+<label>¿Dónde deseas retirar?</label>
+<select class="form-select" id="local-select">
+<option value="Local principal">Local principal</option>
+<option value="Sucursal">Sucursal</option>
+</select>
+</div>
+
+<div class="form-field">
+<label>Método de entrega</label>
+<select class="form-select" id="delivery-select" onchange="actualizarDelivery()">
+<option value="Retiro en tienda">Retiro en tienda</option>
+<option value="Delivery">Delivery (a coordinar por WhatsApp)</option>
+</select>
+</div>
+
+<div class="delivery-note" id="delivery-note">
+<strong>Retiro en tienda:</strong> pasa por el local que elegiste. El costo del delivery no aplica.
+</div>
+
+<button class="btn-whatsapp" onclick="enviarPedido()">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+Enviar pedido por WhatsApp
+</button>
+
+<button class="btn-secondary-full" onclick="cerrarCarrito()">Seguir comprando</button>
+<button class="btn-danger-full" onclick="vaciarPedido()">Vaciar pedido</button>
+</div>
+</div>
+<div class="modal" id="modal-cart">
+<div class="modal-box">
+<div class="modal-header">
+<div class="modal-title">Tu pedido</div>
+<button class="btn-close" onclick="cerrarCarrito()">✕ Cerrar</button>
+</div>
+
+<div id="cart-items-list"></div>
+
+<div class="cart-total-row">
+<span>Total</span>
+<span id="modal-total">$0.00</span>
+</div>
+
+<div class="form-field">
+<label>Tu nombre</label>
+<input type="text" class="form-input" id="client-name" placeholder="Tu nombre">
+</div>
+
+<div class="form-field">
+<label>¿Dónde deseas retirar?</label>
+<select class="form-select" id="local-select">
+<option value="Local principal">Local principal</option>
+<option value="Sucursal">Sucursal</option>
+</select>
+</div>
+
+<div class="form-field">
+<label>Método de entrega</label>
+<select class="form-select" id="delivery-select" onchange="actualizarDelivery()">
+<option value="Retiro en tienda">Retiro en tienda</option>
+<option value="Delivery">Delivery (a coordinar por WhatsApp)</option>
+</select>
+</div>
+
+<div class="delivery-note" id="delivery-note">
+<strong>Retiro en tienda:</strong> pasa por el local que elegiste. El costo del delivery no aplica.
+</div>
+
+<button class="btn-whatsapp" onclick="enviarPedido()">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+Enviar pedido por WhatsApp
+</button>
+
+<button class="btn-secondary-full" onclick="cerrarCarrito()">Seguir comprando</button>
+<button class="btn-danger-full" onclick="vaciarPedido()">Vaciar pedido</button>
+</div>
+  </div>
+  <script>
+// ===== DATOS DE PRODUCTOS =====
+const productos = [
+  // DAMA
+  { id: 1, nombre: 'Blusa manga corta', dept: 'dama', precio: null },
+  { id: 2, nombre: 'Vestido floral', dept: 'dama', precio: 18.00 },
+  { id: 3, nombre: 'Jean tiro alto', dept: 'dama', precio: 22.00 },
+  // CABALLERO
+  { id: 4, nombre: 'Camisa casual', dept: 'caballero', precio: 20.00 },
+  { id: 5, nombre: 'Pantalón deportivo', dept: 'caballero', precio: 25.00 },
+  { id: 6, nombre: 'Franela básica', dept: 'caballero', precio: 12.00 },
+  // NIÑO
+  { id: 7, nombre: 'Chemise escolar', dept: 'nino', precio: 15.00 },
+  { id: 8, nombre: 'Pantalón jeans niño', dept: 'nino', precio: 18.00 },
+  { id: 9, nombre: 'Franela estampada', dept: 'nino', precio: 10.00 },
+  // NIÑA
+  { id: 10, nombre: 'Vestido de flores', dept: 'nina', precio: 16.00 },
+  { id: 11, nombre: 'Falda plisada', dept: 'nina', precio: 14.00 },
+  { id: 12, nombre: 'Top brillante', dept: 'nina', precio: 12.00 },
+  // CALZADO
+  { id: 13, nombre: 'Zapato de vestir rojo talla 28', dept: 'calzado', precio: 25.00 },
+  { id: 14, nombre: 'Zapatilla deportiva', dept: 'calzado', precio: 35.00 },
+  { id: 15, nombre: 'Sandalia de dama', dept: 'calzado', precio: 20.00 },
+  // HOGAR
+  { id: 16, nombre: 'Juego de sábanas', dept: 'hogar', precio: 28.00 },
+  { id: 17, nombre: 'Toalla de baño', dept: 'hogar', precio: 8.00 },
+  { id: 18, nombre: 'Almohada premium', dept: 'hogar', precio: 15.00 },
+  // ACCESORIOS
+  { id: 19, nombre: 'Bolso escolar', dept: 'accesorios', precio: 22.00 },
+  { id: 20, nombre: 'Correa de cuero', dept: 'accesorios', precio: 12.00 },
+  { id: 21, nombre: 'Gorra deportiva', dept: 'accesorios', precio: 10.00 },
+  // MINIMARKET
+  { id: 22, nombre: 'Margarina Mavesa 500g', dept: 'minimarket', precio: 4.50 },
+  { id: 23, nombre: 'Aceite Vatel 1L', dept: 'minimarket', precio: 4.30 },
+  { id: 24, nombre: 'Pilas AA', dept: 'minimarket', precio: null }
+];
+
+const deptNombres = {
+  dama: 'Dama',
+  caballero: 'Caballero',
+  nino: 'Niño',
+  nina: 'Niña',
+  calzado: 'Calzado',
+  hogar: 'Hogar',
+  accesorios: 'Accesorios',
+  minimarket: 'Minimarket'
+};
+
+let filtroActual = 'todos';
+let busquedaActual = '';
+
+// ===== ICONO POR DEPARTAMENTO =====
+function iconoDept(dept) {
+  const iconos = {
+    dama: '👗', caballero: '👔', nino: '👦', nina: '👧',
+    calzado: '👟', hogar: '🏠', accesorios: '🎒', minimarket: '🛒'
+  };
+  return iconos[dept] || '📦';
+}
+
+// ===== RENDER PRODUCTOS =====
+function renderProductos() {
+  const grid = document.getElementById('products-grid');
+  let lista = productos;
+
+  if (filtroActual !== 'todos') {
+    lista = lista.filter(p => p.dept === filtroActual);
+  }
+
+  if (busquedaActual) {
+    const q = busquedaActual.toLowerCase();
+    lista = lista.filter(p =>
+      p.nombre.toLowerCase().includes(q) ||
+      deptNombres[p.dept].toLowerCase().includes(q)
+    );
+  }
+
+  if (lista.length === 0) {
+    grid.innerHTML = '<div class="empty-state">No se encontraron productos</div>';
+    return;
+  }
+
+  grid.innerHTML = lista.map(p => {
+    const precioHTML = p.precio === null
+      ? '<div class="product-price no-price">Precio por confirmar</div>'
+      : '<div class="product-price">$' + p.precio.toFixed(2) + '</div>';
+
+    return `
+      <div class="product-card">
+        <div class="product-img">
+          <span style="font-size:52px;line-height:1;">${iconoDept(p.dept)}</span>
+          <span>Foto ${p.nombre}</span>
+        </div>
+        <div class="product-info">
+          <div class="product-name">${p.nombre}</div>
+          <div class="product-dept">${deptNombres[p.dept]}</div>
+          ${precioHTML}
+          <button class="btn-add" onclick="agregarAlCarrito(${p.id}, this)">Agregar</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===== FILTROS =====
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    filtroActual = this.dataset.dept;
+    renderProductos();
+  });
+});
+
+// ===== BUSCADOR =====
+document.getElementById('search-input').addEventListener('input', function() {
+  busquedaActual = this.value.trim();
+  renderProductos();
+});
+
+// ===== INICIALIZAR =====
+renderProductos();
+    </script>
+    <script>
+// ===== ESTADO DEL CARRITO =====
+let carrito = [];
+
+// ===== AGREGAR AL CARRITO =====
+function agregarAlCarrito(id, btn) {
+  const prod = productos.find(p => p.id === id);
+  if (!prod) return;
+
+  const existente = carrito.find(item => item.id === id);
+  if (existente) {
+    existente.cantidad++;
+  } else {
+    carrito.push({
+      id: prod.id,
+      nombre: prod.nombre,
+      precio: prod.precio,
+      cantidad: 1
+    });
+  }
+
+  if (btn) {
+    const textoOriginal = btn.textContent;
+    btn.textContent = '✓ Agregado';
+    btn.classList.add('added');
+    setTimeout(() => {
+      btn.textContent = textoOriginal;
+      btn.classList.remove('added');
+    }, 1200);
+  }
+
+  actualizarCarritoBar();
+}
+
+// ===== ACTUALIZAR BARRA DEL CARRITO =====
+function actualizarCarritoBar() {
+  const empty = document.getElementById('cart-empty');
+  const filled = document.getElementById('cart-filled');
+  const count = document.getElementById('cart-count');
+  const total = document.getElementById('cart-total');
+
+  const totalItems = carrito.reduce((s, i) => s + i.cantidad, 0);
+  const totalPrecio = carrito.reduce((s, i) => s + (i.precio || 0) * i.cantidad, 0);
+
+  if (totalItems === 0) {
+    empty.style.display = 'block';
+    filled.style.display = 'none';
+  } else {
+    empty.style.display = 'none';
+    filled.style.display = 'flex';
+    count.textContent = totalItems;
+    total.textContent = '$' + totalPrecio.toFixed(2);
+  }
+}
+
+// ===== ABRIR CARRITO =====
+function abrirCarrito() {
+  if (carrito.length === 0) return;
+  renderCarrito();
+  document.getElementById('modal-cart').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+// ===== CERRAR CARRITO =====
+function cerrarCarrito() {
+  document.getElementById('modal-cart').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ===== RENDER CARRITO =====
+function renderCarrito() {
+  const lista = document.getElementById('cart-items-list');
+
+  if (carrito.length === 0) {
+    lista.innerHTML = '<div class="empty-state">Tu pedido está vacío</div>';
+    document.getElementById('modal-total').textContent = '$0.00';
+    return;
+  }
+
+  lista.innerHTML = carrito.map(item => {
+    const precioStr = item.precio === null ? 'Por confirmar' : '$' + item.precio.toFixed(2);
+    return `
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.nombre}</div>
+          <div class="cart-item-price">${precioStr}</div>
+        </div>
+        <div class="qty-controls">
+          <button class="qty-btn" onclick="cambiarCantidad(${item.id}, -1)">−</button>
+          <span class="qty-value">${item.cantidad}</span>
+          <button class="qty-btn" onclick="cambiarCantidad(${item.id}, 1)">+</button>
+          <button class="btn-remove" onclick="quitarDelCarrito(${item.id})">Quitar</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const totalPrecio = carrito.reduce((s, i) => s + (i.precio || 0) * i.cantidad, 0);
+  document.getElementById('modal-total').textContent = '$' + totalPrecio.toFixed(2);
+}
+
+// ===== CAMBIAR CANTIDAD =====
+function cambiarCantidad(id, delta) {
+  const item = carrito.find(i => i.id === id);
+  if (!item) return;
+  item.cantidad += delta;
+  if (item.cantidad <= 0) {
+    carrito = carrito.filter(i => i.id !== id);
+  }
+  renderCarrito();
+  actualizarCarritoBar();
+}
+
+// ===== QUITAR DEL CARRITO =====
+function quitarDelCarrito(id) {
+  carrito = carrito.filter(i => i.id !== id);
+  renderCarrito();
+  actualizarCarritoBar();
+}
+
+// ===== VACIAR PEDIDO =====
+function vaciarPedido() {
+  if (!confirm('¿Vaciar todo el pedido?')) return;
+  carrito = [];
+  renderCarrito();
+  actualizarCarritoBar();
+  cerrarCarrito();
+}
+
+// ===== ACTUALIZAR AVISO DELIVERY =====
+function actualizarDelivery() {
+  const valor = document.getElementById('delivery-select').value;
+  const nota = document.getElementById('delivery-note');
+  if (valor === 'Delivery') {
+    nota.innerHTML = '<strong>Delivery:</strong> el costo de la entrega se acuerda por WhatsApp con el negocio.';
+  } else {
+    nota.innerHTML = '<strong>Retiro en tienda:</strong> pasa por el local que elegiste. El costo del delivery no aplica.';
+  }
+}
+
+// ===== ENVIAR PEDIDO POR WHATSAPP =====
+function enviarPedido() {
+  const nombre = document.getElementById('client-name').value.trim();
+  const local = document.getElementById('local-select').value;
+  const entrega = document.getElementById('delivery-select').value;
+
+  if (!nombre) {
+    alert('Por favor escribe tu nombre');
+    return;
+  }
+  if (carrito.length === 0) {
+    alert('Tu pedido está vacío');
+    return;
+  }
+
+  let texto = 'Hola, quiero hacer un pedido en *La tienda Contigo*:\n\n';
+  texto += '*Cliente:* ' + nombre + '\n';
+  texto += '*Local:* ' + local + '\n';
+  texto += '*Entrega:* ' + entrega + '\n\n';
+  texto += '*Productos:*\n';
+
+  carrito.forEach(item => {
+    const precioStr = item.precio === null ? '(precio por confirmar)' : '$' + (item.precio * item.cantidad).toFixed(2);
+    texto += '• ' + item.cantidad + 'x ' + item.nombre + ' — ' + precioStr + '\n';
+  });
+
+  const totalPrecio = carrito.reduce((s, i) => s + (i.precio || 0) * i.cantidad, 0);
+  texto += '\n*Total:* $' + totalPrecio.toFixed(2);
+
+  if (entrega === 'Delivery') {
+    texto += '\n\n_Solicito delivery, coordinemos el costo por aquí._';
+  }
+
+  const numeroWhatsApp = '584241234567';
+  const url = 'https://wa.me/' + numeroWhatsApp + '?text=' + encodeURIComponent(texto);
+  window.open(url, '_blank');
+}
+
+// ===== COMPARTIR APP =====
+function compartirApp() {
+  const url = window.location.href;
+  const text = 'Mira la app de La tienda Contigo. Catálogo y pedidos por WhatsApp.';
+  if (navigator.share) {
+    navigator.share({ title: 'La tienda Contigo', text: text, url: url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      alert('Enlace copiado al portapapeles');
+    }).catch(() => {
+      prompt('Copia este enlace:', url);
+    });
+  }
+}
+
+// ===== INICIALIZAR =====
+actualizarCarritoBar();
+
+// Cerrar modal al tocar fuera
+document.getElementById('modal-cart').addEventListener('click', function(e) {
+  if (e.target === this) cerrarCarrito();
+});
+</script>
+</body>
+</html>
