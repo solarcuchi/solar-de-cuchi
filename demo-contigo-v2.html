@@ -551,5 +551,22 @@ document.getElementById('modal-cart').addEventListener('click', function(e) {
   if (e.target === this) cerrarCarrito();
 });
 </script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    document.querySelectorAll('.chip').forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        var input = document.getElementById('search-input');
+        var clearBtn = document.getElementById('btn-clear-search');
+        if (input) {
+          input.value = '';
+          if (typeof busquedaActual !== 'undefined') busquedaActual = '';
+        }
+        if (clearBtn) clearBtn.style.display = 'none';
+      });
+    });
+  }, 500);
+});
+  </script>
 </body>
 </html>
