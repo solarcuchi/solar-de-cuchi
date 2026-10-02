@@ -587,5 +587,108 @@ document.getElementById('modal-cart').addEventListener('click', function(e) {
   if (e.target === this) cerrarCarrito();
 });
 </script>
+  <script>
+(function(){
+  // ===== REFUERZO DEL BUSCADOR =====
+  var oldInput = document.getElementById('search-input');
+  if (oldInput) {
+    var newInput = oldInput.cloneNode(true);
+    newInput.value = oldInput.value;
+    oldInput.parentNode.replaceChild(newInput, oldInput);
+
+    // Botón X para limpiar
+    var searchBox = newInput.parentNode;
+    var clearBtn = document.createElement('button');
+    clearBtn.type = 'button';
+    clearBtn.textContent = '✕';
+    clearBtn.style.cssText = 'background:none;border:none;color:#9CA3AF;font-size:18px;cursor:pointer;padding:0 6px;font-weight:700;display:none;';
+    searchBox.appendChild(clearBtn);
+
+    // Actualizar búsqueda al escribir
+    newInput.addEventListener('input', function() {
+      window._busqueda = this.value.trim().toLowerCase();
+      clearBtn.style.display = this.value ? 'block' : 'none';
+      window._renderProductos();
+    });
+
+    // Enter → ocultar teclado
+    newInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        e.preventDefault();
+        this.blur();
+      }
+    });
+
+    // Botón X limpia la búsqueda
+    clearBtn.addEventListener('click', function() {
+      newInput.value = '';
+      window._busqueda = '';
+      clearBtn.style.display = 'none';
+      window._renderProductos();
+      newInput.focus();
+    });
+  }
+
+  // ===== NUEVO RENDER (sin bug de desaparición) =====
+  window._filtro = 'todos';
+  window._busqueda = '';
+
+  window._renderProductos = function() {
+    var grid = document.getElementById('products-grid');
+    var q = window._busqueda || '';
+    var f = window._filtro || 'todos';
+
+    var lista = productos.slice();
+
+    if (f !== 'todos') {
+      lista = lista.filter(function(p) { return p.dept === f; });
+    }
+    if (q) {
+      lista = lista.filter(function(p) {
+        return p.nombre.toLowerCase().indexOf(q) > -1 ||
+               deptNombres[p.dept].toLowerCase().indexOf(q) > -1;
+      });
+    }
+
+    if (lista.length === 0) {
+      grid.innerHTML = '<div class="empty-state">No se encontraron productos</div>';
+      return;
+    }
+
+    grid.innerHTML = lista.map(function(p) {
+      var precioHTML = p.precio === null
+        ? '<div class="product-price no-price">Precio por confirmar</div>'
+        : '<div class="product-price">$' + p.precio.toFixed(2) + '</div>';
+      return '<div class="product-card">' +
+        '<div class="product-img">' +
+          '<span style="font-size:52px;line-height:1;">' + iconoDept(p.dept) + '</span>' +
+          '<span>Foto ' + p.nombre + '</span>' +
+        '</div>' +
+        '<div class="product-info">' +
+          '<div class="product-name">' + p.nombre + '</div>' +
+          '<div class="product-dept">' + deptNombres[p.dept] + '</div>' +
+          precioHTML +
+          '<button class="btn-add" onclick="agregarAlCarrito(' + p.id + ', this)">Agregar</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  };
+
+  // ===== CHIPS REFORZADOS =====
+  document.querySelectorAll('.chip').forEach(function(chip) {
+    var newChip = chip.cloneNode(true);
+    chip.parentNode.replaceChild(newChip, chip);
+    newChip.addEventListener('click', function() {
+      document.querySelectorAll('.chip').forEach(function(c) { c.classList.remove('active'); });
+      this.classList.add('active');
+      window._filtro = this.dataset.dept;
+      window._renderProductos();
+    });
+  });
+
+  // ===== RENDER INICIAL =====
+  window._renderProductos();
+})();
+  </script>
 </body>
 </html>
