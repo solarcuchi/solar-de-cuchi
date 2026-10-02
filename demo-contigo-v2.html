@@ -580,5 +580,73 @@ document.addEventListener('DOMContentLoaded', function() {
   document.head.appendChild(t);
 })();
   </script>
+  <style>
+.product-img{position:relative;overflow:hidden;padding:0!important}
+.product-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+</style>
+
+<script>
+(function(){
+  var intentos = 0;
+  var esperar = setInterval(function(){
+    intentos++;
+    if (intentos > 30) { clearInterval(esperar); return; }
+    if (typeof productos === 'undefined' || !productos.length) return;
+    clearInterval(esperar);
+
+    // Agregar foto a la margarina
+    for (var i = 0; i < productos.length; i++) {
+      if (productos[i].id === 22) {
+        productos[i].foto = 'margarina-mavesa.jpg';
+        break;
+      }
+    }
+
+    // Nueva función de render que soporta fotos
+    window.renderProductos = function() {
+      var grid = document.getElementById('products-grid');
+      var lista = productos.slice();
+
+      if (filtroActual !== 'todos') {
+        lista = lista.filter(function(p) { return p.dept === filtroActual; });
+      }
+      if (busquedaActual) {
+        var q = busquedaActual.toLowerCase();
+        lista = lista.filter(function(p) {
+          return p.nombre.toLowerCase().indexOf(q) > -1 ||
+                 deptNombres[p.dept].toLowerCase().indexOf(q) > -1;
+        });
+      }
+
+      if (lista.length === 0) {
+        grid.innerHTML = '<div class="empty-state">No se encontraron productos</div>';
+        return;
+      }
+
+      grid.innerHTML = lista.map(function(p) {
+        var precioHTML = p.precio === null
+          ? '<div class="product-price no-price">Precio por confirmar</div>'
+          : '<div class="product-price">$' + p.precio.toFixed(2) + '</div>';
+
+        var imgHTML = p.foto
+          ? '<img src="' + p.foto + '" alt="' + p.nombre + '">'
+          : '<span style="font-size:52px;line-height:1;">' + iconosDept[p.dept] + '</span><span>Foto ' + p.nombre + '</span>';
+
+        return '<div class="product-card">' +
+          '<div class="product-img">' + imgHTML + '</div>' +
+          '<div class="product-info">' +
+            '<div class="product-name">' + p.nombre + '</div>' +
+            '<div class="product-dept">' + deptNombres[p.dept] + '</div>' +
+            precioHTML +
+            '<button class="btn-add" onclick="agregarAlCarrito(' + p.id + ', this)">Agregar</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    };
+
+    renderProductos();
+  }, 300);
+})();
+</script>
 </body>
 </html>
