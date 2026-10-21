@@ -102,6 +102,25 @@ body{font-family:'Inter',sans-serif;background:#F5F5F5;color:#111827;min-height:
   <div class="header">
 <div class="brand-title">La tienda <span class="contigo">Contigo</span></div>
 <div class="brand-sub">Catálogo y pedidos por WhatsApp</div>
+    <div class="promo-carousel-container">
+  <div class="promo-carousel">
+    <div class="promo-slide" style="background: linear-gradient(135deg, #EF4444, #B91C1C);">
+      <span class="promo-badge">🔥 BLACK FRIDAY</span>
+      <h3>Hasta 50% OFF</h3>
+      <p>En productos seleccionados</p>
+    </div>
+    <div class="promo-slide" style="background: linear-gradient(135deg, #0F2A4A, #1E40AF);">
+      <span class="promo-badge">🎄 NAVIDAD</span>
+      <h3>Combo Especial</h3>
+      <p>Lleva más por menos</p>
+    </div>
+    <div class="promo-slide" style="background: linear-gradient(135deg, #10B981, #047857);">
+      <span class="promo-badge">🚚 DELIVERY GRATIS</span>
+      <h3>En compras +$20</h3>
+      <p>Solo esta semana</p>
+    </div>
+  </div>
+    </div>
 <div class="search-box">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
 <input type="text" id="search-input" placeholder="Buscar producto">
@@ -648,5 +667,62 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 300);
 })();
 </script>
+  <style>
+.promo-carousel-container {
+  padding: 15px 20px;
+  background: #0F2A4A;
+}
+.promo-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 12px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5px;
+}
+.promo-carousel::-webkit-scrollbar {
+  display: none;
+}
+.promo-slide {
+  flex: 0 0 85%;
+  scroll-snap-align: center;
+  border-radius: 16px;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 8px 20px -8px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.promo-slide::after {
+  content: "";
+  position: absolute;
+  top: -20px; right: -20px;
+  width: 80px; height: 80px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+}
+.promo-badge {
+  background: rgba(255,255,255,0.2);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.promo-slide h3 {
+  font-size: 24px;
+  margin: 0 0 4px 0;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+.promo-slide p {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.9;
+}
+  </style>
 </body>
 </html>
