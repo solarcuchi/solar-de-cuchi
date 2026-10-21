@@ -724,5 +724,89 @@ document.addEventListener('DOMContentLoaded', function() {
   opacity: 0.9;
 }
   </style>
+  <style>
+.facade-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 14px -8px rgba(0,0,0,0.2);
+}
+.facade-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.facade-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(15, 42, 74, 0.9);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+.map-container {
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px -8px rgba(0,0,0,0.2);
+  border: 1px solid #E5E7EB;
+}
+  </style>
+  <script>
+window.addEventListener('DOMContentLoaded', function() {
+  var app = document.getElementById('app');
+  if (!app) return;
+
+  // Crear el contenedor de los locales
+  var section = document.createElement('div');
+  section.className = 'locales';
+  section.innerHTML = `
+    <div class="locales-title">Nuestros locales</div>
+    
+    <div class="facade-container">
+      <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=1000&auto=format&fit=crop" alt="Fachada del local">
+      <div class="facade-badge">📍 Nuestra Fachada</div>
+    </div>
+
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3915.6746992480053!2d-69.6758!3d11.4167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDI1JzAwLjEiTiA2OcKwNDAnMzIuOSJX!5e0!3m2!1ses!2sve!4v1610000000000!5m2!1ses!2sve" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <div class="local-card">
+      <div class="local-name">Local principal</div>
+      <div class="local-address">Av. Manaure con calle Buchivacoa, Coro</div>
+      <div class="local-phone">Teléfono por confirmar</div>
+    </div>
+
+    <div class="local-card">
+      <div class="local-name">Sucursal</div>
+      <div class="local-address">Final de la Av. Manaure, edificio Ciudad del Caquetío, Coro</div>
+      <div class="local-phone">Teléfono por confirmar</div>
+    </div>
+
+    <button class="share-app-btn" onclick="compartirApp()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      Compartir esta app
+    </button>
+  `;
+
+  // Insertarlo justo antes de la barra del carrito
+  var cartBar = document.querySelector('.cart-bar');
+  if (cartBar) {
+    cartBar.parentNode.insertBefore(section, cartBar);
+  } else {
+    app.appendChild(section);
+  }
+});
+  </script>
 </body>
 </html>
