@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Comercial - José Reyes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+  body { background-color: #f3f4f6; padding: 20px; color: #1f2937; }
+  .documento { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+  
+  /* Encabezado */
+  .header { background: #0F2A4A; padding: 40px 30px; text-align: center; color: white; position: relative; }
+  .header h1 { font-size: 26px; font-weight: 900; margin-bottom: 10px; line-height: 1.2; }
+  .header p { font-size: 14px; color: #93C5FD; margin-bottom: 20px; }
+  .cliente-box { background: rgba(255,255,255,0.1); border: 1px dashed #60A5FA; padding: 15px; border-radius: 12px; display: inline-block; }
+  .cliente-box span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #93C5FD; margin-bottom: 5px; }
+  .cliente-box strong { font-size: 22px; color: #FBBF24; }
+  
+  /* Contenido */
+  .content { padding: 30px; }
+  .hook { font-size: 18px; font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.4; color: #0F2A4A; }
+  .hook span { color: #EF4444; }
+  
+  /* Mockup de la App */
+  .app-preview { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 15px; text-align: center; margin-bottom: 25px; }
+  .app-preview h3 { font-size: 14px; color: #64748b; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .img-placeholder { width: 100%; height: 250px; background: #e2e8f0; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 14px; font-weight: 600; border: 2px dashed #cbd5e1; }
+  
+  /* Beneficios */
+  .beneficios { margin-bottom: 30px; }
+  .beneficios h3 { font-size: 20px; font-weight: 800; margin-bottom: 15px; color: #0F2A4A; border-left: 4px solid #EF4444; padding-left: 10px; }
+  .lista-check { list-style: none; }
+  .lista-check li { margin-bottom: 12px; font-size: 15px; display: flex; align-items: flex-start; gap: 10px; font-weight: 600; }
+  .lista-check li::before { content: '✅'; font-size: 18px; }
+  
+  /* Tabla Comparativa */
+  .comparativa { background: #fff1f2; border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #fecdd3; }
+  .comparativa h3 { font-size: 18px; font-weight: 800; color: #be123c; margin-bottom: 15px; text-align: center; }
+  .comparativa p { font-size: 14px; line-height: 1.6; margin-bottom: 10px; color: #881337; }
+  .comparativa strong { font-weight: 800; }
+  
+  /* Inversión */
+  .inversion { background: #0F2A4A; color: white; padding: 25px; border-radius: 16px; text-align: center; margin-bottom: 30px; box-shadow: 0 10px 20px -10px rgba(15,42,74,0.5); }
+  .inversion h3 { font-size: 16px; text-transform: uppercase; letter-spacing: 1px; color: #93C5FD; margin-bottom: 10px; }
+  .inversion .precio { font-size: 36px; font-weight: 900; color: #FBBF24; margin-bottom: 5px; }
+  .inversion .precio span { font-size: 16px; color: white; font-weight: 600; }
+  .inversion p { font-size: 13px; color: #cbd5e1; margin-top: 10px; }
+  
+  /* Bono */
+  .bono { background: #fef2f2; border: 2px dashed #EF4444; border-radius: 12px; padding: 20px; margin-bottom: 30px; text-align: center; }
+  .bono h4 { color: #EF4444; font-size: 18px; font-weight: 900; margin-bottom: 8px; }
+  .bono p { font-size: 14px; color: #7f1d1d; line-height: 1.5; font-weight: 600; }
+  
+  /* Footer / CTA */
+  .footer { text-align: center; padding-top: 20px; border-top: 1px solid #e5e7eb; }
+  .footer h3 { font-size: 18px; font-weight: 800; margin-bottom: 15px; }
+  .btn-whatsapp { display: inline-block; background: #25D366; color: white; text-decoration: none; padding: 15px 30px; border-radius: 30px; font-weight: 800; font-size: 16px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+  .firma { margin-top: 20px; font-size: 13px; color: #6b7280; font-weight: 600; }
+  .firma strong { color: #0F2A4A; font-size: 15px; }
+</style>
+</head>
+<body>
+
+<div class="documento">
+  
+  <div class="header">
+    <h1>Propuesta de Digitalización Comercial</h1>
+    <p>Diseñada exclusivamente para:</p>
+    <div class="cliente-box">
+      <span>Preparado para</span>
+      <!-- ⚠️ CAMBIA ESTO POR EL NOMBRE DEL NEGOCIO -->
+      <strong>[NOMBRE DEL NEGOCIO]</strong>
+    </div>
+  </div>
+
+  <div class="content">
+    
+    <h2 class="hook">¿Sabía que sus clientes lo buscan en WhatsApp y usted los hace esperar?<br><span>Haz que te compren. No solo que te pregunten.</span></h2>
+
+    <div class="app-preview">
+      <h3>Así se verá tu negocio en el bolsillo de tus clientes</h3>
+      
+      <!-- ⚠️ REEMPLAZA ESTE DIV POR UNA IMAGEN REAL DE TU APP -->
+      <!-- Ejemplo: <img src="link-de-tu-captura.png" style="width:100%; border-radius:10px;"> -->
+      <div class="img-placeholder">
+        (Aquí insertarás la captura de pantalla de tu app demo con el logo de ellos y el mapa)
+      </div>
+      
+    </div>
+
+    <div class="beneficios">
+      <h3>No es un software. Es un Ecosistema Asistido.</h3>
+      <ul class="lista-check">
+        <li>App personalizada con su logo, colores y foto de fachada.</li>
+        <li>Mapa de Google integrado para que sepan cómo llegar.</li>
+        <li>Catálogo con precios en Dólares y Bolívares (Tasa BCV).</li>
+        <li>Carrito de compras que envía el pedido armado a su WhatsApp.</li>
+        <li><strong>Nosotros subimos sus fotos y actualizamos sus precios.</strong> Usted no toca la tecnología.</li>
+        <li>Videos con Inteligencia Artificial para sus redes sociales.</li>
+      </ul>
+    </div>
+
+    <div class="comparativa">
+      <h3>¿Por qué no comprar una plataforma barata?</h3>
+      <p>Las plataformas extranjeras (como Duilker o Bigdream) le cobran un pago único, <strong>pero lo dejan solo</strong>.</p>
+      <p>Le dan un panel para que <strong>USTED</strong> se pelee subiendo fotos y lidiando con la tecnología. Y si la página se cae al mes siguiente, le cobran extra por arreglarla.</p>
+      <p style="margin-top: 15px; text-align: center; font-size: 16px;"><strong>Aquí, usted se concentra en vender. Nosotros nos encargamos del resto.</strong></p>
+    </div>
+
+    <div class="inversion">
+      <h3>Inversión</h3>
+      <div class="precio">$100 <span>/ mes</span></div>
+      <p>Instalación bonificada (Ahorro de $180)</p>
+      <p>Sin pagos anuales a Google o Apple. Membresía mínima de 7 meses.</p>
+    </div>
+
+    <div class="bono">
+      <h4>🎁 BONO EXCLUSIVO BLACK FRIDAY</h4>
+      <p>Por contratación este mes, incluimos:<br>
+      🔥 Carrusel de ofertas navideñas en la app.<br>
+      📲 Automatización de respuestas en Instagram (ManyChat).<br>
+      🎬 1 Video promocional con IA.</p>
+    </div>
+
+    <div class="footer">
+      <h3>¿Comenzamos hoy?</h3>
+      <a href="https://wa.me/584125466655" class="btn-whatsapp">💬 Escribir por WhatsApp</a>
+      <div class="firma">
+        <strong>José Reyes</strong><br>
+        Consultor de Digitalización Comercial<br>
+        Coro, Estado Falcón
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+        </html>
