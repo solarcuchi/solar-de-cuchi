@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de Carrusel - José Reyes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<!-- Librería para convertir HTML a Imagen -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: #1a1a1a; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    
+    /* Contenedor de la diapositiva */
+    .slide-container {
+        width: 100%;
+        max-width: 400px; /* Tamaño visual en el teléfono */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .slide {
+        width: 100%;
+        aspect-ratio: 1 / 1; /* Cuadrado perfecto */
+        background-color: #0A0E1A;
+        border-radius: 12px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    /* Elementos de diseño */
+    .badge { color: #EF4444; font-size: 14px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; z-index: 2;}
+    .title { color: #ffffff; font-size: 42px; font-weight: 900; line-height: 1.1; z-index: 2; margin-bottom: 15px;}
+    .title span { color: #EF4444; }
+    .text { color: #94A3B8; font-size: 20px; font-weight: 400; line-height: 1.4; z-index: 2;}
+    
+    /* Decoración de fondo */
+    .slide::before {
+        content: "";
+        position: absolute;
+        top: -50px; right: -50px;
+        width: 200px; height: 200px;
+        background: rgba(239, 68, 68, 0.1);
+        border-radius: 50%;
+        z-index: 1;
+    }
+    .slide::after {
+        content: "";
+        position: absolute;
+        bottom: -30px; left: -30px;
+        width: 150px; height: 150px;
+        background: rgba(15, 42, 74, 0.5);
+        border-radius: 50%;
+        z-index: 1;
+    }
+
+    /* Estilos específicos por diapositiva */
+    .slide.portada { background: #0F2A4A; }
+    .slide.portada .title { font-size: 50px; }
+    .slide.cierre { background: #EF4444; }
+    .slide.cierre .title { color: #ffffff; }
+    .slide.cierre .text { color: #ffffff; font-weight: 700; }
+
+    /* Botón de descarga */
+    .btn-download {
+        background: #10B981; color: white; border: none;
+        padding: 12px 24px; border-radius: 30px;
+        font-weight: 800; font-size: 16px;
+        cursor: pointer; width: 100%;
+        display: flex; justify-content: center; align-items: center; gap: 8px;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+    .btn-download:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+
+    <h1 style="color:white; font-size: 20px; margin-bottom: 10px;">⬇️ Descarga tus 5 imágenes</h1>
+
+    <!-- DIAPOSITIVA 1: PORTADA -->
+    <div class="slide-container">
+        <div class="slide portada" id="slide1">
+            <div class="badge">PARA NEGOCIOS LOCALES</div>
+            <div class="title">3 ERRORES QUE TE ROBAN <span>VENTAS</span></div>
+            <div class="text">Desliza para descubrir si los estás cometiendo.</div>
+        </div>
+        <button class="btn-download" onclick="descargar('slide1', 1)">⬇️ Descargar Imagen 1</button>
+    </div>
+
+    <!-- DIAPOSITIVA 2: ERROR 1 -->
+    <div class="slide-container">
+        <div class="slide" id="slide2">
+            <div class="badge" style="color:#94A3B8;">ERROR #1</div>
+            <div class="title">NO ESTAR EN EL TELÉFONO DEL CLIENTE</div>
+            <div class="text">Hoy la gente busca todo por WhatsApp. Si no estás ahí, no existes.</div>
+        </div>
+        <button class="btn-download" onclick="descargar('slide2', 2)">⬇️ Descargar Imagen 2</button>
+    </div>
+
+    <!-- DIAPOSITIVA 3: ERROR 2 -->
+    <div class="slide-container">
+        <div class="slide" id="slide3">
+            <div class="badge" style="color:#94A3B8;">ERROR #2</div>
+            <div class="title">DEPENDER SOLO DE REDES SOCIALES</div>
+            <div class="text">El algoritmo decide quién te ve. Un día te pueden cerrar la cuenta y lo pierdes todo.</div>
+        </div>
+        <button class="btn-download" onclick="descargar('slide3', 3)">⬇️ Descargar Imagen 3</button>
+    </div>
+
+    <!-- DIAPOSITIVA 4: ERROR 3 -->
+    <div class="slide-container">
+        <div class="slide" id="slide4">
+            <div class="badge" style="color:#94A3B8;">ERROR #3</div>
+            <div class="title">HACER ESPERAR AL CLIENTE</div>
+            <div class="text">Si tu cliente tiene que llamar o mandar 5 mensajes para saber un precio, ya perdiste la venta.</div>
+        </div>
+        <button class="btn-download" onclick="descargar('slide4', 4)">⬇️ Descargar Imagen 4</button>
+    </div>
+
+    <!-- DIAPOSITIVA 5: CIERRE -->
+    <div class="slide-container">
+        <div class="slide cierre" id="slide5">
+            <div class="title">LA SOLUCIÓN EXISTE.</div>
+            <div class="text">Haz que te compren, no solo que te pregunten.<br><br>Escríbeme por WhatsApp para mostrarte cómo.</div>
+        </div>
+        <button class="btn-download" onclick="descargar('slide5', 5)">⬇️ Descargar Imagen 5</button>
+    </div>
+
+    <!-- SCRIPT DE DESCARGA -->
+    <script>
+        function descargar(idElemento, numero) {
+            const slide = document.getElementById(idElemento);
+            
+            // Aumentamos temporalmente la resolución para que salga en HD
+            html2canvas(slide, {
+                scale: 3, // Escala 3x para que se vea nítido en Instagram
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                // Crear el enlace de descarga
+                const enlace = document.createElement('a');
+                enlace.download = 'Carrusel_Error_' + numero + '.png';
+                enlace.href = canvas.toDataURL('image/png');
+                enlace.click();
+            });
+        }
+    </script>
+
+</body>
+      </html>
