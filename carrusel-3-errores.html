@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fábrica de Carruseles Premium</title>
+<title>Carrusel Editorial Premium</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@1,700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@1,600&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #111; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 25px; }
+    body { background: #111; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
     
     .slide-container {
         width: 100%;
@@ -18,201 +18,142 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 12px;
+        gap: 15px;
     }
 
     .slide {
         width: 100%;
         aspect-ratio: 1 / 1;
-        background-color: #050B14;
-        border-radius: 16px;
+        border-radius: 0; /* Estilo más de póster */
         padding: 40px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-        border: 1px solid rgba(255,255,255,0.05);
     }
 
-    /* Texturas y Glows de fondo */
-    .slide::before {
-        content: "";
-        position: absolute;
-        top: -10%; left: -10%;
-        width: 50%; height: 50%;
-        background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, transparent 70%);
-        border-radius: 50%;
-        z-index: 1;
-    }
-    .slide::after {
-        content: "";
-        position: absolute;
-        bottom: -10%; right: -10%;
-        width: 60%; height: 60%;
-        background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-        border-radius: 50%;
-        z-index: 1;
-    }
-
-    /* Contenido */
-    .content { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; justify-content: center; }
+    /* ESTILOS EDITORIALES */
+    .slide.oscuro { background: #0A0A0A; color: white; }
+    .slide.beige { background: #EAE8E3; color: #111; }
+    .slide.rojo { background: #E63946; color: white; }
     
-    .badge { 
-        color: #EF4444; 
-        font-family: 'Inter', sans-serif;
-        font-size: 12px; 
-        font-weight: 900; 
-        letter-spacing: 3px; 
-        text-transform: uppercase; 
-        margin-bottom: 15px;
-        display: inline-block;
-        border: 1px solid #EF4444;
-        padding: 6px 12px;
-        border-radius: 20px;
-        align-self: flex-start;
-    }
-
-    .title { 
-        color: #ffffff; 
-        font-family: 'Anton', sans-serif;
-        font-size: 52px; 
-        line-height: 1.05; 
-        text-transform: uppercase;
-        margin-bottom: 10px;
-    }
-    .title span.script { 
-        font-family: 'Playfair Display', serif;
-        color: #EF4444; 
-        text-transform: none;
-        font-size: 58px;
-    }
+    /* Tipografías */
+    .top-badge { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid currentColor; padding-bottom: 5px; align-self: flex-start;}
     
-    .text { 
-        color: #94A3B8; 
-        font-family: 'Inter', sans-serif;
-        font-size: 18px; 
-        font-weight: 400; 
-        line-height: 1.4; 
-        margin-top: 15px;
-    }
-
-    /* Número Gigante de fondo para los errores */
-    .bg-number {
-        position: absolute;
-        top: 50%; right: 20px;
-        transform: translateY(-50%);
-        font-family: 'Anton', sans-serif;
-        font-size: 220px;
-        color: rgba(255,255,255,0.03);
-        z-index: 1;
-        line-height: 1;
-    }
-
-    /* Portada */
-    .slide.portada { background: linear-gradient(135deg, #050B14 0%, #0F2A4A 100%); }
-    .slide.portada .title { font-size: 60px; }
-    .swipe-icon { margin-top: 30px; color: #EF4444; font-size: 24px; font-weight: bold; animation: pulse 2s infinite; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 10px;}
+    .title-box { margin-top: 20px; position: relative; z-index: 2;}
+    .title-box h2 { font-family: 'Anton', sans-serif; font-size: 65px; line-height: 0.9; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 10px;}
+    .title-box h2 span { font-family: 'Playfair Display', serif; font-style: italic; text-transform: lowercase; font-size: 65px; letter-spacing: -2px;}
     
-    /* Cierre */
-    .slide.cierre { background: linear-gradient(135deg, #EF4444 0%, #991B1B 100%); }
-    .slide.cierre .title { color: #fff; font-size: 46px; }
-    .slide.cierre .text { color: #fff; font-weight: 700; font-size: 20px; }
-    .slide.cierre .badge { border-color: #fff; color: #fff; }
+    .slide.oscuro .title-box h2 span { color: #E63946; }
+    .slide.beige .title-box h2 span { color: #E63946; }
+    .slide.rojo .title-box h2 span { color: #F1FAEE; }
+    
+    .description { font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 400; line-height: 1.4; margin-top: 15px; max-width: 90%; opacity: 0.9;}
+    .bottom-arrow { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; text-align: right; text-transform: uppercase; letter-spacing: 1px; margin-top: auto;}
 
-    @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+    /* Número Gigante de fondo */
+    .bg-num { position: absolute; bottom: -30px; right: 0px; font-family: 'Anton'; font-size: 250px; line-height: 1; opacity: 0.05; z-index: 1; color: currentColor; }
+    .slide.rojo .bg-num { opacity: 0.15; }
 
     /* Botón */
     .btn-download {
         background: #10B981; color: white; border: none;
-        padding: 14px 24px; border-radius: 30px;
-        font-family: 'Inter', sans-serif;
-        font-weight: 800; font-size: 15px;
+        padding: 15px; border-radius: 10px;
+        font-family: 'Inter', sans-serif; font-weight: 900; font-size: 14px;
         cursor: pointer; width: 100%;
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-        transition: transform 0.1s;
+        text-transform: uppercase; letter-spacing: 1px;
     }
-    .btn-download:active { transform: scale(0.98); }
 </style>
 </head>
 <body>
 
-    <h1 style="color:white; font-family: 'Inter'; font-size: 18px; margin-bottom: 10px; text-align: center;">⬇️ Genera tu Carrusel Premium</h1>
+    <h1 style="color:white; font-family: 'Inter'; font-size: 16px; text-align: center; font-weight: 400; letter-spacing: 2px;">DESCARGA TU CARRUSEL PREMIUM</h1>
 
-    <!-- DIAPOSITIVA 1: PORTADA -->
+    <!-- DIAPOSITIVA 1: PORTADA (Estilo Revista) -->
     <div class="slide-container">
-        <div class="slide portada" id="slide1">
-            <div class="content">
-                <div class="badge">PARA NEGOCIOS LOCALES</div>
-                <div class="title">3 ERRORES QUE TE ROBAN <br><span class="script">ventas</span></div>
-                <div class="swipe-icon">Desliza ➔</div>
+        <div class="slide beige" id="slide1">
+            <div class="top-badge">Para negocios en Falcón</div>
+            <div class="title-box">
+                <h2>3 ERRORES<br>QUE TE ROBAN <span>ventas.</span></h2>
+                <div class="description">Desliza para descubrir si tu negocio los está cometiendo.</div>
             </div>
+            <div class="bg-num">01</div>
+            <div class="bottom-arrow">Desliza ➔</div>
         </div>
-        <button class="btn-download" onclick="descargar('slide1', 1)">⬇️ Descargar Imagen 1</button>
+        <button class="btn-download" onclick="descargar('slide1', 1)">⬇️ Descargar Portada</button>
     </div>
 
-    <!-- DIAPOSITIVA 2: ERROR 1 -->
+    <!-- DIAPOSITIVA 2: ERROR 1 (Estilo Oscuro) -->
     <div class="slide-container">
-        <div class="slide" id="slide2">
-            <div class="bg-number">01</div>
-            <div class="content">
-                <div class="badge">ERROR #1</div>
-                <div class="title">NO ESTÁS EN EL TELÉFONO DEL CLIENTE</div>
-                <div class="text">Hoy la gente busca todo por WhatsApp. Si no estás ahí, no existes.</div>
+        <div class="slide oscuro" id="slide2">
+            <div class="top-badge">Error Nº 1</div>
+            <div class="title-box">
+                <h2>NO ESTÁS EN<br>EL TELÉFONO<br>DEL <span>cliente.</span></h2>
+                <div class="description">Hoy la gente busca todo por WhatsApp. Si no estás ahí, no existes.</div>
             </div>
+            <div class="bg-num">01</div>
         </div>
-        <button class="btn-download" onclick="descargar('slide2', 2)">⬇️ Descargar Imagen 2</button>
+        <button class="btn-download" onclick="descargar('slide2', 2)">⬇️ Descargar Error 1</button>
     </div>
 
-    <!-- DIAPOSITIVA 3: ERROR 2 -->
+    <!-- DIAPOSITIVA 3: ERROR 2 (Estilo Rojo) -->
     <div class="slide-container">
-        <div class="slide" id="slide3">
-            <div class="bg-number">02</div>
-            <div class="content">
-                <div class="badge">ERROR #2</div>
-                <div class="title">DEPENDER SOLO DE <br><span class="script">Instagram</span></div>
-                <div class="text">El algoritmo decide quién te ve. Un día te pueden cerrar la cuenta y lo pierdes todo.</div>
+        <div class="slide rojo" id="slide3">
+            <div class="top-badge">Error Nº 2</div>
+            <div class="title-box">
+                <h2>DEPENDER SOLO<br>DE <span>instagram.</span></h2>
+                <div class="description">El algoritmo decide quién te ve. Un día te cierran la cuenta y lo pierdes todo.</div>
             </div>
+            <div class="bg-num">02</div>
         </div>
-        <button class="btn-download" onclick="descargar('slide3', 3)">⬇️ Descargar Imagen 3</button>
+        <button class="btn-download" onclick="descargar('slide3', 3)">⬇️ Descargar Error 2</button>
     </div>
 
-    <!-- DIAPOSITIVA 4: ERROR 3 -->
+    <!-- DIAPOSITIVA 4: ERROR 3 (Estilo Beige) -->
     <div class="slide-container">
-        <div class="slide" id="slide4">
-            <div class="bg-number">03</div>
-            <div class="content">
-                <div class="badge">ERROR #3</div>
-                <div class="title">HACER ESPERAR AL CLIENTE</div>
-                <div class="text">Si tu cliente tiene que llamar o mandar 5 mensajes para saber un precio, ya perdiste la venta.</div>
+        <div class="slide beige" id="slide4">
+            <div class="top-badge">Error Nº 3</div>
+            <div class="title-box">
+                <h2>HACER ESPERAR<br>AL <span>cliente.</span></h2>
+                <div class="description">Si tu cliente tiene que llamar o mandar 5 mensajes para saber un precio, ya perdiste la venta.</div>
             </div>
+            <div class="bg-num">03</div>
         </div>
-        <button class="btn-download" onclick="descargar('slide4', 4)">⬇️ Descargar Imagen 4</button>
+        <button class="btn-download" onclick="descargar('slide4', 4)">⬇️ Descargar Error 3</button>
     </div>
 
-    <!-- DIAPOSITIVA 5: CIERRE -->
+    <!-- DIAPOSITIVA 5: CIERRE (Llamado a la acción) -->
     <div class="slide-container">
-        <div class="slide cierre" id="slide5">
-            <div class="content">
-                <div class="badge" style="border-color: rgba(255,255,255,0.3);">LA SOLUCIÓN EXISTE</div>
-                <div class="title">HAZ QUE TE <span class="script" style="color: #FBBF24; font-size: 50px;">compren.</span><br>NO SOLO QUE TE PREGUNTEN.</div>
-                <div class="text">Escríbeme por WhatsApp para mostrarte cómo.</div>
+        <div class="slide oscuro" id="slide5">
+            <div class="top-badge">La Solución</div>
+            <div class="title-box">
+                <h2>HAZ QUE TE<br><span>compren.</span><br>NO SOLO QUE<br>PREGUNTEN.</h2>
+                <div class="description">Escríbeme al WhatsApp para mostrarte cómo funciona.</div>
             </div>
+            <div class="bg-num">04</div>
+            <div class="bottom-arrow">Hablemos ➔</div>
         </div>
-        <button class="btn-download" onclick="descargar('slide5', 5)">⬇️ Descargar Imagen 5</button>
+        <button class="btn-download" onclick="descargar('slide5', 5)">⬇️ Descargar Cierre</button>
     </div>
 
     <script>
+        // El secreto para que las fuentes se vean perfectas en la descarga
         function descargar(idElemento, numero) {
             const slide = document.getElementById(idElemento);
-            html2canvas(slide, { scale: 3, useCORS: true, backgroundColor: null }).then(canvas => {
-                const enlace = document.createElement('a');
-                enlace.download = 'Carrusel_Premium_' + numero + '.png';
-                enlace.href = canvas.toDataURL('image/png');
-                enlace.click();
+            document.fonts.ready.then(() => {
+                html2canvas(slide, { 
+                    scale: 3, 
+                    useCORS: true, 
+                    backgroundColor: null 
+                }).then(canvas => {
+                    const enlace = document.createElement('a');
+                    enlace.download = 'Carrusel_Editorial_' + numero + '.png';
+                    enlace.href = canvas.toDataURL('image/png');
+                    enlace.click();
+                });
             });
         }
     </script>
 </body>
-           </html>
+       </html>
